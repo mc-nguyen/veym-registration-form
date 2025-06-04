@@ -1,0 +1,440 @@
+/* RegistrationForm.css */
+.registration-form {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.registration-form h2 {
+    text-align: center;
+    color: #2d8fdd;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.form-subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.form-section h3 {
+    color: #2d8fdd;
+    margin-bottom: 1.2rem;
+    font-size: 1.3rem;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.form-section h3::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: #2d8fdd;
+    border-radius: 4px;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #444;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="date"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus {
+    border-color: #2d8fdd;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(45, 143, 221, 0.2);
+}
+
+.name-row,
+.parent-row,
+.phone-row,
+.dob-row {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.name-row input,
+.parent-row input,
+.phone-row input,
+.dob-row input {
+    flex: 1;
+}
+
+.dob-row {
+    align-items: center;
+}
+
+button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.secondary-btn {
+    background-color: #f0f0f0;
+    color: #444;
+}
+
+.secondary-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.clear-btn {
+    background-color: #ffebee;
+    color: #d32f2f;
+    margin-top: 0.5rem;
+}
+
+.clear-btn:hover {
+    background-color: #ffcdd2;
+}
+
+.submit-btn {
+    background-color: #2d8fdd;
+    color: white;
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.submit-btn:hover {
+    background-color: #1a73c8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nganh-result {
+    margin-top: 1.5rem;
+}
+
+.scarf-check {
+    margin-bottom: 1rem;
+}
+
+.scarf-check label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.scarf-check input {
+    width: auto;
+}
+
+.nganh-display {
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.nganh-display .arrow {
+    margin-right: 0.8rem;
+    font-size: 1.2rem;
+}
+
+.green {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left: 4px solid #2e7d32;
+}
+
+.blue {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border-left: 4px solid #1565c0;
+}
+
+.gold {
+    background-color: #fff8e1;
+    color: #ff8f00;
+    border-left: 4px solid #ff8f00;
+}
+
+.brown {
+    background-color: #efebe9;
+    color: #5d4037;
+    border-left: 4px solid #5d4037;
+}
+
+.brown-red {
+    background: linear-gradient(to right, #5d4037 0%, #5d4037 45%, #d32f2f 45%, #d32f2f 55%, #5d4037 55%, #5d4037 100%);
+    color: white;
+    border-left: none;
+}
+
+.red {
+    background-color: #ffebee;
+    color: #c62828;
+    border-left: 4px solid #c62828;
+}
+
+.pledge-section {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+}
+
+.pledge {
+    background-color: white;
+    padding: 1.2rem;
+    border-radius: 8px;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    border: 1px solid #eee;
+}
+
+.pledge strong {
+    color: #2d8fdd;
+}
+
+/* Cập nhật CSS cho phần chữ ký */
+.signature-area {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Căn giữa theo chiều ngang */
+    text-align: center; /* Căn giữa text nếu có */
+}
+
+.signature-canvas {
+    width: 80%; /* Giảm width để tạo khoảng trống hai bên */
+    max-width: 500px; /* Giới hạn kích thước tối đa */
+    height: 150px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    display: block;
+    touch-action: none;
+    cursor: crosshair;
+    margin: 0 auto 1rem; /* Căn giữa và tạo khoảng cách dưới */
+}
+
+.clear-btn {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    background-color: #ffebee;
+    color: #d32f2f;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    align-self: center; /* Căn giữa nút xóa */
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+    .signature-canvas {
+        width: 90%;
+        height: 120px;
+    }
+    
+    .clear-btn {
+        padding: 0.5rem 1.2rem;
+    }
+}
+
+.signature-area label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    color: #444;
+}
+
+.signature-note {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #666;
+    font-style: italic;
+}
+
+.form-actions {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .registration-form {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .name-row,
+    .parent-row,
+    .phone-row {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .dob-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dob-row button {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .submit-btn {
+        max-width: 100%;
+    }
+}
+
+/* Parent Signature Section */
+.parent-signature-section {
+    margin-top: 2.5rem;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+}
+
+.section-title {
+    color: #d32f2f;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.parent-info-container {
+    margin-bottom: 1.5rem;
+}
+
+.parent-info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.parent-name-input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.relationship-select {
+    position: relative;
+}
+
+.relationship-select select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    appearance: none;
+    background-color: white;
+}
+
+.parent-agreement-box {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.agreement-checkbox {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.agreement-checkbox input {
+    margin-top: 0.2rem;
+}
+
+.agreement-checkbox label {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #444;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .parent-info-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .signature-controls {
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: flex-start;
+    }
+    
+    .agreement-checkbox {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+alert {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 8px;
+  padding: 15px;
+}
