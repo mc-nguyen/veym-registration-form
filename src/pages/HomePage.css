@@ -41,6 +41,7 @@
 }
 
 .start-button,
+.start-adult-button,
 .guide-button,
 .preview-button {
     padding: 1rem 2rem;
@@ -61,6 +62,18 @@
 
 .start-button:hover {
     background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.start-adult-button {
+    background-color: #727a00;
+    /* Màu xanh lá */
+    color: white;
+}
+
+.start-adult-button:hover {
+    background-color: #727a00;
+    /* Màu xanh lá */
     transform: scale(1.05);
 }
 

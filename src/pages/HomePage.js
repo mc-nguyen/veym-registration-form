@@ -17,7 +17,7 @@ const HomePage = () => {
         <div className="home-container">
             <div className="content-overlay">
                 <h1 className="welcome-title">CHÀO MỪNG ĐẾN VỚI<br/>ĐOÀN THIẾU NHI THÁNH THỂ</h1>
-                <p className="welcome-subtitle">Mẹ Thiên Chúa - Giáo xứ Riverside</p>
+                <p className="welcome-subtitle">Mẹ Thiên Chúa - Giáo xứ Đức Mẹ Hằng Cứu Giúp, Riverside, CA</p>
 
                 <div className="button-container">
                     <button
@@ -27,17 +27,17 @@ const HomePage = () => {
                             navigate('/registration');
                         }}
                     >
-                        BẮT ĐẦU ĐĂNG KÍ
+                        BẮT ĐẦU GHI DANH
                     </button>
                     
                     <button
-                        className="start-button"
+                        className="start-adult-button"
                         onClick={() => {
                             saveToLocalStorage('currentPage', '/registration-adult')
                             navigate('/registration-adult');
                         }}
                     >
-                        BẮT ĐẦU ĐĂNG KÍ (PHIÊN BẢN NGƯỜI LỚN)
+                        BẮT ĐẦU GHI DANH (PHIÊN BẢN NGƯỜI LỚN)
                     </button>
 
                     <button

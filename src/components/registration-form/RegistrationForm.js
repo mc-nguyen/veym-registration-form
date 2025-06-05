@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./RegistrationForm.css";
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveToFirebase } from "../../context/firebaseFuncs";
 
 const RegistrationForm = () => {
     removeFromLocalStorage('healthInfoFormData');
@@ -35,7 +36,6 @@ const RegistrationForm = () => {
     });
 
     const [nganh, setNganh] = useState(null);
-    const [coKhanDo, setCoKhanDo] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const canvasRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState(false);
@@ -59,7 +59,7 @@ const RegistrationForm = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    const tinhNganh = (ngaySinhStr, hasScarf = false) => {
+    const tinhNganh = (ngaySinhStr) => {
         if (!ngaySinhStr) return null;
 
         const birthDate = new Date(ngaySinhStr);
@@ -87,8 +87,7 @@ const RegistrationForm = () => {
 
         return nganhData.find(item =>
             age >= item.minAge &&
-            (!item.maxAge || age <= item.maxAge) &&
-            (!item.hasScarf || hasScarf)
+            (!item.maxAge || age <= item.maxAge)
         ) || null;
     };
 
@@ -97,7 +96,7 @@ const RegistrationForm = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
 
         if (name === "ngaySinh") {
-            setNganh(tinhNganh(value, coKhanDo));
+            setNganh(tinhNganh(value));
         }
     };
 
@@ -143,7 +142,7 @@ const RegistrationForm = () => {
     };
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Kiểm tra chữ ký phụ huynh
@@ -180,7 +179,8 @@ const RegistrationForm = () => {
             };
 
             console.log('Dữ liệu đã gửi:', registrationData);
-            saveToLocalStorage('registrationFormData', registrationData);
+            const dataID = await saveToFirebase('registration', registrationData);
+            saveToLocalStorage('id', dataID);
 
             // Chuyển hướng sau 1 giây
             setTimeout(() => {
@@ -308,7 +308,7 @@ const RegistrationForm = () => {
                     <label>Ngày sinh:</label>
                     <div className="dob-row">
                         <input type="date" name="ngaySinh" value={formData.ngaySinh} onChange={handleChange} required />
-                        <button type="button" className="secondary-btn" onClick={() => setNganh(tinhNganh(formData.ngaySinh, coKhanDo))}>
+                        <button type="button" className="secondary-btn" onClick={() => setNganh(tinhNganh(formData.ngaySinh))}>
                             Xác định ngành
                         </button>
                     </div>
