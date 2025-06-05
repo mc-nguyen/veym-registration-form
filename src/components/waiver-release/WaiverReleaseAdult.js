@@ -2,12 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import "./WaiverRelease.css";
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
 
-const WaiverRelease = () => {
+const WaiverReleaseAdult = () => {
     removeFromLocalStorage('tnttRulesFormData');
 
     if (!getFromLocalStorage('currentPage'))
         window.location.href = '/';
-    else if (getFromLocalStorage('currentPage') !== '/waiver-release')
+    else if (getFromLocalStorage('currentPage') !== '/waiver-release-adult')
         window.location.href = getFromLocalStorage('currentPage');
 
     const [formData, setFormData] = useState(() => {
@@ -48,8 +48,8 @@ const WaiverRelease = () => {
             return;
         }
 
-        saveToLocalStorage('currentPage', '/tntt-rules');
-        window.location.href = '/tntt-rules';
+        saveToLocalStorage('currentPage', '/tntt-rules-adult');
+        window.location.href = '/tntt-rules-adult';
     };
 
     // Hàm xử lý thay đổi input
@@ -70,8 +70,7 @@ const WaiverRelease = () => {
     const handleSignatureSave = (signatureData) => {
         setFormData(prev => ({
             ...prev,
-            signature: signatureData,
-            date: new Date().toLocaleDateString('vi-VN')
+            signature: signatureData
         }));
 
         if (errors.signature) {
@@ -484,4 +483,4 @@ const SignaturePad = ({ onSaveSignature }) => {
     );
 };
 
-export default WaiverRelease;
+export default WaiverReleaseAdult;

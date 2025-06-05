@@ -4,7 +4,7 @@ import { getFromLocalStorage, removeFromLocalStorage } from '../context/storageU
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
-const GeneratePDF = () => {
+const GeneratePDFAdult = () => {
   const navigate = useNavigate();
   const hasGenerated = useRef(false); // Thêm biến ref để kiểm tra
 
@@ -59,12 +59,8 @@ const GeneratePDF = () => {
           <h4>Thông tin cá nhân</h4>
           <table class="info-table">
             <tr>
-              <td width="150">Em tên là:</td>
+              <td width="150">Tôi tên là:</td>
               <td><strong>${registrationData.tenThanh} ${registrationData.ho} ${registrationData.tenDem} ${registrationData.tenGoi}</strong></td>
-            </tr>
-            <tr>
-              <td>Con của ông và bà:</td>
-              <td><strong>${registrationData.tenCha} và ${registrationData.tenMe}</strong></td>
             </tr>
             <tr>
               <td>Địa chỉ nhà:</td>
@@ -97,35 +93,18 @@ const GeneratePDF = () => {
         <div class="section pledge-section">
           <h4>Lời hứa</h4>
           <p class="pledge-text">
-            Em xin được ghi danh gia nhập phong trào TNTT tại Đoàn TNTT Mẹ Thiên Chúa, Riverside. 
-            Em hứa sẽ vâng lời và theo sự hướng dẫn của cha Tuyên Úy Đoàn, Đoàn Trưởng, các trợ tá, 
-            các phụ huynh cũng như các anh chị huynh trưởng có trách nhiệm trong đoàn và trong ngành
-            mà em sinh hoạt hàng tuần. Em sẽ có gắng sống 4 khẩu hiệu của Thiếu Nhi: 
-            <strong>Cầu Nguyên, Rước Lễ, Hy Sinh và Làm Việc Tông Đồ</strong> cũng như thực hành các tồn chỉ của phong trào TNTT. 
-            Em sẽ chu toàn bốn phân của một đoàn sinh trong đoàn TNTT và thực thi đúng các nội quy của đoàn TNTT.
+            Tôi xin được ghi danh gia nhập phong trào TNTT tại Đoàn TNTT Mẹ Thiên Chúa, Riverside. 
+            Tôi hứa sẽ vâng lời và theo sự hướng dẫn của cha Tuyên Úy Đoàn, Đoàn Trưởng, các trợ tá, 
+            các phụ huynh cũng như các anh chị em huynh trưởng có trách nhiệm trong đoàn và trong ngành
+            mà tôi sinh hoạt hàng tuần. Tôi sẽ có gắng sống 4 khẩu hiệu của Thiếu Nhi: 
+            <strong>Cầu Nguyện, Rước Lễ, Hy Sinh, và Làm Việc Tông Đồ</strong> cũng như thực hành các tôn chỉ của phong trào TNTT. 
+            Tôi sẽ chu toàn bổn phân của một đoàn sinh trong đoàn TNTT và thực thi đúng các nội quy của đoàn TNTT.
           </p>
           
           <div class="signature-box">
-            <p>Đoàn Sinh Ký Tên: <img src="${registrationData.studentSignature}" style="width: 150px; height: 50px;"/></p>
-            <p>Ngày: ${registrationData.studentSignedDate}</p>
+            <p>Ký Tên: <img src="${registrationData.signature}" style="width: 150px; height: 50px;"/></p>
+            <p>Ngày: ${registrationData.signedDate}</p>
           </div>
-        </div>
-
-        <!-- Xác nhận phụ huynh -->
-        <div class="section parent-section">
-          <h4>XÁC NHẬN CỦA PHỤ HUYNH</h4>
-          <p>
-            Phụ Huynh tên là: <strong>${registrationData.parentName || 'N/A'}</strong>
-          </p>
-          <p>
-            Tôi cho phép con tôi sinh hoạt Đoàn TNTT-Mẹ Thiên Chúa, Riverside. Tôi sẽ hoàn toàn chịu trách nhiệm nếu có những trường hợp không may xảy ra với con tôi trong các giờ sinh hoạt của đoàn.
-          </p>
-          
-          <div class="signature-box">
-            <p>Phụ Huynh Ký Tên: Signature: <img src="${registrationData.parentSignature.signedImage}" style="width: 150px; height: 50px;"/></p>
-            <p>Ngày: ${registrationData.parentSignature.signedDate}</p>
-          </div>
-          <p class="note">(Parent's signature needed if member is under 18 years old)</p>
         </div>
       </div>`
 
@@ -149,16 +128,11 @@ const GeneratePDF = () => {
               <td>Skort đồng phục ($25/each)</td>
               <td>$${paymentData[3] ? paymentData[3] * 25 : 0}</td>
             </tr>
-            <tr>
-              <td>TNTT scarf ($10/each)</td>
-              <td>$${paymentData[4] ? paymentData[4] * 10 : 0}</td>
-            </tr>
             <tr class="total-row">
               <td><strong>Tổng cộng:</strong></td>
               <td><strong>$${(paymentData[1] ? paymentData[1] * 40 : 0) +
       (paymentData[2] ? paymentData[2] * 25 : 0) +
-      (paymentData[3] ? paymentData[3] * 25 : 0) +
-      (paymentData[4] ? paymentData[4] * 10 : 0)
+      (paymentData[3] ? paymentData[3] * 25 : 0)
       }</strong></td>
             </tr>
           </table>
@@ -661,4 +635,4 @@ const GeneratePDF = () => {
   );
 };
 
-export default GeneratePDF;
+export default GeneratePDFAdult;

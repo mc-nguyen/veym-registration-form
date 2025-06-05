@@ -71,8 +71,6 @@ const RegistrationForm = () => {
         }
 
         const nganhData = [
-            { minAge: 18, hasScarf: true, label: "Huynh Trưởng", color: "red" },
-            { minAge: 18, label: "Hiệp Sĩ Trưởng Thành", color: "brown-red" },
             { minAge: 17, maxAge: 17, label: "Hiệp Sĩ Cấp 2", color: "brown" },
             { minAge: 16, maxAge: 16, label: "Hiệp Sĩ Cấp 1", color: "brown" },
             { minAge: 15, maxAge: 15, label: "Nghĩa Sĩ Cấp 3", color: "gold" },
@@ -101,12 +99,6 @@ const RegistrationForm = () => {
         if (name === "ngaySinh") {
             setNganh(tinhNganh(value, coKhanDo));
         }
-    };
-
-    const handleKhanDoChange = (e) => {
-        const checked = e.target.checked;
-        setCoKhanDo(checked);
-        setNganh(tinhNganh(formData.ngaySinh, checked));
     };
 
     // Xử lý chữ ký số
@@ -180,9 +172,10 @@ const RegistrationForm = () => {
             const registrationData = {
                 ...formData,
                 studentSignature: canvasRef.current.toDataURL(),
+                studentSignedDate: new Date().toLocaleDateString('vi-VN'),
                 parentSignature: {
                     ...parentSignature,
-                    signedDate: new Date().toISOString()
+                    signedDate: new Date().toLocaleDateString('vi-VN')
                 }
             };
 
@@ -323,14 +316,6 @@ const RegistrationForm = () => {
 
                 {nganh && (
                     <div className="nganh-result">
-                        {nganh.label.includes("Trưởng") && (
-                            <div className="scarf-check">
-                                <label>
-                                    <input type="checkbox" checked={coKhanDo} onChange={handleKhanDoChange} />
-                                    <span>Đã nhận khăn đỏ</span>
-                                </label>
-                            </div>
-                        )}
                         <div className={`nganh-display ${nganh.color}`}>
                             <span className="arrow">➤</span> Ngành: {nganh.label}
                         </div>

@@ -5,11 +5,11 @@ import { removeFromLocalStorage, saveToLocalStorage } from '../context/storageUt
 // import backgroundImage from './path/to/your/background-image.jpg'; // Thay bằng đường dẫn ảnh của bạn
 
 const HomePage = () => {
-    // removeFromLocalStorage('registrationFormData')
-    // removeFromLocalStorage('healthInfoFormData');
-    // removeFromLocalStorage('waiverFormData');
-    // removeFromLocalStorage('tnttRulesFormData');
-    // removeFromLocalStorage('paymentFormData');
+    removeFromLocalStorage('registrationFormData')
+    removeFromLocalStorage('healthInfoFormData');
+    removeFromLocalStorage('waiverFormData');
+    removeFromLocalStorage('tnttRulesFormData');
+    removeFromLocalStorage('paymentFormData');
     const navigate = useNavigate();
 
     return (
@@ -28,6 +28,16 @@ const HomePage = () => {
                         }}
                     >
                         BẮT ĐẦU ĐĂNG KÍ
+                    </button>
+                    
+                    <button
+                        className="start-button"
+                        onClick={() => {
+                            saveToLocalStorage('currentPage', '/registration-adult')
+                            navigate('/registration-adult');
+                        }}
+                    >
+                        BẮT ĐẦU ĐĂNG KÍ (PHIÊN BẢN NGƯỜI LỚN)
                     </button>
 
                     <button

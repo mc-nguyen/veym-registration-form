@@ -2,10 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import './TNTTRules.css';
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
 
-const TNTTRules = () => {
+const TNTTRulesAdult = () => {
     if (!getFromLocalStorage('currentPage'))
         window.location.href = '/';
-    else if (getFromLocalStorage('currentPage') !== '/tntt-rules')
+    else if (getFromLocalStorage('currentPage') !== '/tntt-rules-adult')
         window.location.href = getFromLocalStorage('currentPage');
 
     const [formData, setFormData] = useState(() => {
@@ -101,8 +101,8 @@ const TNTTRules = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            saveToLocalStorage('currentPage', '/generate-pdf-adult');
-            window.location.href = '/generate-pdf-adult';
+            saveToLocalStorage('currentPage', '/generate-pdf');
+            window.location.href = '/generate-pdf';
         }
     };
 
@@ -184,8 +184,7 @@ const TNTTRules = () => {
                     </div>
 
                     <div className={`form-group ${errors.date ? 'error' : ''}`}>
-                        <label>Date:</label>
-                        {new Date().toLocaleDateString('vi-VN')}
+                        <label>Date: {new Date().toLocaleDateString('vi-VN')}</label>
                     </div>
 
                     <div className={`form-group ${errors.nganh ? 'error' : ''}`}>
@@ -197,10 +196,10 @@ const TNTTRules = () => {
                             required
                         >
                             <option value="">Select Nganh</option>
-                            <option value="Ấu Nhi">Ấu Nhi</option>
-                            <option value="Thiếu Nhi">Thiếu Nhi</option>
-                            <option value="Nghĩa Sĩ">Nghĩa Sĩ</option>
-                            <option value="Hiệp Sĩ">Hiệp Sĩ</option>
+                            <option value="Hiệp Sĩ Trưởng Thành">Hiệp Sĩ Trưởng Thành</option>
+                            <option value="Huynh Trưởng">Huynh Trưởng</option>
+                            <option value="Trợ Tá">Trợ Tá</option>
+                            <option value="Huấn Luyện Viên">Huấn Luyện Viên</option>
                         </select>
                         {errors.nganh && <span className="error">{errors.nganh}</span>}
                     </div>
@@ -240,4 +239,4 @@ const TNTTRules = () => {
     );
 };
 
-export default TNTTRules;
+export default TNTTRulesAdult;
