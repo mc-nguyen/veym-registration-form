@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Payment.css';
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { checkConfirmationCode, savePaymentToFirebase } from '../../context/firebaseFuncs';
 
 const Payment = ({ onNext }) => {
   removeFromLocalStorage('healthInfoFormData');
@@ -81,7 +82,7 @@ const Payment = ({ onNext }) => {
   const handleCodeChange = (e) => {
     const code = e.target.value;
     setConfirmationCode(code);
-    setIsValidCode(code === '1995');
+    setIsValidCode(checkConfirmationCode(getFromLocalStorage('id'), code));
   };
 
   return (
@@ -132,8 +133,7 @@ const Payment = ({ onNext }) => {
           <p className="payment-note">
             Sau khi thanh toán, xin vui lòng liên lạc Thư Ký hoặc Thủ Quỹ Đoàn qua số
             <br /><strong>714-873-3039</strong><br />
-            nhắn với cú pháp (format) "Phụ huynh (em) đã gửi Zelle đóng tiền và xin mã confirmation"
-            <br />
+            nhắn với cú pháp (format): <br/><br/><br/><br/>"Phụ huynh (em với số ID là {getFromLocalStorage('id')}) đã gửi Zelle đóng tiền và xin mã confirmation"<br/><br/><br/><br/>
             Thư Ký/Thủ Quỹ sẽ gửi lại mã xác nhận để nhập bên dưới
           </p>
         </div>
@@ -158,8 +158,9 @@ const Payment = ({ onNext }) => {
         <button
           className={`submit-btn ${isValidCode ? '' : 'disabled'}`}
           disabled={!isValidCode}
-          onClick={() => { 
-            saveToLocalStorage('currentPage', '/health-info')
+          onClick={async () => { 
+            saveToLocalStorage('currentPage', '/health-info');
+            await savePaymentToFirebase(getFromLocalStorage('id'), quantities);
             window.location.href = '/health-info'; 
           }}
         >

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './HealthInfoForm.css';
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveHealthInfoToFirebase } from '../../context/firebaseFuncs';
 
-const HealthInfoFormAdult = ({ onNext }) => {
+const HealthInfoFormAdult = () => {
     removeFromLocalStorage('waiverFormData');
     removeFromLocalStorage('tnttRulesFormData');
 
@@ -53,10 +54,11 @@ const HealthInfoFormAdult = ({ onNext }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Health info submitted:', formData);
-        saveToLocalStorage('currentPage', '/waiver-release-adult')
+        saveToLocalStorage('currentPage', '/waiver-release-adult');
+        await saveHealthInfoToFirebase(getFromLocalStorage('id'), formData);
         window.location.href = '/waiver-release-adult';
     };
 

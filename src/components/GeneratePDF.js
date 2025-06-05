@@ -3,17 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { getFromLocalStorage, removeFromLocalStorage } from '../context/storageUtils';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { getDataById } from '../context/firebaseFuncs';
 
 const GeneratePDF = () => {
   const navigate = useNavigate();
   const hasGenerated = useRef(false); // Thêm biến ref để kiểm tra
-
-  // Lấy dữ liệu từ tất cả các form
-  const registrationData = getFromLocalStorage('registrationFormData') || {};
-  const healthInfoData = getFromLocalStorage('healthInfoFormData') || {};
-  const waiverData = getFromLocalStorage('waiverFormData') || {};
-  const tnttRulesData = getFromLocalStorage('tnttRulesFormData') || {};
-  const paymentData = getFromLocalStorage('paymentFormData') || {};
 
   // Hàm render chữ ký
   const renderSignature = (signatureData) => {
@@ -28,7 +22,15 @@ const GeneratePDF = () => {
     }
   }, []);
 
-  const generatePDF = () => {
+  const generatePDF = async () => {
+    // Lấy dữ liệu từ tất cả các form
+    const data = await getDataById(getFromLocalStorage('id'));
+    const registrationData = data.registration || {};
+    const healthInfoData = data.healthInfo || {};
+    const waiverData = data.waiverRelease || {};
+    const tnttRulesData = data.tnttRules || {};
+    const paymentData = data.payment || {};
+
     // Tạo một div ẩn để chứa nội dung PDF
     const pdfContent = document.createElement('div');
     pdfContent.style.position = 'absolute';
@@ -115,7 +117,7 @@ const GeneratePDF = () => {
         <div class="section parent-section">
           <h4>XÁC NHẬN CỦA PHỤ HUYNH</h4>
           <p>
-            Phụ Huynh tên là: <strong>${registrationData.parentName || 'N/A'}</strong>
+            Phụ Huynh tên là: <strong>${registrationData.parentSignature.name || 'N/A'}</strong>
           </p>
           <p>
             Tôi cho phép con tôi sinh hoạt Đoàn TNTT-Mẹ Thiên Chúa, Riverside. Tôi sẽ hoàn toàn chịu trách nhiệm nếu có những trường hợp không may xảy ra với con tôi trong các giờ sinh hoạt của đoàn.

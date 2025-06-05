@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './TNTTRules.css';
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveTNTTRulesToFirebase } from '../../context/firebaseFuncs';
 
 const TNTTRules = () => {
     if (!getFromLocalStorage('currentPage'))
@@ -98,11 +99,12 @@ const TNTTRules = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            saveToLocalStorage('currentPage', '/generate-pdf-adult');
-            window.location.href = '/generate-pdf-adult';
+            saveToLocalStorage('currentPage', '/generate-pdf');
+            await saveTNTTRulesToFirebase(getFromLocalStorage('id'), formData);
+            window.location.href = '/generate-pdf';
         }
     };
 

@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./RegistrationForm.css";
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
-import { saveToFirebase } from "../../context/firebaseFuncs";
+import { saveRegistrationToFirebase, saveConfirmationCodeToFirebase } from "../../context/firebaseFuncs";
 
 const RegistrationForm = () => {
     removeFromLocalStorage('healthInfoFormData');
@@ -170,6 +170,7 @@ const RegistrationForm = () => {
             // Xử lý khi người dùng đồng ý
             const registrationData = {
                 ...formData,
+                registrationType: "student",
                 studentSignature: canvasRef.current.toDataURL(),
                 studentSignedDate: new Date().toLocaleDateString('vi-VN'),
                 parentSignature: {
@@ -179,7 +180,7 @@ const RegistrationForm = () => {
             };
 
             console.log('Dữ liệu đã gửi:', registrationData);
-            const dataID = await saveToFirebase('registration', registrationData);
+            const dataID = await saveRegistrationToFirebase(registrationData);
             saveToLocalStorage('id', dataID);
 
             // Chuyển hướng sau 1 giây

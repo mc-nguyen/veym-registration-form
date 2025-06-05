@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./RegistrationForm.css";
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveRegistrationToFirebase } from "../../context/firebaseFuncs";
 
 const RegistrationFormAdult = () => {
     removeFromLocalStorage('healthInfoFormData');
@@ -46,12 +47,6 @@ const RegistrationFormAdult = () => {
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
-
-    const nganhData = [
-        { label: "Huynh Trưởng", color: "red" },
-        { label: "Hiệp Sĩ Trưởng Thành", color: "brown-red" },
-        { label: "Trợ Tá", color: "red-blue" }
-    ];
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -100,7 +95,7 @@ const RegistrationFormAdult = () => {
     };
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Tạo thông báo xác nhận
@@ -126,7 +121,8 @@ const RegistrationFormAdult = () => {
             };
 
             console.log('Dữ liệu đã gửi:', registrationData);
-            saveToLocalStorage('registrationFormData', registrationData);
+            const dataID = await saveRegistrationToFirebase(registrationData);
+            saveToLocalStorage('id', dataID);
 
             // Chuyển hướng sau 1 giây
             setTimeout(() => {

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./WaiverRelease.css";
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveWaiverReleaseToFirebase } from "../../context/firebaseFuncs";
 
 const WaiverRelease = () => {
     removeFromLocalStorage('tnttRulesFormData');
@@ -25,7 +26,7 @@ const WaiverRelease = () => {
             initial9: "",
             signature: null,
             printedName: "",
-            date: ""
+            date: new Date().toLocaleDateString('vi-VN')
         };
         return savedData;
     });
@@ -49,6 +50,7 @@ const WaiverRelease = () => {
         }
 
         saveToLocalStorage('currentPage', '/tntt-rules');
+        await saveWaiverReleaseToFirebase(getFromLocalStorage('id'), formData);
         window.location.href = '/tntt-rules';
     };
 
@@ -325,13 +327,9 @@ const WaiverRelease = () => {
                             onChange={handleChange}
                         />
 
-                        <SignatureField
-                            label="Dated:"
-                            name="date"
-                            value={formData.date}
-                            onChange={handleChange}
-                            type="date"
-                        />
+                        <div className="signature-field">
+                            <label>Dated: {new Date().toLocaleDateString('vi-VN')}</label>
+                        </div>
                     </div>
                 </div>
             </div>
