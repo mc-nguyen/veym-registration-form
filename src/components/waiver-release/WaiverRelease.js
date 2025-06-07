@@ -37,6 +37,7 @@ const WaiverRelease = () => {
 
     useEffect(() => {
         saveToLocalStorage('waiverFormData', formData);
+        saveWaiverReleaseToFirebase(getFromLocalStorage('id'), formData);
     }, [formData]);
 
     // Hàm xử lý submit
@@ -44,14 +45,33 @@ const WaiverRelease = () => {
         e.preventDefault();
         setIsSubmitting(true);
 
+        const currentId = getFromLocalStorage('id'); // Lấy ID ra một biến
+        console.log('ID from Local Storage:', currentId); // LOG ID
+
+        if (!currentId) {
+            alert('Không tìm thấy ID đăng ký. Vui lòng quay lại trang đăng ký ban đầu.');
+            setIsSubmitting(false);
+            return;
+        }
+
         if (!formData.signature) {
             alert('Vui lòng ký tên xác nhận');
+            setIsSubmitting(false);
             return;
         }
 
         saveToLocalStorage('currentPage', '/tntt-rules');
-        await saveWaiverReleaseToFirebase(getFromLocalStorage('id'), formData);
-        window.location.href = '/tntt-rules';
+        console.log('Attempting to save waiver data:', formData); // LOG dữ liệu bạn đang cố gắng lưu
+        try {
+            await saveWaiverReleaseToFirebase(currentId, formData); // Truyền currentId vào đây
+            console.log("Waiver data saved successfully to Firebase!"); // LOG thành công
+            window.location.href = '/tntt-rules';
+        } catch (error) {
+            console.error("Error saving waiver data to Firebase:", error); // LOG lỗi chi tiết
+            alert('Đã xảy ra lỗi khi lưu dữ liệu. Vui lòng thử lại.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     // Hàm xử lý thay đổi input
@@ -59,7 +79,7 @@ const WaiverRelease = () => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: value
+            [name]: name.includes("initial") ? value.toUpperCase() : value
         }));
 
         // Clear error khi người dùng bắt đầu nhập

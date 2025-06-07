@@ -15,6 +15,8 @@ import HealthInfoFormAdult from "./components/health-info/HealthInfoFormAdult";
 import WaiverReleaseAdult from "./components/waiver-release/WaiverReleaseAdult";
 import TNTTRulesAdult from "./components/tntt-rules/TNTTRulesAdult";
 import GeneratePDFAdult from "./components/GeneratePDFAdult";
+import AdminLogin from "./admin/AdminLogin";
+import AdminDashboard from "./admin/AdminDashboard";
 
 function App() {
   return (
@@ -35,6 +37,9 @@ function App() {
         <Route path="/waiver-release-adult" element={<WaiverReleaseAdult />} />
         <Route path="/tntt-rules-adult" element={<TNTTRulesAdult />} />
         <Route path="/generate-pdf-adult" element={<GeneratePDFAdult />} />
+
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );

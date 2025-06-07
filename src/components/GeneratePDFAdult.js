@@ -513,16 +513,16 @@ const GeneratePDFAdult = () => {
         padding-bottom: 5px;
       }
       .pdf-header h1 {
-        font-size: 16px;
-        margin: 5px 0;
+        font-size: 12px;
+        margin: 0;
       }
       .pdf-header h2 {
-        font-size: 14px;
-        margin: 5px 0 10px;
+        font-size: 10px;
+        margin: 0;
       }
       .pdf-header p {
-        margin: 3px 0;
-        font-size: 12px;
+        margin: 0;
+        font-size: 8px;
       }
       .form-title {
         text-align: center;

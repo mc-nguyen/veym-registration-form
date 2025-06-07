@@ -26,6 +26,7 @@ const TNTTRules = () => {
 
     useEffect(() => {
         saveToLocalStorage('tnttRulesFormData', formData);
+        saveTNTTRulesToFirebase(getFromLocalStorage('id'), formData);
     }, [formData]);
 
     // Signature handling

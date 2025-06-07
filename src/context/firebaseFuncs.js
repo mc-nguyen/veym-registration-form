@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore, addDoc, collection, getDoc, doc, updateDoc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -126,3 +127,7 @@ export const getDataById = async (docId) => {
     throw error; // Ném lỗi để component gọi có thể bắt và xử lý
   }
 };
+
+const auth = getAuth(app); // Khởi tạo Auth
+
+export { db, auth }; // Export auth

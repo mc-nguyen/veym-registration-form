@@ -37,6 +37,7 @@ const WaiverReleaseAdult = () => {
 
     useEffect(() => {
         saveToLocalStorage('waiverFormData', formData);
+        saveWaiverReleaseToFirebase(getFromLocalStorage('id'), formData);
     }, [formData]);
 
     // Hàm xử lý submit
@@ -59,7 +60,7 @@ const WaiverReleaseAdult = () => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: value
+            [name]: name.includes("initial") ? value.toUpperCase() : value
         }));
 
         // Clear error khi người dùng bắt đầu nhập

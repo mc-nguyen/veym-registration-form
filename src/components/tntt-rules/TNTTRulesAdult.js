@@ -26,6 +26,7 @@ const TNTTRulesAdult = () => {
 
     useEffect(() => {
         saveToLocalStorage('tnttRulesFormData', formData);
+        saveTNTTRulesToFirebase(getFromLocalStorage('id'), formData);
     }, [formData]);
 
     // Signature handling
@@ -99,7 +100,7 @@ const TNTTRulesAdult = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
             saveToLocalStorage('currentPage', '/generate-pdf');

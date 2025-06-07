@@ -57,6 +57,7 @@ const Payment = ({ onNext }) => {
 
   useEffect(() => {
     saveToLocalStorage('paymentFormData', quantities);
+    savePaymentToFirebase(getFromLocalStorage('id'), quantities);
   }, [quantities]);
 
   // Cập nhật số lượng
@@ -133,7 +134,7 @@ const Payment = ({ onNext }) => {
           <p className="payment-note">
             Sau khi thanh toán, xin vui lòng liên lạc Thư Ký hoặc Thủ Quỹ Đoàn qua số
             <br /><strong>714-873-3039</strong><br />
-            nhắn với cú pháp (format): <br/><br/><br/><br/>"Phụ huynh (em với số ID là {getFromLocalStorage('id')}) đã gửi Zelle đóng tiền và xin mã confirmation"<br/><br/><br/><br/>
+            nhắn với cú pháp (format): <br /><br /><br /><br />"Phụ huynh (em với số ID là {getFromLocalStorage('id')}) đã gửi Zelle đóng tiền và xin mã confirmation"<br /><br /><br /><br />
             Thư Ký/Thủ Quỹ sẽ gửi lại mã xác nhận để nhập bên dưới
           </p>
         </div>
@@ -158,10 +159,10 @@ const Payment = ({ onNext }) => {
         <button
           className={`submit-btn ${isValidCode ? '' : 'disabled'}`}
           disabled={!isValidCode}
-          onClick={async () => { 
+          onClick={async () => {
             saveToLocalStorage('currentPage', '/health-info');
             await savePaymentToFirebase(getFromLocalStorage('id'), quantities);
-            window.location.href = '/health-info'; 
+            window.location.href = '/health-info';
           }}
         >
           Hoàn tất đăng ký
