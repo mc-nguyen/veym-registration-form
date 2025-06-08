@@ -17,31 +17,40 @@ import TNTTRulesAdult from "./components/tntt-rules/TNTTRulesAdult";
 import GeneratePDFAdult from "./components/GeneratePDFAdult";
 import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
+import LanguageSwitcher from "./components/LanguageSwitcher";
+import { getFromLocalStorage } from "./context/storageUtils";
+
+const langSwitch = (getFromLocalStorage('currentPage') === '/registration' || getFromLocalStorage('currentPage') === '/payment') ?
+  <LanguageSwitcher /> :
+  "";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/registration" element={<RegistrationForm />} />
-        <Route path="/guide" element={<GuidePage />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/health-info" element={<HealthInfoForm />} />
-        <Route path="/waiver-release" element={<WaiverRelease />} />
-        <Route path="/tntt-rules" element={<TNTTRules />} />
-        <Route path="/preview-pdf" element={<PDFPreview />} />
-        <Route path="/generate-pdf" element={<GeneratePDF />} />
-        <Route path="/registration-adult" element={<RegistrationFormAdult />} />
-        <Route path="/payment-adult" element={<PaymentAdult />} />
-        <Route path="/health-info-adult" element={<HealthInfoFormAdult />} />
-        <Route path="/waiver-release-adult" element={<WaiverReleaseAdult />} />
-        <Route path="/tntt-rules-adult" element={<TNTTRulesAdult />} />
-        <Route path="/generate-pdf-adult" element={<GeneratePDFAdult />} />
+    <div>
+      {langSwitch}
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/registration" element={<RegistrationForm />} />
+          <Route path="/guide" element={<GuidePage />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/health-info" element={<HealthInfoForm />} />
+          <Route path="/waiver-release" element={<WaiverRelease />} />
+          <Route path="/tntt-rules" element={<TNTTRules />} />
+          <Route path="/preview-pdf" element={<PDFPreview />} />
+          <Route path="/generate-pdf" element={<GeneratePDF />} />
+          <Route path="/registration-adult" element={<RegistrationFormAdult />} />
+          <Route path="/payment-adult" element={<PaymentAdult />} />
+          <Route path="/health-info-adult" element={<HealthInfoFormAdult />} />
+          <Route path="/waiver-release-adult" element={<WaiverReleaseAdult />} />
+          <Route path="/tntt-rules-adult" element={<TNTTRulesAdult />} />
+          <Route path="/generate-pdf-adult" element={<GeneratePDFAdult />} />
 
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-      </Routes>
-    </Router>
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

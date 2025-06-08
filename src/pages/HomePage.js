@@ -2,22 +2,25 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import { removeFromLocalStorage, saveToLocalStorage } from '../context/storageUtils';
-// import backgroundImage from './path/to/your/background-image.jpg'; // Thay bằng đường dẫn ảnh của bạn
+import { useLanguage } from '../LanguageContext'; // Import useLanguage hook
 
 const HomePage = () => {
-    removeFromLocalStorage('registrationFormData')
+    // Xóa dữ liệu cũ khi vào trang chủ để đảm bảo form sạch
+    removeFromLocalStorage('registrationFormData');
     removeFromLocalStorage('healthInfoFormData');
     removeFromLocalStorage('waiverFormData');
     removeFromLocalStorage('tnttRulesFormData');
     removeFromLocalStorage('paymentFormData');
+
     const navigate = useNavigate();
+    const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
     return (
-        // <div className="home-container" style={{ backgroundImage: `url(${backgroundImage})` }}>
         <div className="home-container">
             <div className="content-overlay">
-                <h1 className="welcome-title">CHÀO MỪNG ĐẾN VỚI<br/>ĐOÀN THIẾU NHI THÁNH THỂ</h1>
-                <p className="welcome-subtitle">Mẹ Thiên Chúa - Giáo xứ Đức Mẹ Hằng Cứu Giúp, Riverside, CA</p>
+                {/* Sử dụng dangerouslySetInnerHTML để render <br/> từ chuỗi dịch */}
+                <h1 className="welcome-title" dangerouslySetInnerHTML={{ __html: t('homePage.welcomeTitle') }}></h1>
+                <p className="welcome-subtitle">{t('homePage.subtitle')}</p>
 
                 <div className="button-container">
                     <button
@@ -27,9 +30,9 @@ const HomePage = () => {
                             navigate('/registration');
                         }}
                     >
-                        BẮT ĐẦU GHI DANH
+                        {t('homePage.startRegistration')}
                     </button>
-                    
+
                     <button
                         className="start-adult-button"
                         onClick={() => {
@@ -37,21 +40,21 @@ const HomePage = () => {
                             navigate('/registration-adult');
                         }}
                     >
-                        BẮT ĐẦU GHI DANH (PHIÊN BẢN NGƯỜI LỚN)
+                        {t('homePage.startAdultRegistration')}
                     </button>
 
                     <button
                         className="guide-button"
                         onClick={() => navigate('/guide')}
                     >
-                        HƯỚNG DẪN
+                        {t('homePage.guide')}
                     </button>
 
                     <button
                         className="preview-button"
                         onClick={() => navigate('/preview-pdf')}
                     >
-                        MẪU ĐĂNG KÝ PDF
+                        {t('homePage.previewPdf')}
                     </button>
                 </div>
             </div>

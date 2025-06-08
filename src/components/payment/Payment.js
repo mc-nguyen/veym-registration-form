@@ -2,40 +2,44 @@ import React, { useState, useEffect } from 'react';
 import './Payment.css';
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
 import { checkConfirmationCode, savePaymentToFirebase } from '../../context/firebaseFuncs';
+import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 
 const Payment = ({ onNext }) => {
   removeFromLocalStorage('healthInfoFormData');
   removeFromLocalStorage('waiverFormData');
   removeFromLocalStorage('tnttRulesFormData');
+  removeFromLocalStorage('paymentFormData');
 
   if (!getFromLocalStorage('currentPage'))
     window.location.href = '/';
   else if (getFromLocalStorage('currentPage') !== '/payment')
     window.location.href = getFromLocalStorage('currentPage');
 
+  const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
+
   // Danh sách các khoản phí
   const [feeItems] = useState([
     {
       id: 1,
-      name: 'Tiền niên liễm (student supplies/materials/fees/incentives)',
+      name: t('paymentPage.feeItems.annualFee'), // Dịch tên khoản phí
       amount: 40,
       required: true // Bắt buộc
     },
     {
       id: 2,
-      name: 'Áo đồng phục có logo',
+      name: t('paymentPage.feeItems.uniformShirt'), // Dịch tên khoản phí
       amount: 25,
       required: false // Tùy chọn
     },
     {
       id: 3,
-      name: 'Skort đồng phục',
+      name: t('paymentPage.feeItems.uniformSkort'), // Dịch tên khoản phí
       amount: 25,
       required: false // Tùy chọn
     },
     {
       id: 4,
-      name: 'TNTT scarf',
+      name: t('paymentPage.feeItems.tnttScarf'), // Dịch tên khoản phí
       amount: 10,
       required: false // Tùy chọn
     }
@@ -88,17 +92,17 @@ const Payment = ({ onNext }) => {
 
   return (
     <div className="payment-container">
-      <h2>THANH TOÁN PHÍ SINH HOẠT</h2>
+      <h2>{t('paymentPage.title')}</h2>
 
       <div className="payment-section">
-        <h3>Danh sách các khoản phí</h3>
+        <h3>{t('paymentPage.feeListTitle')}</h3>
         <ul className="fee-list">
           {feeItems.map(item => (
             <li key={item.id} className="fee-item">
               <div className="fee-name">
                 <span>
                   {item.name}
-                  {item.required && <span className="required-badge"> (Bắt buộc)</span>}
+                  {item.required && <span className="required-badge"> {t('paymentPage.requiredBadge')}</span>}
                 </span>
                 <input
                   type="number"
@@ -117,41 +121,41 @@ const Payment = ({ onNext }) => {
         </ul>
 
         <div className="total-amount">
-          <span>Tổng cộng:</span>
+          <span>{t('paymentPage.totalAmount')}</span>
           <span>${totalAmount}</span>
         </div>
       </div>
 
       {/* Phần QR code và xác nhận giữ nguyên như trước */}
       <div className="payment-section">
-        <h3>Thanh toán qua Zelle</h3>
+        <h3>{t('paymentPage.zellePaymentTitle')}</h3>
         <div className="qr-code-container">
           <div className="qr-code-placeholder">
-            <p>QR Code Zelle</p>
-            <p>(Vui lòng quét mã để thanh toán)</p>
+            <p>{t('paymentPage.qrCodePlaceholder')}</p>
+            <p>{t('paymentPage.scanToPay')}</p>
           </div>
-          <p className="zelle-email">tnttmethienchuariverside@gmail.com</p>
+          <p className="zelle-email">{t('paymentPage.zelleEmail')}</p>
           <p className="payment-note">
-            Sau khi thanh toán, xin vui lòng liên lạc Thư Ký hoặc Thủ Quỹ Đoàn qua số
+            {t('paymentPage.paymentNote1')}
             <br /><strong>714-873-3039</strong><br />
-            nhắn với cú pháp (format): <br /><br /><br /><br />"Phụ huynh (em với số ID là {getFromLocalStorage('id')}) đã gửi Zelle đóng tiền và xin mã confirmation"<br /><br /><br /><br />
+            {t('paymentPage.paymentNote2')} <br /><br /><br /><br />"{t('paymentPage.paymentNoteStudentFormat', { id: getFromLocalStorage('id') })}"<br /><br /><br /><br />
             Thư Ký/Thủ Quỹ sẽ gửi lại mã xác nhận để nhập bên dưới
           </p>
         </div>
       </div>
 
       <div className="payment-section">
-        <h3>Xác nhận thanh toán</h3>
+        <h3>{t('paymentPage.confirmationTitle')}</h3>
         <div className="confirmation-input">
-          <label htmlFor="confirmationCode">Mã xác nhận:</label>
+          <label htmlFor="confirmationCode">{t('paymentPage.confirmationCodeLabel')}</label>
           <input
             type="text"
             id="confirmationCode"
             value={confirmationCode}
             onChange={handleCodeChange}
-            placeholder="Nhập mã bạn đã nhận"
+            placeholder={t('paymentPage.confirmationCodePlaceholder')}
           />
-          <p className="instruction">(Mã xác nhận hợp lệ: copy dòng code từ tin nhắn)</p>
+          <p className="instruction">{t('paymentPage.confirmationCodeInstruction')}</p>
         </div>
       </div>
 
@@ -165,7 +169,7 @@ const Payment = ({ onNext }) => {
             window.location.href = '/health-info';
           }}
         >
-          Hoàn tất đăng ký
+          {t('paymentPage.completeRegistrationButton')}
         </button>
       </div>
     </div>

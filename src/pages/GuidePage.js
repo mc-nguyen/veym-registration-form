@@ -1,30 +1,32 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './GuidePage.css';
+import { useLanguage } from '../LanguageContext'; // Import useLanguage hook
 
 const GuidePage = () => {
     const navigate = useNavigate();
+    const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
     return (
         <div className="guide-container">
-            <h1>HƯỚNG DẪN ĐĂNG KÝ</h1>
+            <h1>{t('guidePage.title')}</h1>
 
             <div className="guide-content">
-                <h2>Các bước đăng ký:</h2>
+                <h2>{t('guidePage.stepsTitle')}</h2>
                 <ol>
-                    <li>Nhấn nút "BẮT ĐẦU ĐĂNG KÍ"</li>
-                    <li>Điền đầy đủ thông tin cá nhân</li>
-                    <li>Thanh toán phí sinh hoạt</li>
-                    <li>Điền thông tin sức khỏe</li>
-                    <li>Xem và đồng ý với các điều khoản</li>
-                    <li>Hoàn tất đăng ký</li>
+                    <li>{t('guidePage.step1')}</li>
+                    <li>{t('guidePage.step2')}</li>
+                    <li>{t('guidePage.step3')}</li>
+                    <li>{t('guidePage.step4')}</li>
+                    <li>{t('guidePage.step5')}</li>
+                    <li>{t('guidePage.step6')}</li>
                 </ol>
 
-                <h2>Lưu ý quan trọng:</h2>
+                <h2>{t('guidePage.noteTitle')}</h2>
                 <ul>
-                    <li>Chuẩn bị sẵn thông tin cá nhân và thông tin bảo hiểm</li>
-                    <li>Quá trình đăng ký mất khoảng 10-15 phút</li>
-                    <li>Cần có chữ ký của phụ huynh nếu học sinh dưới 18 tuổi</li>
+                    <li>{t('guidePage.note1')}</li>
+                    <li>{t('guidePage.note2')}</li>
+                    <li>{t('guidePage.note3')}</li>
                 </ul>
             </div>
 
@@ -32,7 +34,7 @@ const GuidePage = () => {
                 className="back-button"
                 onClick={() => navigate('/')}
             >
-                QUAY LẠI TRANG CHỦ
+                {t('guidePage.backToHome')}
             </button>
         </div>
     );
