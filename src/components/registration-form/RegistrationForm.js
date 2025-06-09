@@ -92,6 +92,7 @@ const RegistrationForm = () => {
 
     // --- Logic vẽ chữ ký (giữ nguyên) ---
     const startParentDrawing = (e) => {
+        e.preventDefault();
         const canvas = parentCanvasRef.current;
         const ctx = canvas.getContext('2d');
         const rect = canvas.getBoundingClientRect();
@@ -104,6 +105,7 @@ const RegistrationForm = () => {
     };
 
     const drawParent = (e) => {
+        e.preventDefault();
         if (!isParentDrawing) return;
         const canvas = parentCanvasRef.current;
         const ctx = canvas.getContext('2d');
