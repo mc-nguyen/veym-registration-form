@@ -182,3 +182,37 @@
   background-color: #f5f5f5;
   color: #666;
 }
+
+.payment-method {
+    /* Đảm bảo payment-method là một block element (thường là mặc định) */
+    /* Nếu nó là flex hoặc grid container, cần cách khác */
+    text-align: center; /* Có thể dùng để căn giữa các inline-block con */
+}
+
+.payment-method img {
+    /* Đặt kích thước tối đa để hình ảnh không quá lớn */
+    max-width: 300px; /* Điều chỉnh kích thước này cho phù hợp */
+    height: auto; /* Giữ tỷ lệ khung hình */
+    display: block; /* Quan trọng: Biến hình ảnh thành block element */
+    margin-left: auto; /* Căn giữa */
+    margin-right: auto; /* Căn giữa */
+    margin-top: 20px; /* Thêm khoảng cách nếu cần */
+    margin-bottom: 20px; /* Thêm khoảng cách nếu cần */
+}
+
+/* Hoặc nếu bạn muốn đặt một class riêng cho hình ảnh Zelle để dễ quản lý */
+/* Trong Payment.js: <img src={zelle} alt="Zelle Logo" className="zelle-logo" /> */
+/* Trong Payment.css: */
+.zelle-logo {
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 20px auto; /* Viết tắt cho margin-top, margin-right, margin-bottom, margin-left */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .payment-method img, .zelle-logo {
+        max-width: 200px; /* Nhỏ hơn trên thiết bị di động */
+    }
+}

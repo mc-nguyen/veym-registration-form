@@ -56,6 +56,8 @@ const RegistrationFormAdult = () => {
     };
 
     const startDrawing = (e) => {
+        e.preventDefault();
+        
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         const rect = canvas.getBoundingClientRect();
@@ -69,6 +71,8 @@ const RegistrationFormAdult = () => {
     };
 
     const draw = (e) => {
+        e.preventDefault();
+
         if (!isDrawing) return;
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');

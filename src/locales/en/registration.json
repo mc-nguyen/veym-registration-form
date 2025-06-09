@@ -97,7 +97,7 @@
     "zellePaymentTitle": "Pay via Zelle",
     "qrCodePlaceholder": "Zelle QR Code",
     "scanToPay": "(Please scan the code to pay)",
-    "zelleEmail": "tnttmethienchuariverside@gmail.com",
+    "zelleEmail": "or",
     "paymentNote1": "After payment, please contact the Secretary or Treasurer at",
     "paymentNote2": "with the format:",
     "paymentNoteStudentFormat": "Parent (student with ID {{id}}) has sent Zelle payment and requests a confirmation code",

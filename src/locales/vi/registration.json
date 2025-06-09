@@ -97,7 +97,7 @@
     "zellePaymentTitle": "Thanh toán qua Zelle",
     "qrCodePlaceholder": "QR Code Zelle",
     "scanToPay": "(Vui lòng quét mã để thanh toán)",
-    "zelleEmail": "tnttmethienchuariverside@gmail.com",
+    "zelleEmail": "hoặc",
     "paymentNote1": "Sau khi thanh toán, xin vui lòng liên lạc Thư Ký hoặc Thủ Quỹ Đoàn qua số",
     "paymentNote2": "nhắn với cú pháp (format):",
     "paymentNoteStudentFormat": "Phụ huynh (em với số ID là {{id}}) đã gửi Zelle đóng tiền và xin mã confirmation",

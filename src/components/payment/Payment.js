@@ -3,6 +3,7 @@ import './Payment.css';
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
 import { checkConfirmationCode, savePaymentToFirebase } from '../../context/firebaseFuncs';
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
+import zelle from '../../assets/zelle.png'; // Đường dẫn đến logo của bạn
 
 const Payment = ({ onNext }) => {
   removeFromLocalStorage('healthInfoFormData');
@@ -130,11 +131,8 @@ const Payment = ({ onNext }) => {
       <div className="payment-section">
         <h3>{t('paymentPage.zellePaymentTitle')}</h3>
         <div className="qr-code-container">
-          <div className="qr-code-placeholder">
-            <p>{t('paymentPage.qrCodePlaceholder')}</p>
-            <p>{t('paymentPage.scanToPay')}</p>
-          </div>
-          <p className="zelle-email">{t('paymentPage.zelleEmail')}</p>
+          <img src={zelle} alt="Zelle" className="zelle-logo" />
+          <p className="zelle-email">{t('paymentPage.zelleEmail')}<br/>tnttmethienchuariverside@gmail.com</p>
           <p className="payment-note">
             {t('paymentPage.paymentNote1')}
             <br /><strong>714-873-3039</strong><br />
