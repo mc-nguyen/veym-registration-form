@@ -6,8 +6,6 @@ import { saveRegistrationToFirebase } from "../../context/firebaseFuncs";
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 
 const RegistrationForm = () => {
-    const { translate: t, language } = useLanguage(); // Initialize t and language
-
     removeFromLocalStorage('healthInfoFormData');
     removeFromLocalStorage('waiverFormData');
     removeFromLocalStorage('tnttRulesFormData');
@@ -17,6 +15,8 @@ const RegistrationForm = () => {
         window.location.href = '/';
     else if (getFromLocalStorage('currentPage') !== '/registration')
         window.location.href = getFromLocalStorage('currentPage');
+
+    const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
     const [formData, setFormData] = useState(() => {
         const savedData = getFromLocalStorage('registrationFormData') || {
@@ -33,168 +33,70 @@ const RegistrationForm = () => {
             phoneEmergency: "",
             email: "",
             ngaySinh: "",
+            nganh: "" // Sẽ lưu KEY của ngành vào đây
         };
         return savedData;
     });
 
-    const [nganh, setNganh] = useState(null);
+    const [nganhHienThiKey, setNganhHienThiKey] = useState(""); // State để lưu KEY của ngành hiển thị
     const [isMobile, setIsMobile] = useState(false);
-    const canvasRef = useRef(null);
-    const [isDrawing, setIsDrawing] = useState(false);
-    const [parentSignature, setParentSignature] = useState({
-        name: '',
-        relationship: 'Mẹ',
-        date: new Date().toISOString().split('T')[0],
-        signedImage: null
-    });
-
     const parentCanvasRef = useRef(null);
     const [isParentDrawing, setIsParentDrawing] = useState(false);
+    const [parentSignatureData, setParentSignatureData] = useState(null);
+
+    // Hàm để tính toán KEY ngành dựa trên năm sinh
+    const calculateNganhKey = (birthDateString) => {
+        if (!birthDateString) return "";
+
+        const birthYear = new Date(birthDateString).getFullYear();
+
+        switch (birthYear) {
+            case 2019: return "AU_NHI_DU_BI";
+            case 2018: return "AU_NHI_CAP_1";
+            case 2017: return "AU_NHI_CAP_2";
+            case 2016: return "AU_NHI_CAP_3"; // Giả định cấp Thiếu Nhi
+            case 2015: return "THIEU_NHI_CAP_1";
+            case 2014: return "THIEU_NHI_CAP_2";
+            case 2013: return "THIEU_NHI_CAP_3"; // Giả định cấp Nghĩa Sĩ
+            case 2012: return "NGHIA_SI_CAP_1";
+            case 2011: return "NGHIA_SI_CAP_2";
+            case 2010: return "NGHIA_SI_CAP_3"; // Giả định cấp Hiệp Sĩ
+            case 2009: return "HIEP_SI_CAP_1";
+            case 2008: return "HIEP_SI_CAP_2";
+            default: return "INVALID_BRANCH"; // Mặc định là "Không hợp lệ"
+        }
+    };
 
     useEffect(() => {
         saveToLocalStorage('registrationFormData', formData);
-        const checkMobile = () => {
+        const calculatedNganhKey = calculateNganhKey(formData.ngaySinh);
+        setNganhHienThiKey(calculatedNganhKey);
+        // Lưu KEY của ngành vào formData để gửi lên Firebase
+        setFormData(prevData => ({ ...prevData, nganh: calculatedNganhKey }));
+
+        const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
         };
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, [formData]);
-
-    const tinhNganh = (ngaySinhStr) => {
-        if (!ngaySinhStr) return null;
-
-        const birthDate = new Date(ngaySinhStr);
-        const sep1 = new Date(new Date().getFullYear(), 8, 1);
-        let age = sep1.getFullYear() - birthDate.getFullYear();
-
-        if (birthDate.getMonth() > 8 || (birthDate.getMonth() === 8 && birthDate.getDate() > 1)) {
-            age--;
-        }
-
-        const nganhData = [
-            { minAge: 17, maxAge: 17, label: t('registrationForm.branchLabels.hiepSiCap2'), color: "brown" },
-            { minAge: 16, maxAge: 16, label: t('registrationForm.branchLabels.hiepSiCap1'), color: "brown" },
-            { minAge: 15, maxAge: 15, label: t('registrationForm.branchLabels.nghiaSiCap3'), color: "gold" },
-            { minAge: 14, maxAge: 14, label: t('registrationForm.branchLabels.nghiaSiCap2'), color: "gold" },
-            { minAge: 13, maxAge: 13, label: t('registrationForm.branchLabels.nghiaSiCap1'), color: "gold" },
-            { minAge: 12, maxAge: 12, label: t('registrationForm.branchLabels.thieuNhiCap3'), color: "blue" },
-            { minAge: 11, maxAge: 11, label: t('registrationForm.branchLabels.thieuNhiCap2'), color: "blue" },
-            { minAge: 10, maxAge: 10, label: t('registrationForm.branchLabels.thieuNhiCap1'), color: "blue" },
-            { minAge: 9, maxAge: 9, label: t('registrationForm.branchLabels.auNhiCap3'), color: "green" },
-            { minAge: 8, maxAge: 8, label: t('registrationForm.branchLabels.auNhiCap2'), color: "green" },
-            { minAge: 7, maxAge: 7, label: t('registrationForm.branchLabels.auNhiCap1'), color: "green" },
-            { minAge: 6, maxAge: 6, label: t('registrationForm.branchLabels.auNhiDuBi'), color: "green" }
-        ];
-
-        return nganhData.find(item =>
-            age >= item.minAge &&
-            (!item.maxAge || age <= item.maxAge)
-        ) || null;
-    };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [formData, t]); // Thêm 't' vào dependency array để re-render khi ngôn ngữ thay đổi
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-
-        if (name === "ngaySinh") {
-            setNganh(tinhNganh(value));
-        }
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
     };
 
-    const startDrawing = (e) => {
-        e.preventDefault();
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const rect = canvas.getBoundingClientRect();
-
-        ctx.beginPath();
-        ctx.moveTo(
-            (e.clientX || e.touches[0].clientX) - rect.left,
-            (e.clientY || e.touches[0].clientY) - rect.top
-        );
-        setIsDrawing(true);
-    };
-
-    const draw = (e) => {
-        e.preventDefault();
-        if (!isDrawing) return;
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const rect = canvas.getBoundingClientRect();
-
-        ctx.lineTo(
-            (e.clientX || e.touches[0].clientX) - rect.left,
-            (e.clientY || e.touches[0].clientY) - rect.top
-        );
-        ctx.strokeStyle = '#2d8fdd';
-        ctx.lineWidth = 2;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.stroke();
-    };
-
-    const endDrawing = () => {
-        setIsDrawing(false);
-    };
-
-    const clearCanvas = () => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        if (!parentSignature.signedImage) {
-            alert(t('registrationForm.pleaseSignParent'));
-            return;
-        }
-
-        const confirmationMessage = t('registrationForm.confirmMessageStudent', {
-            lastName: formData.ho,
-            middleName: formData.tenDem,
-            firstName: formData.tenGoi,
-            dob: formData.ngaySinh || t('notEntered'),
-            branch: nganh?.label || t('notDetermined'),
-            parentName: parentSignature.name,
-            parentRelationship: t(`registrationForm.${parentSignature.relationship.toLowerCase()}`) // Translate relationship
-        });
-
-        const isConfirmed = window.confirm(confirmationMessage);
-
-        if (isConfirmed) {
-            const registrationData = {
-                ...formData,
-                registrationType: "student",
-                studentSignature: canvasRef.current.toDataURL(),
-                studentSignedDate: new Date().toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US'),
-                parentSignature: {
-                    ...parentSignature,
-                    signedDate: new Date().toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US')
-                }
-            };
-
-            console.log('Dữ liệu đã gửi:', registrationData);
-            const dataID = await saveRegistrationToFirebase(registrationData);
-            saveToLocalStorage('id', dataID);
-
-            setTimeout(() => {
-                saveToLocalStorage('currentPage', '/payment');
-                window.location.href = '/payment';
-            }, 1000);
-        }
-    };
-
+    // --- Logic vẽ chữ ký (giữ nguyên) ---
     const startParentDrawing = (e) => {
-        e.preventDefault();
         const canvas = parentCanvasRef.current;
         const ctx = canvas.getContext('2d');
         const rect = canvas.getBoundingClientRect();
-
-        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
         ctx.beginPath();
         ctx.moveTo(clientX - rect.left, clientY - rect.top);
@@ -203,194 +105,234 @@ const RegistrationForm = () => {
 
     const drawParent = (e) => {
         if (!isParentDrawing) return;
-        e.preventDefault();
-
         const canvas = parentCanvasRef.current;
         const ctx = canvas.getContext('2d');
         const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-
-        ctx.lineTo(clientX - rect.left, clientY - rect.top);
-        ctx.strokeStyle = '#d32f2f';
         ctx.lineWidth = 2;
         ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
+        ctx.strokeStyle = '#000';
+        ctx.lineTo(clientX - rect.left, clientY - rect.top);
         ctx.stroke();
     };
 
     const endParentDrawing = () => {
         setIsParentDrawing(false);
-        setParentSignature(prev => ({
-            ...prev,
-            signedImage: parentCanvasRef.current.toDataURL()
-        }));
+        const canvas = parentCanvasRef.current;
+        setParentSignatureData(canvas.toDataURL());
     };
 
     const clearParentCanvas = () => {
         const canvas = parentCanvasRef.current;
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        setParentSignature(prev => ({ ...prev, signedImage: null }));
+        setParentSignatureData(null);
     };
+    // --- Kết thúc Logic vẽ chữ ký ---
 
-    const handleParentInfoChange = (e) => {
-        const { name, value } = e.target;
-        setParentSignature(prev => ({
-            ...prev,
-            [name]: name === 'name' ? value.toUpperCase() : value
-        }));
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const finalFormData = {
+            ...formData,
+            parentSignature: parentSignatureData,
+            nganh: nganhHienThiKey // Đảm bảo KEY ngành được lưu
+        };
+        await saveRegistrationToFirebase(getFromLocalStorage('id'), finalFormData);
+        saveToLocalStorage('currentPage', '/payment');
+        window.location.href = '/payment';
     };
 
     return (
         <form className="registration-form" onSubmit={handleSubmit}>
             <h2>{t('registrationForm.title')}</h2>
-            <p className="form-subtitle">{t('registrationForm.subtitle')}</p>
-
             <div className="form-section">
-                <h3>{t('registrationForm.personalInfo')}</h3>
-
-                <div className="form-group">
-                    <label>{t('registrationForm.nameIs')}</label>
-                    <div className="name-row">
-                        <input type="text" name="tenThanh" placeholder={t('registrationForm.saintName')} value={formData.tenThanh} onChange={handleChange} required />
-                        <input type="text" name="ho" placeholder={t('registrationForm.lastName')} value={formData.ho} onChange={handleChange} required />
-                        <input type="text" name="tenDem" placeholder={t('registrationForm.middleName')} value={formData.tenDem} onChange={handleChange} />
-                        <input type="text" name="tenGoi" placeholder={t('registrationForm.firstName')} value={formData.tenGoi} onChange={handleChange} required />
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <label>{t('registrationForm.sonOf')}</label>
-                    <div className="parent-row">
-                        <input type="text" name="tenCha" placeholder={t('registrationForm.fatherName')} value={formData.tenCha} onChange={handleChange} required />
-                        <input type="text" name="tenMe" placeholder={t('registrationForm.motherName')} value={formData.tenMe} onChange={handleChange} required />
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <label>{t('registrationForm.homeAddress')}</label>
-                    <input type="text" name="diaChi" value={formData.diaChi} onChange={handleChange} required />
-                </div>
-            </div>
-
-            <div className="form-section">
-                <h3>{t('registrationForm.contactInfo')}</h3>
-
-                <div className="form-group">
-                    <label>{t('registrationForm.contactPhone')}</label>
-                    <div className="phone-row">
-                        <input type="tel" name="phoneHome" placeholder={t('registrationForm.home')} value={formData.phoneHome} onChange={handleChange} />
-                        <input type="tel" name="phoneCell" placeholder={t('registrationForm.cell')} value={formData.phoneCell} onChange={handleChange} required />
-                        <input type="tel" name="phoneWork" placeholder={t('registrationForm.work')} value={formData.phoneWork} onChange={handleChange} />
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <label>{t('registrationForm.emergencyPhone')}</label>
-                    <input type="tel" name="phoneEmergency" placeholder={t('registrationForm.emergencyNumber')} value={formData.phoneEmergency} onChange={handleChange} required />
-                </div>
-
-                <div className="form-group">
-                    <label>{t('registrationForm.email')}</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-                </div>
-            </div>
-
-            <div className="form-section">
-                <h3>{t('registrationForm.activityInfo')}</h3>
-
-                <div className="form-group">
-                    <label>{t('registrationForm.dob')}</label>
-                    <div className="dob-row">
-                        <input type="date" name="ngaySinh" value={formData.ngaySinh} onChange={handleChange} required />
-                        <button type="button" className="secondary-btn" onClick={() => setNganh(tinhNganh(formData.ngaySinh))}>
-                            {t('registrationForm.determineBranch')}
-                        </button>
-                    </div>
-                </div>
-
-                {nganh && (
-                    <div className="nganh-result">
-                        <div className={`nganh-display ${nganh.color}`}>
-                            <span className="arrow">➤</span> {t('registrationForm.branch')} {nganh.label}
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            <div className="form-section pledge-section">
-                <h3>{t('registrationForm.pledge')}</h3>
-                <div className="pledge">
-                    <p dangerouslySetInnerHTML={{ __html: t('registrationForm.pledgeText') }}></p>
-                </div>
-
-                <div className="signature-area">
-                    <label>{t('registrationForm.studentSignature')} {new Date().toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US')}</label>
-                    <canvas
-                        ref={canvasRef}
-                        width={isMobile ? 300 : 500}
-                        height={150}
-                        className="signature-canvas"
-                        onMouseDown={startDrawing}
-                        onMouseMove={draw}
-                        onMouseUp={endDrawing}
-                        onMouseLeave={endDrawing}
-                        onTouchStart={startDrawing}
-                        onTouchMove={draw}
-                        onTouchEnd={endDrawing}
-                    />
-                    <button type="button" className="clear-btn" onClick={clearCanvas}>{t('registrationForm.clearSignature')}</button>
-                    <p className="signature-note">{t('registrationForm.signHere')}</p>
-                </div>
-            </div>
-
-            <div className="parent-signature-section">
-                <h3 className="section-title">{t('registrationForm.parentConfirmation')}</h3>
-
-                <div className="parent-info-grid">
+                <h3>{t('registrationForm.studentInfo')}</h3>
+                <div className="form-row">
                     <div className="form-group">
-                        <label>{t('registrationForm.parentName')}</label>
+                        <label htmlFor="saintName">{t('registrationForm.saintName')}</label>
                         <input
                             type="text"
-                            name="name"
-                            value={parentSignature.name}
-                            onChange={handleParentInfoChange}
-                            placeholder={t('registrationForm.parentName')}
+                            id="saintName"
+                            name="tenThanh"
+                            value={formData.tenThanh}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="lastName">{t('registrationForm.lastName')}</label>
+                        <input
+                            type="text"
+                            id="lastName"
+                            name="ho"
+                            value={formData.ho}
+                            onChange={handleChange}
                             required
                         />
                     </div>
+                </div>
 
+                <div className="form-row">
                     <div className="form-group">
-                        <label>{t('registrationForm.relationship')}</label>
-                        <select
-                            name="relationship"
-                            value={parentSignature.relationship}
-                            onChange={handleParentInfoChange}
+                        <label htmlFor="middleName">{t('registrationForm.middleName')}</label>
+                        <input
+                            type="text"
+                            id="middleName"
+                            name="tenDem"
+                            value={formData.tenDem}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="firstName">{t('registrationForm.firstName')}</label>
+                        <input
+                            type="text"
+                            id="firstName"
+                            name="tenGoi"
+                            value={formData.tenGoi}
+                            onChange={handleChange}
                             required
-                        >
-                            <option value="Mẹ">{t('registrationForm.mother')}</option>
-                            <option value="Cha">{t('registrationForm.father')}</option>
-                            <option value="Người giám hộ">{t('registrationForm.guardian')}</option>
-                            <option value="Khác">{t('registrationForm.other')}</option>
-                        </select>
-                    </div>
-
-                    <div className="form-group">
-                        <label>{t('registrationForm.signedDate')} {new Date().toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US')}</label>
-                    </div>
-
-                    <div className="form-group">
-                        <label dangerouslySetInnerHTML={{ __html: t('registrationForm.parentResponsibility') }}></label>
+                        />
                     </div>
                 </div>
 
+                <div className="form-row">
+                    <div className="form-group">
+                        <label htmlFor="fatherName">{t('registrationForm.fatherName')}</label>
+                        <input
+                            type="text"
+                            id="fatherName"
+                            name="tenCha"
+                            value={formData.tenCha}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="motherName">{t('registrationForm.motherName')}</label>
+                        <input
+                            type="text"
+                            id="motherName"
+                            name="tenMe"
+                            value={formData.tenMe}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="address">{t('registrationForm.address')}</label>
+                    <input
+                        type="text"
+                        id="address"
+                        name="diaChi"
+                        value={formData.diaChi}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className="form-row">
+                    <div className="form-group">
+                        <label htmlFor="phoneHome">{t('registrationForm.phoneHome')}</label>
+                        <input
+                            type="tel"
+                            id="phoneHome"
+                            name="phoneHome"
+                            value={formData.phoneHome}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="phoneCell">{t('registrationForm.phoneCell')}</label>
+                        <input
+                            type="tel"
+                            id="phoneCell"
+                            name="phoneCell"
+                            value={formData.phoneCell}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div className="form-row">
+                    <div className="form-group">
+                        <label htmlFor="phoneWork">{t('registrationForm.phoneWork')}</label>
+                        <input
+                            type="tel"
+                            id="phoneWork"
+                            name="phoneWork"
+                            value={formData.phoneWork}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="phoneEmergency">{t('registrationForm.phoneEmergency')}</label>
+                        <input
+                            type="tel"
+                            id="phoneEmergency"
+                            name="phoneEmergency"
+                            value={formData.phoneEmergency}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="email">{t('registrationForm.email')}</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="birthDate">{t('registrationForm.birthDate')}</label>
+                    <input
+                        type="date"
+                        id="birthDate"
+                        name="ngaySinh"
+                        value={formData.ngaySinh}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+            </div>
+
+            {/* Phần hiển thị ngành tự động */}
+            <div className="form-section">
+                <h3>{t('registrationForm.branchTitle')}</h3>
+                <p>{t('registrationForm.branchInfo')}</p>
+                <div className={`nganh-badge ${nganhHienThiKey}`}>
+                    {formData.ngaySinh ? (
+                        <strong>{t(`registrationForm.branch.${nganhHienThiKey}`)}</strong>
+                    ) : (
+                        <p>{t('registrationForm.enterBirthDatePrompt')}</p>
+                    )}
+                </div>
+            </div>
+
+            <div className="form-section">
+                <h3>{t('registrationForm.parentGuardianConsent')}</h3>
+                <div className="consent-text">
+                    <label>{t('registrationForm.consentText')}</label>
+                </div>
+
                 <div className="signature-area">
-                    <label>{t('registrationForm.parentSignature')}</label>
+                    <label>{t('registrationForm.signatureLabel')}</label>
                     <canvas
                         ref={parentCanvasRef}
                         className="signature-canvas parent-canvas"
+                        width={isMobile ? 300 : 500}
+                        height={150}
                         onMouseDown={startParentDrawing}
                         onMouseMove={drawParent}
                         onMouseUp={endParentDrawing}
@@ -408,7 +350,7 @@ const RegistrationForm = () => {
             </div>
 
             <div className="form-actions">
-                <button type="submit" className="submit-btn">{t('registrationForm.next')}</button>
+                <button type="submit" className="submit-btn">{t('registrationForm.nextButton')}</button>
             </div>
         </form>
     );

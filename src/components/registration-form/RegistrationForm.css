@@ -148,6 +148,53 @@ button {
     margin-top: 1.5rem;
 }
 
+/* RegistrationForm.css */
+
+.nganh-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: black; /* Màu chữ mặc định */
+}
+
+/* Màu cho Ấu Nhi (xanh lá - chữ vàng) */
+.AU_NHI_DU_BI,
+.AU_NHI_CAP_1,
+.AU_NHI_CAP_2,
+.AU_NHI_CAP_3 {
+    background-color: green;
+    color: yellow;
+}
+
+/* Màu cho Thiếu Nhi (xanh dương - chữ vàng) */
+.THIEU_NHI_CAP_3,
+.THIEU_NHI_CAP_1,
+.THIEU_NHI_CAP_2 {
+    background-color: blue;
+    color: yellow;
+}
+
+/* Màu cho Nghĩa Sĩ (vàng - chữ đỏ) */
+.NGHIA_SI_CAP_3,
+.NGHIA_SI_CAP_1,
+.NGHIA_SI_CAP_2 {
+    background-color: yellow;
+    color: red;
+}
+
+/* Màu cho Hiệp Sĩ (nâu - chữ vàng) */
+.HIEP_SI_CAP_1,
+.HIEP_SI_CAP_2 {
+    background-color: brown;
+    color: yellow;
+}
+
+/* Màu cho "Không hợp lệ" (tùy chọn, ví dụ: xám) */
+.INVALID_BRANCH {
+    background-color: gray;
+    color: white;
+}
+
 .scarf-check {
     margin-bottom: 1rem;
 }

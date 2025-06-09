@@ -18,16 +18,11 @@ import GeneratePDFAdult from "./components/GeneratePDFAdult";
 import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
 import LanguageSwitcher from "./components/LanguageSwitcher";
-import { getFromLocalStorage } from "./context/storageUtils";
-
-const langSwitch = (getFromLocalStorage('currentPage') === '/registration' || getFromLocalStorage('currentPage') === '/payment') ?
-  <LanguageSwitcher /> :
-  "";
 
 function App() {
   return (
     <div>
-      {langSwitch}
+      <LanguageSwitcher/>
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
