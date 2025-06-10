@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Payment.css';
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
-import { savePaymentToFirebase } from '../../context/firebaseFuncs';
+import { checkConfirmationCode, savePaymentToFirebase } from '../../context/firebaseFuncs';
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 import zelle from '../../assets/zelle.png';
 
@@ -79,7 +79,7 @@ const PaymentAdult = () => {
   const handleCodeChange = (e) => {
     const code = e.target.value;
     setConfirmationCode(code);
-    setIsValidCode(code === '1995'); // Giả lập kiểm tra mã
+    setIsValidCode(checkConfirmationCode(getFromLocalStorage('id'))); // Giả lập kiểm tra mã
   };
 
   return (

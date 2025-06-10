@@ -24,7 +24,8 @@ export const saveRegistrationToFirebase = async (data) => {
   try {
     const docRef = await addDoc(collection(db, "registrations"), {
       confirmationCode: confirmationCode,
-      registration: data
+      registration: data,
+      status: 'pending'
     });
     return docRef.id;
   } catch (error) {
@@ -54,6 +55,7 @@ export const checkConfirmationCode = async (docId, codeToCheck) => {
 
       if (storedCode && storedCode === codeToCheck) {
         console.log("Mã xác nhận trùng khớp!");
+        await updateDoc(docRef, {status: 'paid'});
         return true;
       } else {
         console.log("Mã xác nhận không trùng khớp hoặc không tồn tại trong tài liệu.");
@@ -102,7 +104,10 @@ export const saveWaiverReleaseToFirebase = async (id, data) => {
 export const saveTNTTRulesToFirebase = async (id, data) => {
   try {
     const docRef = doc(db, 'registrations', id);
-    await updateDoc(docRef, {tnttRules: data});
+    await updateDoc(docRef, {
+      tnttRules: data,
+      status: 'completed'
+    });
   } catch (error) {
     console.error("Error adding document: ", error);
     throw error;

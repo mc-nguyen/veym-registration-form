@@ -41,8 +41,6 @@ const RegistrationFormAdult = () => {
     const [isDrawing, setIsDrawing] = useState(false);
 
     useEffect(() => {
-        saveToLocalStorage('registrationFormData', formData);
-        saveRegistrationToFirebase(getFromLocalStorage('id'), formData);
     }, [formData]);
 
     useEffect(() => {
@@ -123,13 +121,15 @@ const RegistrationFormAdult = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // Simple validation, enhance as needed
         if (!formData.tenThanh || !formData.ho || !formData.tenGoi || !formData.nganh || !formData.signature) {
             alert(t('errors.allFieldsRequired')); // Use translation for alert
             return;
         }
+        saveToLocalStorage('registrationFormData', formData);
+        saveToLocalStorage('id', await saveRegistrationToFirebase(formData));
         saveToLocalStorage('currentPage', '/payment-adult');
         window.location.href = '/payment-adult';
     };
