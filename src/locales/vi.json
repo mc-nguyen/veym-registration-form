@@ -92,11 +92,14 @@
       "HIEP_SI_CAP_2": "Hiệp Sĩ Cấp 2",
       "INVALID_BRANCH": "Không hợp lệ"
     },
+    "dsConsent": "ĐỒNG THUẬN CỦA ĐOÀN SINH",
+    "consentTextDS": "Em xin được ghi danh gia nhập phong trào TNTT tại *Ðoàn TNTT Mẹ Thiên Chúa, Riverside*. Em hứa sẽ vâng lời và theo sự hướng dẫn của cha Tuyên Úy Ðoàn, Đoàn Trưởng, các trợ tá, các phụ huynh cũng như các anh chị huynh trưởng có trách nhiệm trong đoàn và trong ngành mà em sinh hoạt hằng tuần. Em sẽ cố gắng sống 4 khẩu hiệu của Thiếu Nhi: Cầu Nguyện, Rước Lễ, Hy Sinh và Làm Việc Tông Ðồ cũng như thực hành các tôn chỉ của phong trào TNTT. Em sẽ chu toàn bổn phận của một đoàn sinh trong đoàn TNTT và thực thi đúng các nội quy của đoàn TNTT.",
     "parentGuardianConsent": "ĐỒNG THUẬN CỦA PHỤ HUYNH/NGƯỜI GIÁM HỘ (ĐỐI VỚI ĐOÀN SINH DƯỚI 18 TUỔI)",
     "consentText": "Tôi cho phép con tôi sinh hoạt Đoàn TNTT-Mẹ Thiên Chúa, Riverside. Tôi sẽ hoàn toàn chịu trách nhiệm nếu có những trường hợp không may xảy ra với con tôi trong các giờ sinh hoạt của đoàn.",
     "signatureLabel": "Chữ ký xác nhận:",
     "clearSignature": "Xóa chữ ký",
-    "nextButton": "Chuyển tiếp"
+    "nextButton": "Chuyển tiếp",
+    "signatureRequest": "Xin ký tên!"
   },
   "paymentPage": {
     "title": "THANH TOÁN PHÍ SINH HOẠT",
@@ -154,27 +157,24 @@
     "title": "ĐƠN MIỄN TRỪ TRÁCH NHIỆM & ĐỒNG THUẬN",
     "releaseStatement": "Thư miễn trừ trách nhiệm này được ký kết giữa (các) người tham gia/phụ huynh/người giám hộ và Đoàn TNTT Mẹ Thiên Chúa.",
     "initialInstructions": "Vui lòng đặt bút danh (initial) vào các ô bên cạnh để xác nhận bạn đã đọc và hiểu từng mục.",
-    "sections": {
-      "section1": {
-        "text": "Tôi/Chúng tôi, là phụ huynh/người giám hộ hợp pháp của (các) đoàn sinh được liệt kê trên (sau đây gọi là “đoàn sinh”), đồng ý tự nguyện tham gia các hoạt động của Đoàn TNTT Mẹ Thiên Chúa và tôi/chúng tôi hiểu rằng có những rủi ro liên quan đến việc tham gia các hoạt động này, bao gồm nhưng không giới hạn ở thương tích cá nhân, bệnh tật, hư hỏng tài sản, hoặc tử vong. Tôi/Chúng tôi chấp nhận mọi rủi ro liên quan đến sự tham gia của đoàn sinh.",
-        "initials": "Bút danh"
-      },
-      "section2": {
-        "text": "Tôi/Chúng tôi cam kết không khởi kiện Đoàn TNTT Mẹ Thiên Chúa, Giáo xứ Đức Mẹ Hằng Cứu Giúp, và các viên chức, đại diện, tình nguyện viên của họ về bất kỳ và tất cả các yêu cầu, trách nhiệm, thiệt hại, chi phí, hoặc nguyên nhân hành động phát sinh từ hoặc liên quan đến việc đoàn sinh tham gia bất kỳ hoạt động nào của Đoàn TNTT Mẹ Thiên Chúa.",
-        "initials": "Bút danh"
-      },
-      "section3": {
-        "text": "Tôi/Chúng tôi đồng ý bồi thường và giữ vô hại Đoàn TNTT Mẹ Thiên Chúa, Giáo xứ Đức Mẹ Hằng Cứu Giúp, và các viên chức, đại diện, tình nguyện viên của họ khỏi mọi yêu cầu, trách nhiệm, thiệt hại, chi phí, hoặc nguyên nhân hành động phát sinh từ hoặc liên quan đến việc đoàn sinh tham gia bất kỳ hoạt động nào của Đoàn TNTT Mẹ Thiên Chúa.",
-        "initials": "Bút danh"
-      },
-      "section4": {
-        "text": "Tôi/Chúng tôi cho phép đoàn sinh được điều trị y tế khẩn cấp bởi một nhân viên y tế được cấp phép, bao gồm việc quản lý thuốc men hoặc thực hiện các thủ tục y tế nếu cần thiết. Tôi/Chúng tôi hiểu rằng tôi/chúng tôi sẽ chịu trách nhiệm về mọi chi phí y tế phát sinh.",
-        "initials": "Bút danh"
-      },
-      "section5": {
-        "text": "Tôi/Chúng tôi thừa nhận rằng tôi/chúng tôi đã đọc và hiểu tất cả các điều khoản của đơn miễn trừ trách nhiệm này, và tôi/chúng tôi tự nguyện ký tên vào đây.",
-        "initials": "Bút danh"
-      }
+    "waiver": {
+      "head1": "Tôi, {{fullname}}, một người trưởng thành [độ tuổi thành niên, theo Tiểu bang (ví dụ: 18 tuổi ở California)] và là người tham gia được nêu tên, hoặc tôi là phụ huynh/người giám hộ của trẻ vị thành niên sẽ tham gia sự kiện nêu trên (“Sự Kiện”) do Phong trào Thiếu Nhi Thánh Thể Việt Nam tại Hoa Kỳ (“VEYM”) tổ chức và/hoặc tài trợ. Tôi hoàn toàn ý thức rằng việc tôi hoặc con tôi tham gia Sự Kiện là hoàn toàn tự nguyện. Đồng thời, tôi hoặc con tôi sẽ tuân thủ tất cả các Quy Tắc Ứng Xử hiện hành, và nói chung sẽ tự mình/con mình hành xử mọi lúc theo các tiêu chuẩn đạo đức cao nhất, và tuân thủ tất cả các quy định pháp luật hiện hành, để phản ánh tích cực về bản thân/con mình, Sự Kiện, và các giáo huấn Công Giáo. Nếu tôi hoặc con tôi vi phạm các nghĩa vụ này dẫn đến thương tích thân thể hoặc thiệt hại tài sản trong Sự Kiện, tôi hoặc con tôi đã vi phạm các nghĩa vụ này sẽ tự mình chi trả để phục hồi hoặc thay thế bất kỳ tài sản nào bị hư hại do vi phạm, chi trả bất kỳ thiệt hại nào gây ra cho thương tích thân thể của một cá nhân, và bảo vệ, che chở và giữ VEYM, các thành viên ban chấp hành, huynh trưởng, và tình nguyện viên, giáo phận địa phương, các linh mục hoặc các thành viên tu sĩ hoặc giáo sĩ khác, không bị tổn hại, khỏi các khiếu nại về thương tích thân thể hoặc thiệt hại tài sản đó.",
+      "head2": "Tôi biết rằng Sự Kiện có thể bao gồm các hoạt động sau đây nhưng không giới hạn: chạy, nhảy, chia sẻ câu chuyện cá nhân, hát, vỗ tay, la hét, ngồi trong thời gian dài, thức dậy sớm, ngủ trong nhà gỗ, ngủ trong lều, sử dụng nhà vệ sinh thiếu ánh sáng, các hoạt động ngoài trời trên đất, địa hình không bằng phẳng, bụi bặm và nhiều đá, ngủ ngoài trời, các hoạt động liên quan đến môi trường ngoài trời, các hoạt động dưới nước, và các hoạt động nhóm trực tuyến được giám sát sử dụng các công cụ bao gồm, nhưng không giới hạn, Google Meets, Microsoft Teams, và Zoom, theo Đạo luật Bảo vệ Quyền Riêng Tư Trực Tuyến của Trẻ Em năm 1998, (15 U.S.C. 6501, et seq.,). Tất cả các hoạt động sẽ được giám sát bởi ít nhất 2 người lớn. Để đổi lấy sự đồng ý của các huynh trưởng và/hoặc ban chấp hành của đoàn địa phương, cho phép tôi hoặc con tôi tham gia Sự Kiện, việc nhận và đầy đủ sự xem xét đó được xác nhận ở đây, tôi đồng ý như sau:",
+      "head3": "Tôi, {{fullname}}, theo đây:",
+      "w1": "Giải phóng, tha bổng và vĩnh viễn miễn trừ VEYM và các nhân viên, tình nguyện viên, đại lý, người phục vụ, viên chức, ủy viên, đại diện, chi nhánh, và nhà tài trợ của họ, trong các vai trò chính thức và cá nhân, cũng như Giáo xứ của tôi và Giáo phận của tôi, các nhân viên và đại lý, đại diện, nhà tài trợ, người giám hộ, hoặc tình nguyện viên của họ, khỏi bất kỳ và tất cả trách nhiệm pháp lý nào đối với bất kỳ và tất cả các thiệt hại, thương tích (bao gồm tử vong) cho người, mất mát tài sản, hoặc cả hai, phát sinh trong, từ, hoặc liên quan đến việc tôi tham gia Sự Kiện, mà tôi, con tôi hoặc bất kỳ người nào có thể phải chịu hoặc bị tổn thương liên quan đến bất kỳ hoạt động nào của Sự Kiện, bao gồm, nhưng không giới hạn, các hoạt động liên quan trực tiếp hoặc gián tiếp dẫn đến và phát sinh từ Sự Kiện, ngay cả các hoạt động phát sinh từ việc tôi đi đến và trở về từ Sự Kiện;",
+      "w2": "Đồng ý bồi thường (bồi thường thiệt hại hoặc mất mát), bảo vệ và giữ VEYM và các nhân viên, tình nguyện viên, đại lý, người phục vụ, viên chức, ủy viên, đại diện, chi nhánh, và nhà tài trợ của họ, trong các vai trò chính thức và cá nhân, cũng như Giáo xứ của tôi và Giáo phận của tôi, các nhân viên và đại lý, đại diện, nhà tài trợ, người giám hộ, hoặc tình nguyện viên của họ, không bị tổn hại, chống lại tất cả các khiếu nại, bao gồm, nhưng không giới hạn, các khiếu nại về sơ suất, hành vi không cố ý, và hành vi thiếu sót, và khỏi bất kỳ và tất cả trách nhiệm pháp lý, mất mát hoặc thiệt hại mà họ phải chịu do bất kỳ khiếu nại, yêu cầu, hành động, nguyên nhân hành động, phán quyết, chi phí hoặc chi phí mà họ phải chịu, bao gồm cả phí luật sư, phát sinh từ hoặc liên quan đến việc tôi hoặc con tôi tham gia Sự Kiện, bao gồm nhưng không giới hạn, việc tôi đi đến và trở về từ Sự Kiện.",
+      "head4": "Tôi theo đây xác nhận và chấp nhận rằng:",
+      "w3": "Có những nguy hiểm cố hữu và rủi ro thiệt hại có thể dự đoán được và không thể dự đoán được đối với bản thân tôi, con tôi và những người khác phát sinh từ các hoạt động khác nhau của Sự Kiện, bao gồm nhưng không giới hạn, việc phải chịu thương tích thân thể hoặc tinh thần, có thể phát sinh từ việc tôi tham gia Sự Kiện. Thương tích có thể phát sinh từ hành động hoặc không hành động của tôi, hành động hoặc không hành động của người tham gia khác trong các hoạt động, hoặc sự thất bại thực tế hoặc bị cáo buộc của bất kỳ huynh trưởng, đại lý hoặc tình nguyện viên nào trong việc huấn luyện, đào tạo, hướng dẫn, hoặc giám sát các hoạt động một cách đầy đủ. Tôi đã biết và tự nguyện quyết định chấp nhận rủi ro của những nguy hiểm cố hữu này để đổi lấy sự cho phép của các huynh trưởng và/hoặc ban chấp hành của đoàn địa phương, để cho phép tôi hoặc con tôi tham gia Sự Kiện;",
+      "w4": "Dù có dịch bệnh đặc hữu, dịch bệnh hoặc đại dịch hay không, các bệnh truyền nhiễm (ví dụ, cúm thông thường hoặc coronavirus) có thể được mang bởi bất kỳ người nào trong khuôn viên. Các người mang bệnh có thể không được VEYM, các giám đốc và viên chức, thành viên ban chấp hành, huynh trưởng, và tình nguyện viên của họ biết hoặc xác định. Khi các cuộc họp trực tiếp trong khuôn viên được giáo phận của tôi cho phép theo hướng dẫn của các cơ quan y tế chính phủ và địa phương, có một rủi ro cố hữu rằng việc con tôi hoặc tôi tham gia có thể khiến tôi có nguy cơ tiếp xúc, và tôi chấp nhận tất cả các rủi ro thiệt hại có thể dự đoán được và không thể dự đoán được mà tôi hoặc con tôi có thể phải chịu từ đó;",
+      "w5": "Điều kiện thời tiết, bao gồm Thiên Tai, hoặc nguyên nhân tự nhiên (mà con người không can thiệp để gây ra), có thể thay đổi hoặc ảnh hưởng đến kế hoạch, chi phí, và các hoạt động liên quan đến, và bao gồm, Sự Kiện, và tôi hiểu rằng các nguy hiểm cố hữu và rủi ro thiệt hại đối với bản thân tôi, con tôi và những người khác do các nguyên nhân tự nhiên đó có thể khác nhau, và tôi chấp nhận tất cả các rủi ro thiệt hại có thể dự đoán được và không thể dự đoán được mà tôi hoặc con tôi có thể phải chịu từ đó;",
+      "w6": "Tài sản cá nhân của tôi hoặc con tôi có thể có nguy cơ bị trộm cắp, hư hỏng hoặc mất mát hoàn toàn;",
+      "w7": "VEYM bảo lưu quyền từ chối chấp nhận hoặc giữ lại tôi hoặc con tôi trong Sự Kiện bất cứ lúc nào nếu hành động hoặc hành vi chung của tôi cản trở hoạt động của Sự Kiện hoặc quyền lợi hoặc phúc lợi của bất kỳ người nào khác. **_Tôi hiểu rằng tôi hoặc con tôi có thể bị yêu cầu rời khỏi Sự Kiện theo quyết định riêng của các nhà tổ chức, đại lý và đại diện._** Nếu tôi hoặc con tôi bị yêu cầu rời đi, sẽ không có khoản hoàn trả nào được cấp cho tôi hoặc con tôi cho bất kỳ phần chưa sử dụng nào của Sự Kiện, và đoàn địa phương sẽ không hoàn lại cho tôi bất kỳ chi phí trực tiếp hoặc gián tiếp nào mà tôi hoặc con tôi đã phải chịu do việc tôi hoặc con tôi tham gia Sự Kiện.",
+      "w8": "Tôi hiểu rằng VEYM, theo quyết định riêng của mình, bảo lưu quyền hủy bỏ Sự Kiện hoặc bất kỳ khía cạnh nào của nó trước khi bắt đầu. Trong trường hợp hủy bỏ toàn bộ hoặc một phần Sự Kiện, tôi chấp nhận rằng tôi hoặc con tôi có thể không được hoàn lại tiền hoặc bồi thường cho bất kỳ phần chưa sử dụng nào của Sự Kiện.",
+      "w9": "Tôi tuyên bố và đảm bảo rằng tôi hoặc con tôi được bảo hiểm toàn diện về sức khỏe và tai nạn trong suốt Sự Kiện, bao gồm cả các thương tích mà tôi hoặc con tôi có thể phải chịu khi tham gia Sự Kiện. Tuy nhiên, ngay cả khi tôi hoặc con tôi không được bảo hiểm y tế trong Sự Kiện, tôi vẫn đồng ý điền phần THÔNG TIN SỨC KHỎE một cách tốt nhất khả năng của mình và, bằng cách điền thông tin, tôi theo đây miễn trừ và giải phóng VEYM khỏi mọi trách nhiệm đối với bất kỳ thương tích, bệnh tật, hóa đơn y tế, chi phí hoặc các chi phí tương tự mà tôi có thể phải chịu khi tham gia Sự Kiện. Bằng cách điền vào mẫu, tôi theo đây ủy quyền cho VEYM để có được bất kỳ điều trị y tế cần thiết nào cho bản thân hoặc con tôi, đồng ý với bất kỳ kiểm tra, điều trị hoặc chăm sóc cần thiết nào dưới sự giám sát và/hoặc lời khuyên của bất kỳ chuyên gia y tế được cấp phép hợp lệ nào, và tôi rõ ràng ủy quyền cho VEYM tiết lộ thông tin y tế về tôi hoặc con tôi cho bất kỳ người hoặc tổ chức nào mà VEYM giới thiệu tôi đến để điều trị y tế.",
+      "w10": "Tôi đồng ý rằng thỏa thuận này sẽ được giải thích theo luật của Tiểu bang **California** và nhằm mục đích rộng rãi và bao hàm nhất theo luật pháp cho phép, và nếu bất kỳ phần nào trong đây bị coi là không hợp lệ, thì phần còn lại sẽ tiếp tục có hiệu lực pháp lý đầy đủ. Ngoài ra, tôi đồng ý rằng bất kỳ hành động pháp lý nào phát sinh từ hoặc liên quan đến thỏa thuận này phải được đưa ra tại tòa án Tiểu bang **Riverside County, California**.",
+      "w11": "Trong phạm vi mà luật định hoặc án lệ không cấm miễn trừ trách nhiệm do sơ suất, sự miễn trừ này cũng áp dụng cho sơ suất.",
+      "w12": "Tôi theo đây cấp cho VEYM sự đồng ý của tôi mà không bảo lưu để sử dụng, chuyển nhượng, truyền đạt, sao chép, bản quyền, xuất bản hoặc bán tên, giọng nói, hình ảnh và/hoặc chân dung của tôi phát sinh từ việc tôi tham gia Sự Kiện, dù là ảnh tĩnh hay ảnh động, băng ghi âm hay video, cho mục đích quảng cáo, hướng dẫn, kinh doanh hoặc bất kỳ mục đích hợp pháp nào khác, theo quyết định riêng của VEYM, nếu bất kỳ tên, giọng nói, hình ảnh và/hoặc chân dung nào đó được chia sẻ với VEYM bởi đoàn địa phương.",
+      "foot": "KHI KÝ THỎA THUẬN NÀY, TÔI THEO ĐÂY XÁC NHẬN VÀ TUYÊN BỐ RẰNG TÔI ĐÃ ĐỌC TOÀN BỘ TÀI LIỆU NÀY, RẰNG TÔI HIỂU CÁC ĐIỀU KHOẢN VÀ ĐIỀU KHOẢN CỦA NÓ, RẰNG TÔI HIỂU NÓ ẢNH HƯỞNG ĐẾN CÁC QUYỀN PHÁP LÝ CỦA TÔI, RẰNG ĐÓ LÀ MỘT THỎA THUẬN RÀNG BUỘC, VÀ RẰNG TÔI ĐÃ KÝ NÓ MỘT CÁCH CÓ HIỂU BIẾT VÀ TỰ NGUYỆN. TÔI BIẾT RẰNG ĐÂY LÀ MỘT BẢN MIỄN TRỪ TRÁCH NHIỆM VÀ MỘT HỢP ĐỒNG VÀ TÔI KÝ NÓ THEO Ý MUỐN TỰ DO CỦA MÌNH. BẰNG CÁCH KÝ BẢN MIỄN TRỪ NÀY, TÔI CŨNG XÁC NHẬN RẰNG TÔI HIỂU NỘI DUNG CỦA NÓ VÀ RẰNG BẢN MIỄN TRỪ NÀY KHÔNG THỂ ĐƯỢC SỬA ĐỔI BẰNG LỜI NÓI."
     },
     "participantName": "Tên đoàn sinh:",
     "parentGuardianName": "Tên phụ huynh/người giám hộ (viết in hoa):",
@@ -210,5 +210,18 @@
     "clearSignature": "Xóa chữ ký",
     "note": "*** Phụ huynh/Người giám hộ giữ một bản sao của trang này và cùng xem lại nội quy với con cái của mình.",
     "submitButton": "Gửi"
+  },
+  "searchEmail": {
+    "search_data_title": "Tìm Kiếm Dữ Liệu",
+    "search_data_description": "Vui lòng nhập địa chỉ email của bạn để tìm kiếm thông tin liên quan, hoặc nhấn \"Bỏ qua\" nếu bạn không muốn.",
+    "enter_email_placeholder": "Nhập email của bạn",
+    "search_button": "Tìm kiếm",
+    "skip_button": "Bỏ qua",
+    "message_enter_email_or_skip": "Vui lòng nhập email hoặc nhấn Bỏ qua.",
+    "message_invalid_email": "Email không hợp lệ. Vui lòng thử lại.",
+    "message_searching_for_email": "Đang tìm kiếm dữ liệu cho email: {{email}}...",
+    "message_skipped": "Bạn đã bỏ qua bước tìm kiếm. Đang chuyển hướng...",
+    "message_data_found": "Tìm thấy dữ liệu cho email: {{email}}",
+    "message_search_error": "Có lỗi xảy ra khi tìm kiếm dữ liệu."
   }
 }

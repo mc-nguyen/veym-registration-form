@@ -14,9 +14,9 @@ const TNTTRulesAdult = () => {
 
     const [formData, setFormData] = useState(() => {
         const savedData = getFromLocalStorage('tnttRulesFormData') || {
-            memberName: '',
+            memberName: getFromLocalStorage('fullName') || "",
             date: new Date().toLocaleDateString('vi-VN'),
-            nganh: '',
+            nganh: getFromLocalStorage('nganh') || "",
             signature: null,
             agreed: false
         };
@@ -99,8 +99,8 @@ const TNTTRulesAdult = () => {
         e.preventDefault();
         if (validate()) {
             // Proceed to next page or confirm
-            saveToLocalStorage('currentPage', '/confirmation-adult'); // Assuming next page is /confirmation-adult
-            window.location.href = '/confirmation-adult';
+            saveToLocalStorage('currentPage', '/generate-pdf-adult'); // Assuming next page is /confirmation-adult
+            window.location.href = '/generate-pdf-adult';
         } else {
             alert(t('errors.formErrors'));
         }

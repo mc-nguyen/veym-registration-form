@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./RegistrationForm.css"; // Dùng chung CSS với RegistrationForm
 import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
-import { saveRegistrationToFirebase } from "../../context/firebaseFuncs";
+import { saveEmailWithID, saveRegistrationToFirebase } from "../../context/firebaseFuncs";
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 
 const RegistrationFormAdult = () => {
@@ -39,9 +39,7 @@ const RegistrationFormAdult = () => {
     const [isMobile, setIsMobile] = useState(false);
     const canvasRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState(false);
-
-    useEffect(() => {
-    }, [formData]);
+    const [hasSigned, setHasSigned] = useState(false);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -67,6 +65,7 @@ const RegistrationFormAdult = () => {
         const x = clientX - rect.left;
         const y = clientY - rect.top;
         ctx.moveTo(x, y);
+        setHasSigned(false);
     };
 
     const draw = (e) => {
@@ -81,15 +80,21 @@ const RegistrationFormAdult = () => {
 
         ctx.lineTo(x, y);
         ctx.stroke();
+        setHasSigned(true);
     };
 
     const endDrawing = () => {
         setIsDrawing(false);
         const canvas = canvasRef.current;
-        if (canvas) {
+        if (hasSigned) {
             setFormData(prevData => ({
                 ...prevData,
                 signature: canvas.toDataURL()
+            }));
+        } else {
+            setFormData(prevData => ({
+                ...prevData,
+                signature: null
             }));
         }
     };
@@ -102,6 +107,7 @@ const RegistrationFormAdult = () => {
             ...prevData,
             signature: null
         }));
+        setHasSigned(false);
     };
 
 
@@ -130,7 +136,10 @@ const RegistrationFormAdult = () => {
         }
         saveToLocalStorage('registrationFormData', formData);
         saveToLocalStorage('id', await saveRegistrationToFirebase(formData));
+        await saveEmailWithID(formData.email, getFromLocalStorage('id'));
         saveToLocalStorage('currentPage', '/payment-adult');
+        saveToLocalStorage('nganh', formData.nganh);
+        saveToLocalStorage('fullName', [formData.tenGoi, formData.tenDem, formData.ho].join(' ').trim())
         window.location.href = '/payment-adult';
     };
 

@@ -16,8 +16,7 @@ const WaiverReleaseAdult = () => {
 
     const [formData, setFormData] = useState(() => {
         const savedData = getFromLocalStorage('waiverFormData') || {
-            fullName1: "",
-            fullName2: "", // This might be removed for adult form
+            fullName: getFromLocalStorage('fullName') || "",
             initial1: "",
             initial2: "",
             initial3: "",
@@ -28,7 +27,7 @@ const WaiverReleaseAdult = () => {
             initial8: "",
             initial9: "",
             signature: null,
-            printedName: "",
+            printedName: getFromLocalStorage('fullName') || "",
             date: new Date().toLocaleDateString('vi-VN')
         };
         return savedData;
@@ -109,8 +108,7 @@ const WaiverReleaseAdult = () => {
     const validate = () => {
         let newErrors = {};
         if (!formData.fullName1) newErrors.fullName1 = t('errors.required');
-        // If fullName2 is not used for adult, remove this validation
-        // if (!formData.fullName2) newErrors.fullName2 = t('errors.required');
+        if (!formData.fullName2) newErrors.fullName1 = t('errors.required');
         if (!formData.initial1) newErrors.initial1 = t('errors.required');
         if (!formData.initial2) newErrors.initial2 = t('errors.required');
         if (!formData.initial3) newErrors.initial3 = t('errors.required');
@@ -150,172 +148,145 @@ const WaiverReleaseAdult = () => {
                     {t('waiverRelease.initialInstructions')}
                 </p>
 
-                {/* Section 1 */}
-                <div className="waiver-section">
-                    <p>{t('waiverRelease.sections.section1.text')}</p>
-                    <div className={`initial-input-group ${errors.initial1 ? 'error' : ''}`}>
-                        <label>{t('waiverRelease.sections.section1.initials')}</label>
-                        <input
-                            type="text"
-                            name="initial1"
-                            value={formData.initial1}
-                            onChange={handleChange}
-                            maxLength="3"
-                            required
-                        />
-                        {errors.initial1 && <span className="error-message">{errors.initial1}</span>}
-                    </div>
-                </div>
+                <div className="waiver-content">
+                    <p>
+                        {t('waiverRelease.waiver.head1', { fullname: "________" + formData.fullName + "________" })} <br /><br />
 
-                {/* Section 2 */}
-                <div className="waiver-section">
-                    <p>{t('waiverRelease.sections.section2.text')}</p>
-                    <div className={`initial-input-group ${errors.initial2 ? 'error' : ''}`}>
-                        <label>{t('waiverRelease.sections.section2.initials')}</label>
-                        <input
-                            type="text"
-                            name="initial2"
-                            value={formData.initial2}
-                            onChange={handleChange}
-                            maxLength="3"
-                            required
-                        />
-                        {errors.initial2 && <span className="error-message">{errors.initial2}</span>}
-                    </div>
-                </div>
+                        {t('waiverRelease.waiver.head2')}<br /><br />
 
-                {/* Section 3 */}
-                <div className="waiver-section">
-                    <p>{t('waiverRelease.sections.section3.text')}</p>
-                    <div className={`initial-input-group ${errors.initial3 ? 'error' : ''}`}>
-                        <label>{t('waiverRelease.sections.section3.initials')}</label>
-                        <input
-                            type="text"
-                            name="initial3"
-                            value={formData.initial3}
-                            onChange={handleChange}
-                            maxLength="3"
-                            required
-                        />
-                        {errors.initial3 && <span className="error-message">{errors.initial3}</span>}
-                    </div>
-                </div>
+                        {t('waiverRelease.waiver.head3', { fullname: "________" + formData.fullName + "________" })} <br />
+                    </p>
 
-                {/* Section 4 */}
-                <div className="waiver-section">
-                    <p>{t('waiverRelease.sections.section4.text')}</p>
-                    <div className={`initial-input-group ${errors.initial4 ? 'error' : ''}`}>
-                        <label>{t('waiverRelease.sections.section4.initials')}</label>
-                        <input
-                            type="text"
-                            name="initial4"
-                            value={formData.initial4}
-                            onChange={handleChange}
-                            maxLength="3"
-                            required
-                        />
-                        {errors.initial4 && <span className="error-message">{errors.initial4}</span>}
-                    </div>
-                </div>
+                    {/* All numbered points with inputs */}
 
-                {/* Section 5 */}
-                <div className="waiver-section">
-                    <p>{t('waiverRelease.sections.section5.text')}</p>
-                    <div className={`initial-input-group ${errors.initial5 ? 'error' : ''}`}>
-                        <label>{t('waiverRelease.sections.section5.initials')}</label>
-                        <input
-                            type="text"
-                            name="initial5"
-                            value={formData.initial5}
-                            onChange={handleChange}
-                            maxLength="3"
-                            required
-                        />
-                        {errors.initial5 && <span className="error-message">{errors.initial5}</span>}
+                    <div className="waiver-section">
+                        <p>
+                            <strong>1.</strong> {t('waiverRelease.waiver.w1')}<br />
+                            <InitialInput
+                                name="initial1"
+                                value={formData.initial1}
+                                onChange={handleChange}
+                            /> (please initial for concurrence)
+                        </p>
                     </div>
-                </div>
 
-                {/* Additional initials for WaiverReleaseAdult.js (if applicable) */}
-                <div className="waiver-section">
-                    <div className={`initial-input-group ${errors.initial6 ? 'error' : ''}`}>
-                        <label>{t('waiverRelease.sections.section1.initials')}</label> {/* Reusing initial label if no specific content */}
-                        <input
-                            type="text"
-                            name="initial6"
-                            value={formData.initial6}
-                            onChange={handleChange}
-                            maxLength="3"
-                            required
-                        />
-                        {errors.initial6 && <span className="error-message">{errors.initial6}</span>}
+                    <div className="waiver-section">
+                        <p>
+                            <strong>2.</strong> {t('waiverRelease.waiver.w2')}<br />
+                            <InitialInput
+                                name="initial2"
+                                value={formData.initial2}
+                                onChange={handleChange}
+                            /> (please initial for concurrence)
+                        </p>
                     </div>
-                </div>
-                <div className="waiver-section">
-                    <div className={`initial-input-group ${errors.initial7 ? 'error' : ''}`}>
-                        <label>{t('waiverRelease.sections.section1.initials')}</label>
-                        <input
-                            type="text"
-                            name="initial7"
-                            value={formData.initial7}
-                            onChange={handleChange}
-                            maxLength="3"
-                            required
-                        />
-                        {errors.initial7 && <span className="error-message">{errors.initial7}</span>}
-                    </div>
-                </div>
-                <div className="waiver-section">
-                    <div className={`initial-input-group ${errors.initial8 ? 'error' : ''}`}>
-                        <label>{t('waiverRelease.sections.section1.initials')}</label>
-                        <input
-                            type="text"
-                            name="initial8"
-                            value={formData.initial8}
-                            onChange={handleChange}
-                            maxLength="3"
-                            required
-                        />
-                        {errors.initial8 && <span className="error-message">{errors.initial8}</span>}
-                    </div>
-                </div>
-                <div className="waiver-section">
-                    <div className={`initial-input-group ${errors.initial9 ? 'error' : ''}`}>
-                        <label>{t('waiverRelease.sections.section1.initials')}</label>
-                        <input
-                            type="text"
-                            name="initial9"
-                            value={formData.initial9}
-                            onChange={handleChange}
-                            maxLength="3"
-                            required
-                        />
-                        {errors.initial9 && <span className="error-message">{errors.initial9}</span>}
-                    </div>
-                </div>
 
+                    {t('waiverRelease.waiver.head4')}<br />
 
-                <div className="form-group">
-                    <label>{t('waiverRelease.participantName')}</label>
-                    <input
-                        type="text"
-                        name="fullName1"
-                        value={formData.fullName1}
-                        onChange={handleChange}
-                        required
-                    />
+                    <div className="waiver-section">
+                        <p>
+                            <strong>3.</strong> {t('waiverRelease.waiver.w3')}<br />
+                            <InitialInput
+                                name="initial3"
+                                value={formData.initial3}
+                                onChange={handleChange}
+                            /> (please initial for concurrence)
+                        </p>
+                    </div>
+
+                    <div className="waiver-section">
+                        <p>
+                            <strong>4.</strong> {t('waiverRelease.waiver.w4')}<br />
+                            <InitialInput
+                                name="initial4"
+                                value={formData.initial4}
+                                onChange={handleChange}
+                            /> (please initial for concurrence)
+                        </p>
+                    </div>
+
+                    <div className="waiver-section">
+                        <p>
+                            <strong>5.</strong> {t('waiverRelease.waiver.w5')}<br />
+                            <InitialInput
+                                name="initial5"
+                                value={formData.initial5}
+                                onChange={handleChange}
+                            /> (please initial for concurrence)
+                        </p>
+                    </div>
+
+                    <div className="waiver-section">
+                        <p>
+                            <strong>6.</strong> {t('waiverRelease.waiver.w6')}<br />
+                            <InitialInput
+                                name="initial6"
+                                value={formData.initial6}
+                                onChange={handleChange}
+                            /> (please initial for concurrence)
+                        </p>
+                    </div>
+
+                    <div className="waiver-section">
+                        <p>
+                            <strong>7.</strong> {t('waiverRelease.waiver.w7')}<br />
+                            <InitialInput
+                                name="initial7"
+                                value={formData.initial7}
+                                onChange={handleChange}
+                            /> (please initial for concurrence)
+                        </p>
+                    </div>
+
+                    <div className="waiver-section">
+                        <p>
+                            <strong>8.</strong> {t('waiverRelease.waiver.w8')}<br />
+                            <InitialInput
+                                name="initial8"
+                                value={formData.initial8}
+                                onChange={handleChange}
+                            /> (please initial for concurrence)
+                        </p>
+                    </div>
+
+                    {/* Points 3-8 follow same pattern */}
+                    {/* ... */}
+
+                    <div className="waiver-section">
+                        <p>
+                            ● {t('waiverRelease.waiver.w9')}
+                            <InitialInput
+                                name="initial9"
+                                value={formData.initial9}
+                                onChange={handleChange}
+                            /> (please initial for concurrence)
+                        </p>
+                    </div>
+
+                    <div className="waiver-section">
+                        <p>
+                            ● {t('waiverRelease.waiver.w10')}<br />
+                        </p>
+                    </div>
+
+                    <div className="waiver-section">
+                        <p>
+                            ● {t('waiverRelease.waiver.w11')}<br />
+                        </p>
+                    </div>
+
+                    <div className="waiver-section">
+                        <p>
+                            ● {t('waiverRelease.waiver.w12')}<br />
+                        </p>
+                    </div>
+
+                    <div className="signature-section">
+                        <p>
+                            {t('waiverRelease.waiver.foot')}<br />
+                        </p>
+                    </div>
                 </div>
-
-                {/* Removed fullName2 as it's typically for parent/guardian in adult form */}
-                {/* <div className="form-group">
-                    <label>{t('waiverRelease.parentGuardianName')}</label>
-                    <input
-                        type="text"
-                        name="fullName2"
-                        value={formData.fullName2}
-                        onChange={handleChange}
-                        required
-                    />
-                </div> */}
 
                 <div className={`form-group signature-group ${errors.signature ? 'error' : ''}`}>
                     <label>{t('waiverRelease.signature')}</label>
@@ -373,5 +344,29 @@ const WaiverReleaseAdult = () => {
         </div>
     );
 };
+
+const InlineInput = ({ name, value, onChange, width }) => (
+    <input
+        type="text"
+        className="inline-input"
+        name={name}
+        value={value}
+        onChange={onChange}
+        style={{ width }}
+        required
+    />
+);
+
+const InitialInput = ({ name, value, onChange }) => (
+    <input
+        type="text"
+        className="initial-input"
+        name={name}
+        value={value}
+        onChange={onChange}
+        maxLength="3"
+        required
+    />
+);
 
 export default WaiverReleaseAdult;

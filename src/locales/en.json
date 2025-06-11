@@ -96,7 +96,8 @@
     "consentText": "I allow my child to participate in the activities of Đoàn TNTT-Mẹ Thiên Chúa, Riverside. I will take full responsibility for any unfortunate incidents that may occur to my child during the group's activities.",
     "signatureLabel": "Confirming signature:",
     "clearSignature": "Clear Signature",
-    "nextButton": "Next"
+    "nextButton": "Next",
+    "signatureRequest": "Please sign!"
   },
   "registrationFormAdult": {
     "title": "ADULT REGISTRATION FORM",
@@ -154,27 +155,25 @@
     "title": "WAIVER & RELEASE FORM",
     "releaseStatement": "This waiver and release of liability is made and entered into by and between the participant(s)/parent(s)/guardian(s) and Đoàn TNTT Mẹ Thiên Chúa.",
     "initialInstructions": "Please initial each box to confirm you have read and understood each section.",
-    "sections": {
-      "section1": {
-        "text": "I/We, the undersigned parent(s)/guardian(s) of the minor participant(s) listed above (hereinafter referred to as “participant”), voluntarily agree to allow the participant to participate in activities with Đoàn TNTT Mẹ Thiên Chúa, and I/we understand that there are risks associated with participation in these activities, including but not limited to personal injury, illness, property damage, or death. I/We accept full responsibility for all risks associated with the participant’s involvement.",
-        "initials": "Initials"
-      },
-      "section2": {
-        "text": "I/We agree not to sue Đoàn TNTT Mẹ Thiên Chúa, Our Lady of Perpetual Help Church, and their officers, agents, and volunteers for any and all claims, liabilities, damages, costs, or causes of action arising from or related to the participant’s involvement in any activities of Đoàn TNTT Mẹ Thiên Chúa.",
-        "initials": "Initials"
-      },
-      "section3": {
-        "text": "I/We agree to indemnify and hold harmless Đoàn TNTT Mẹ Thiên Chúa, Our Lady of Perpetual Help Church, and their officers, agents, and volunteers from any and all claims, liabilities, damages, costs, or causes of action arising from or related to the participant’s involvement in any activities of Đoàn TNTT Mẹ Thiên Chúa.",
-        "initials": "Initials"
-      },
-      "section4": {
-        "text": "I/We authorize the participant to receive emergency medical treatment by a licensed medical professional, including the administration of medication or performance of medical procedures if deemed necessary. I/We understand that I/we will be responsible for any medical expenses incurred.",
-        "initials": "Initials"
-      },
-      "section5": {
-        "text": "I/We acknowledge that I/we have read and understand all the terms of this waiver and release of liability, and I/we voluntarily affix my/our signature hereto.",
-        "initials": "Initials"
-      }
+    "fullnameRequest": "Please type your full name below to fill in the blank under!",
+    "waiver": {
+      "head1": "I, {{fullname}}, an adult [age of majority, per State (e.g., 18 years old in California)] and I am the named participant, or I am the parent/guardian of the minor who will be participating in the above-mentioned event (“The Event”) organized and/or sponsored by the Vietnamese Eucharistic Youth Movement in the U.S.A. (“VEYM”). I am fully aware that my or my child’s participation in The Event is totally voluntary. Meanwhile, I or my child shall comply with all applicable Codes of Conduct, and generally conduct myself/himself/herself/themselves at all times in keeping with the highest moral and ethical standards, and abide by all applicable rules of law, so as to reflect positively on myself/himself/herself/themselves, the Event, and Catholic teachings. If I or my child violate these obligations which result in bodily injury or property damage during the Event, I or my child who violated these obligations will solely pay to restore or replace any property damaged as a result of the violation, pay any damages caused to bodily injury to an individual, and defend, protect and hold VEYM, its executive members, youth leaders, and volunteers, the local diocese, priests or other religious or clergy members,  harmless, from such bodily injury or property damage claims.",
+      "head2": "I am aware that The Event may involve the following activities but not limited to: running, jumping, sharing personal stories, singing, clapping, shouting, sitting for prolonged periods of time, early wake-up, sleeping in cabins, sleeping in tents, use of low-light restrooms, outdoor activities in dirt, uneven, dusty and rocky terrain, sleeping outdoors, activities relating to outdoor environment, aquatic activities, and supervised online group activities utilizing tools that include, but are not limited to Google Meets, Microsoft Teams, and Zoom, pursuant to Children's Online Privacy Protection Act of 1998, (15 U.S.C. 6501, et seq.,). All activities will be monitored by at least 2 adults. In consideration of the agreement, by the youth leaders and/or executive committee of the local chapter, to permit me or my child to participate in The Event, the receipt and sufficiency in which consideration is hereby acknowledged, I agree as follows:",
+      "head3": "I, {{fullname}}, hereby:",
+      "w1": "Release, acquit and forever discharge VEYM and their employees, volunteers, agents, servants, officers, trustees, representatives, affiliates, and sponsors, in their official and individual capacities, as well as my Parish and my Diocese, their employees and agents, representatives, sponsors, chaperones, or volunteers, from any and all liability whatsoever for any and all damages, injuries (including death) to persons, loss to property, or both, which arise during, out of, or in connection with my participation in The Event, which may be sustained or suffered by me, my child or any person in connection with any activities of The Event, including, but not limited to, those related activities directly or indirectly leading up to and stemming from The Event, even those activities which arise out of my travel to and from The Event;",
+      "w2": "Agree to indemnify (compensate for harm or loss), defend and hold harmless VEYM and their employees, volunteers, agents, servants, officers, trustees, representatives, affiliates, and sponsors, in their official and individual capacities, as well as my Parish and my Diocese, their employees and agents, representatives, sponsors, chaperones, or volunteers, against all claims, including, but not limited to, claims of negligence, unintentional acts, and acts of omission, and from any and all liability, loss or damage they sustain as a result of any claims, demands, actions, causes of action, judgments, costs or expenses they incur, including attorney’s fees, which result from or arise out of my or my child’s participation in The Event, including but not limited to, my travel to and from The Event.",
+      "head4": "I hereby acknowledge and accept that:",
+      "w3": "There are certain inherent dangers and foreseeable and unforeseeable risks of harm to myself, my child and others arising from The Event’s various activities, including but not limited to, sustaining bodily or emotional injury, that could result from my participation in The Event. Injuries might arise from my actions or inactions, the actions or inactions of another participant in activities, or the actual or alleged failure by any youth leaders, agents or volunteers to adequately coach, train, instruct, or supervise activities. I have knowingly and voluntarily decided to assume the risks of these inherent dangers in consideration of the permission, by the youth leaders and/or executive committee of the local chapter, to allow me or my child to participate in The Event;",
+      "w4": "Whether or not there is an endemic, epidemic, or pandemic, communicable diseases (such as, for examples, the common flu or the coronavirus) may be carried by any persons on campus. The carriers may be unknown or not be identified by VEYM, its directors and officers, executive committee members, youth leaders, and volunteers. When in-person meetings on campus are permitted by my diocese under guidelines of governmental and local health agencies, there is an inherent risk that my child’s or my participation may put me at risk of exposure, and I assume all foreseeable and unforeseeable risks of harm I or my child may be exposed to therefrom;",
+      "w5": "Weather conditions, including Acts of God, or natural causes (which humans do not intervene to cause), may alter or affect plans, expenses, and activities relating to, and including, The Event, and I understand that inherent dangers and risks of harm to myself, my child and others as a result of such natural causes may vary, and I assume all foreseeable and unforeseeable risks of harm I or my child may be exposed to therefrom;",
+      "w6": "My or my child’s personal property may be at my risk of theft, damage, or loss entirely;",
+      "w7": "VEYM reserves the right to decline, to accept, or retain me or my child in The Event at any time should my actions or general behavior impede the operation of The Event or the rights or welfare of any other person. <b><i>I understand that I or my child may be required to leave The Event in the sole discretion the organizers, agents, and representatives.</b></i> If I am or my child is required to leave, no refund will be given to me or my child for any unused portion of The Event, and the local chapter will not reimburse me for any alleged direct or indirect costs or expenses I or my child incurred as a result of my or my child’s participation in The Event.",
+      "w8": "I understand that VEYM, in its sole discretion, reserves the right to cancel The Event or any aspect thereof prior to commencement. In the event of cancellation of The Event in whole or in part, I accept that I or my child may not be reimbursed or refunded for any unused portion of The Event.",
+      "w9": "I represent and warrant that I am or my child is covered throughout The Event by a policy of comprehensive health and accident insurance which provides coverage for injuries which I or my child may sustain as part of my or my child’s participation in The Event. Even if I am or my child is not covered by any health insurance during The Event, however, I agree to complete the HEALTH INFORMATION section to the best of my ability and, by its completion, I hereby release and discharge VEYM of all responsibility and liability for any injuries, illnesses, medical bills, charges or similar expenses I may incur while participating in The Event. By completing the form, I hereby authorize VEYM to obtain any necessary medical treatment to myself or my child, consent to any necessary examination, treatment, or care under the supervision and/or advice of any properly licensed medical professional, and I explicitly authorize VEYM to release medical information about me or my child to any person or entity to whom VEYM refers me for medical treatment.",
+      "w10": "I agree that this agreement is to be construed pursuant to the laws of the State of <b>California</b> and is intended to be as broad and inclusive as permitted by law, and if any portion hereof is held invalid, it is agreed that the balance hereof shall continue in full legal force and effect. In addition, I agree that any legal action arising out of or in relation to this agreement must be brought in <b>Riverside County, California</b> State court.",
+      "w11": "To the extent that statute or case law does not prohibit releases for negligence, this release is also for negligence.",
+      "w12": "I hereby grant VEYM my consent without reservation to use, assign, convey, reproduce, copyright, publish or sell my name, voice, image, and/or likeness that arise from my participation in The Event, whether still or motion pictures, audio or video tape, for promotional, instructional, business or any other lawful purposes, at VEYM’s sole discretion, should any such name, voice, image, and/or likeness be shared with VEYM by the local chapter.",
+      "foot": "IN SIGNING THIS AGREEMENT, I HEREBY ACKNOWLEDGE AND REPRESENT THAT I HAVE READ THIS ENTIRE DOCUMENT, THAT I UNDERSTAND ITS TERMS AND PROVISIONS, THAT I UNDERSTAND IT AFFECTS MY LEGAL RIGHTS, THAT IT IS A BINDING AGREEMENT, AND THAT I HAVE SIGNED IT KNOWINGLY AND VOLUNTARILY. I AM AWARE THAT THIS IS A RELEASE OF LIABILITY AND A CONTRACT AND I SIGN IT OF MY OWN FREE WILL. BY SIGNING THIS RELEASE, I ALSO ACKNOWLEDGE THAT I UNDERSTAND ITS CONTENT AND THAT THIS RELEASE CANNOT BE MODIFIED ORALLY."
     },
     "participantName": "Participant's Name:",
     "parentGuardianName": "Parent/Guardian Name (please print):",
@@ -210,5 +209,18 @@
     "clearSignature": "Clear Signature",
     "note": "*** Parent/Guardian keeps a copy of this page and goes over the rules with his/her children.",
     "submitButton": "Submit"
+  },
+  "searchEmail": {
+    "search_data_title": "Search Data",
+    "search_data_description": "Please enter your email address to search for relevant information, or click \"Skip\" if you prefer not to.",
+    "enter_email_placeholder": "Enter your email",
+    "search_button": "Search",
+    "skip_button": "Skip",
+    "message_enter_email_or_skip": "Please enter an email or click Skip.",
+    "message_invalid_email": "Invalid email. Please try again.",
+    "message_searching_for_email": "Searching for data for email: {{email}}...",
+    "message_skipped": "You have skipped the search step. Redirecting...",
+    "message_data_found": "Data found for email: {{email}}",
+    "message_search_error": "An error occurred while searching for data."
   }
 }

@@ -14,9 +14,9 @@ const TNTTRules = () => {
 
     const [formData, setFormData] = useState(() => {
         const savedData = getFromLocalStorage('tnttRulesFormData') || {
-            memberName: '',
+            memberName: getFromLocalStorage('fullName') || "",
             date: new Date().toLocaleDateString('vi-VN'),
-            nganh: '',
+            nganh: getFromLocalStorage('nganh') || "",
             signature: null,
             agreed: false
         };
@@ -30,6 +30,8 @@ const TNTTRules = () => {
     useEffect(() => {
         saveToLocalStorage('tnttRulesFormData', formData);
         saveTNTTRulesToFirebase(getFromLocalStorage('id'), formData);
+        console.log(formData);
+        
     }, [formData]);
 
     // Signature handling
@@ -99,8 +101,8 @@ const TNTTRules = () => {
         e.preventDefault();
         if (validate()) {
             // Proceed to next page or confirm
-            saveToLocalStorage('currentPage', '/confirmation'); // Assuming next page is /confirmation
-            window.location.href = '/confirmation';
+            saveToLocalStorage('currentPage', '/generate-pdf'); // Assuming next page is /confirmation
+            window.location.href = '/generate-pdf';
         } else {
             alert(t('errors.formErrors'));
         }

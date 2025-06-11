@@ -43,6 +43,7 @@ const RegistrationForm = () => {
     const parentCanvasRef = useRef(null);
     const [isParentDrawing, setIsParentDrawing] = useState(false);
     const [parentSignatureData, setParentSignatureData] = useState(null);
+    const [hasParentDrawn, setHasParentDrawn] = useState(false);
 
     // Hàm để tính toán KEY ngành dựa trên năm sinh
     const calculateNganhKey = (birthDateString) => {
@@ -102,6 +103,7 @@ const RegistrationForm = () => {
         ctx.beginPath();
         ctx.moveTo(clientX - rect.left, clientY - rect.top);
         setIsParentDrawing(true);
+        setHasParentDrawn(false);
     };
 
     const drawParent = (e) => {
@@ -118,12 +120,20 @@ const RegistrationForm = () => {
         ctx.strokeStyle = '#000';
         ctx.lineTo(clientX - rect.left, clientY - rect.top);
         ctx.stroke();
+        setHasParentDrawn(true);
     };
 
     const endParentDrawing = () => {
         setIsParentDrawing(false);
-        const canvas = parentCanvasRef.current;
-        setParentSignatureData(canvas.toDataURL());
+        // CHỈ LƯU CHỮ KÝ NẾU ĐÃ CÓ NÉT VẼ
+        if (hasParentDrawn) {
+            const canvas = parentCanvasRef.current;
+            setParentSignatureData(canvas.toDataURL());
+        } else {
+            // Nếu không có nét vẽ, đảm bảo dữ liệu chữ ký là null
+            setParentSignatureData(null);
+        }
+        // ĐẶT LẠI TRẠNG THÁI hasParentDrawn sau khi kết thúc vẽ
     };
 
     const clearParentCanvas = () => {
@@ -131,18 +141,28 @@ const RegistrationForm = () => {
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         setParentSignatureData(null);
+        setHasParentDrawn(false);
     };
     // --- Kết thúc Logic vẽ chữ ký ---
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!hasParentDrawn) {
+            alert(t('registrationForm.signatureRequest'));
+            return;
+        }
+
         const finalFormData = {
             ...formData,
             parentSignature: parentSignatureData,
-            nganh: nganhHienThiKey // Đảm bảo KEY ngành được lưu
+            dateSigned: new Date().toLocaleDateString(),
+            nganh: t(`registrationForm.branch.${nganhHienThiKey}`) // Đảm bảo KEY ngành được lưu
         };
-        await saveRegistrationToFirebase(getFromLocalStorage('id'), finalFormData);
+        saveToLocalStorage('id', await saveRegistrationToFirebase(finalFormData));
         saveToLocalStorage('currentPage', '/payment');
+        saveToLocalStorage('nganh', t(`registrationForm.branch.${formData.nganh}`).split(' ').slice(0, 2).join(' '));
+        saveToLocalStorage('fullName', [formData.tenGoi, formData.tenDem, formData.ho].join(' ').trim())
         window.location.href = '/payment';
     };
 

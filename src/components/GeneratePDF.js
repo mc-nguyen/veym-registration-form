@@ -108,8 +108,8 @@ const GeneratePDF = () => {
           </p>
           
           <div class="signature-box">
-            <p>Đoàn Sinh Ký Tên: <img src="${registrationData.studentSignature}" style="width: 150px; height: 50px;"/></p>
-            <p>Ngày: ${registrationData.studentSignedDate}</p>
+            <p>Đoàn Sinh Ký Tên: <img src="${tnttRulesData.signature}" style="width: 150px; height: 50px;"/></p>
+            <p>Ngày: ${tnttRulesData.date}</p>
           </div>
         </div>
 
@@ -124,8 +124,8 @@ const GeneratePDF = () => {
           </p>
           
           <div class="signature-box">
-            <p>Phụ Huynh Ký Tên: Signature: <img src="${registrationData.parentSignature.signedImage}" style="width: 150px; height: 50px;"/></p>
-            <p>Ngày: ${registrationData.parentSignature.signedDate}</p>
+            <p>Phụ Huynh Ký Tên: Signature: <img src="${registrationData.parentSignature}" style="width: 150px; height: 50px;"/></p>
+            <p>Ngày: ${registrationData.dateSigned}</p>
           </div>
           <p class="note">(Parent's signature needed if member is under 18 years old)</p>
         </div>

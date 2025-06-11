@@ -18,6 +18,7 @@ import GeneratePDFAdult from "./components/GeneratePDFAdult";
 import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
 import LanguageSwitcher from "./components/LanguageSwitcher";
+import EmailSearch from "./components/email-search/EmailSearch";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/email-search" element={<EmailSearch />} />
           <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/guide" element={<GuidePage />} />
           <Route path="/payment" element={<Payment />} />

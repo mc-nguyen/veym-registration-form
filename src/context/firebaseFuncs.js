@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, addDoc, collection, getDoc, doc, updateDoc } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, setDoc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -55,7 +55,7 @@ export const checkConfirmationCode = async (docId, codeToCheck) => {
 
       if (storedCode && storedCode === codeToCheck) {
         console.log("Mã xác nhận trùng khớp!");
-        await updateDoc(docRef, {status: 'paid'});
+        await updateDoc(docRef, { status: 'paid' });
         return true;
       } else {
         console.log("Mã xác nhận không trùng khớp hoặc không tồn tại trong tài liệu.");
@@ -74,7 +74,7 @@ export const checkConfirmationCode = async (docId, codeToCheck) => {
 export const savePaymentToFirebase = async (id, data) => {
   try {
     const docRef = doc(db, 'registrations', id);
-    await updateDoc(docRef, {payment: data});
+    await updateDoc(docRef, { payment: data });
   } catch (error) {
     console.error("Error adding document: ", error);
     throw error;
@@ -84,7 +84,7 @@ export const savePaymentToFirebase = async (id, data) => {
 export const saveHealthInfoToFirebase = async (id, data) => {
   try {
     const docRef = doc(db, 'registrations', id);
-    await updateDoc(docRef, {healthInfo: data});
+    await updateDoc(docRef, { healthInfo: data });
   } catch (error) {
     console.error("Error adding document: ", error);
     throw error;
@@ -94,7 +94,7 @@ export const saveHealthInfoToFirebase = async (id, data) => {
 export const saveWaiverReleaseToFirebase = async (id, data) => {
   try {
     const docRef = doc(db, 'registrations', id);
-    await updateDoc(docRef, {waiverRelease: data});
+    await updateDoc(docRef, { waiverRelease: data });
   } catch (error) {
     console.error("Error adding document: ", error);
     throw error;
@@ -132,6 +132,54 @@ export const getDataById = async (docId) => {
     throw error; // Ném lỗi để component gọi có thể bắt và xử lý
   }
 };
+
+export const getDataByEmail = async (email) => {
+  try {
+    const docRef = doc(db, 'emails', email); // 'registrations' là tên collection của bạn
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      console.log("Dữ liệu đã tìm thấy:", data);
+      return data; // Trả về dữ liệu ở định dạng JSON
+    } else {
+      console.log("Không tìm thấy tài liệu với ID:", email);
+      return null; // Trả về null nếu không tìm thấy
+    }
+  } catch (error) {
+    console.error("Lỗi khi lấy dữ liệu:", error);
+    throw error; // Ném lỗi để component gọi có thể bắt và xử lý
+  }
+};
+
+export const saveEmailWithID = async (email, id) => {
+  try {
+    // Sử dụng doc() để tạo tham chiếu tài liệu với email làm ID
+    // Sau đó dùng setDoc() để ghi dữ liệu vào tài liệu đó
+    const existed = await getDoc(doc(db, 'emails', email));
+    if (!existed.exists()) {// ko tồn tại
+      console.log("Ko tìm thấy " + email);
+      
+      await setDoc(doc(db, 'emails', email), {
+        length: 1,
+        0: id
+      });
+    }
+    else {
+      console.log("tìm thấy " + email);
+      await updateDoc(doc(db, 'emails', email), {
+        [existed.data().length]: id,
+        length: existed.data().length+1
+      });
+    }
+
+    console.log("Tài liệu đã được lưu thành công với ID (email):", email);
+    return email; // Trả về ID tài liệu (chính là email)
+  } catch (error) {
+    console.error("Lỗi khi lưu tài liệu:", error);
+    throw error; // Ném lỗi để xử lý ở nơi gọi
+  }
+}
 
 const auth = getAuth(app); // Khởi tạo Auth
 
