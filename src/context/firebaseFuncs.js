@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, setDoc } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, setDoc, getDocs } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -172,14 +172,37 @@ export const saveEmailWithID = async (email, id) => {
         length: existed.data().length+1
       });
     }
-
-    console.log("Tài liệu đã được lưu thành công với ID (email):", email);
     return email; // Trả về ID tài liệu (chính là email)
   } catch (error) {
     console.error("Lỗi khi lưu tài liệu:", error);
     throw error; // Ném lỗi để xử lý ở nơi gọi
   }
 }
+
+export const getAllConfirmations = async () => {
+  try {
+    // 1. Tạo một tham chiếu đến collection 'registrations'
+    const registrationsRef = collection(db, 'registrations');
+
+    // 2. Lấy tất cả các tài liệu từ collection
+    const querySnapshot = await getDocs(registrationsRef);
+
+    // 3. Xử lý dữ liệu
+    const allData = [];
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+      allData.push({
+        id: doc.id,
+        confirmation: doc.data().confirmationCode,
+      });
+    });
+    return allData; // Trả về một mảng chứa tất cả dữ liệu
+  } catch (error) {
+    console.error("Lỗi khi lấy tất cả dữ liệu:", error);
+    throw error; // Ném lỗi để component gọi có thể bắt và xử lý
+  }
+};
 
 const auth = getAuth(app); // Khởi tạo Auth
 

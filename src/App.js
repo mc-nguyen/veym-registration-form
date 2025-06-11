@@ -19,6 +19,7 @@ import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import EmailSearch from "./components/email-search/EmailSearch";
+import ConfirmationTable from "./admin/ConfirmationTable";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
 
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/confirmation-table" element={<ConfirmationTable />} />
         </Routes>
       </Router>
     </div>
