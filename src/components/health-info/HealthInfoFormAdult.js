@@ -299,6 +299,7 @@ const HealthInfoFormAdult = () => {
                                 name="insuranceGroup"
                                 value={formData.insuranceGroup}
                                 onChange={handleChange}
+                                required
                             />
                         </div>
                     </div>
@@ -324,6 +325,7 @@ const HealthInfoFormAdult = () => {
                             name="allergies"
                             value={formData.allergies}
                             onChange={handleChange}
+                            required
                         ></textarea>
                     </div>
 
@@ -333,6 +335,7 @@ const HealthInfoFormAdult = () => {
                             name="medicalConcerns"
                             value={formData.medicalConcerns}
                             onChange={handleChange}
+                            required
                         ></textarea>
                     </div>
 
@@ -342,6 +345,7 @@ const HealthInfoFormAdult = () => {
                             name="physicalRestrictions"
                             value={formData.physicalRestrictions}
                             onChange={handleChange}
+                            required
                         ></textarea>
                     </div>
                 </div>

@@ -233,7 +233,7 @@ const WaiverRelease = () => {
 
                     <div className="waiver-section">
                         <p>
-                            <strong>7.</strong> <a dangerouslySetInnerHTML={{ __html: t('waiverRelease.waiver.w7') }}></a><br />
+                            <div dangerouslySetInnerHTML={{ __html: t('waiverRelease.waiver.w7') }}></div><br />
                             <InitialInput
                                 name="initial7"
                                 value={formData.initial7}

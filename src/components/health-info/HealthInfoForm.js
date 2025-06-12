@@ -73,7 +73,7 @@ const HealthInfoForm = () => {
         if (!formData.emergencyContact) newErrors.emergencyContact = t('errors.required');
         if (!formData.emergencyPhone) newErrors.emergencyPhone = t('errors.required');
         if (!formData.emergencyRelationship) newErrors.emergencyRelationship = t('errors.required');
-        
+
         return Object.keys(newErrors).length === 0;
     };
 
@@ -311,6 +311,7 @@ const HealthInfoForm = () => {
                                 name="insuranceGroup"
                                 value={formData.insuranceGroup}
                                 onChange={handleChange}
+                                required
                             />
                         </div>
                     </div>
@@ -336,6 +337,7 @@ const HealthInfoForm = () => {
                             name="allergies"
                             value={formData.allergies}
                             onChange={handleChange}
+                            required
                         ></textarea>
                     </div>
 
@@ -345,6 +347,7 @@ const HealthInfoForm = () => {
                             name="medicalConcerns"
                             value={formData.medicalConcerns}
                             onChange={handleChange}
+                            required
                         ></textarea>
                     </div>
 
@@ -354,6 +357,7 @@ const HealthInfoForm = () => {
                             name="physicalRestrictions"
                             value={formData.physicalRestrictions}
                             onChange={handleChange}
+                            required
                         ></textarea>
                     </div>
                 </div>
