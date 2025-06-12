@@ -13,7 +13,7 @@ const PaymentAdult = () => {
     {
       id: 1,
       name: t('paymentPage.feeItems.annualFee'), // Dịch tên khoản phí
-      amount: 40,
+      amount: 50,
       required: true // Bắt buộc
     },
     {
