@@ -102,7 +102,12 @@
       "day": "day",
       "month": "month",
       "year": "year"
-    }
+    },
+    "signatureRequestParent": "Please provide parent/guardian signature.",
+    "signatureRequestStudent": "Please provide student's signature.",
+    "studentSignatureTitle": "Student's Signature",
+    "studentSignatureConsentText": "I would like to register to join the Vietnamese Eucharistic Youth Movement (VEYM) at Mẹ Thiên Chúa Chapter, Riverside. I promise to obey and follow the guidance of the Chapter Chaplain, Chapter President, assistants, parents, as well as the responsible leaders in the chapter and in the branch where I participate in weekly activities. I will strive to live by the four slogans of the Youth: Prayer, Holy Communion, Sacrifice, and Apostolic Works, as well as practice the tenets of the VEYM. I will fulfill my duties as a member of the VEYM chapter and duly observe the regulations of the VEYM chapter.",
+    "studentSignatureLabel": "Student's Signature"
   },
   "registrationFormAdult": {
     "title": "ADULT REGISTRATION FORM",
@@ -213,7 +218,8 @@
     "signature": "Signature:",
     "clearSignature": "Clear Signature",
     "note": "*** Parent/Guardian keeps a copy of this page and goes over the rules with his/her children.",
-    "submitButton": "Submit"
+    "submitButton": "Submit",
+    "nganh": "Branch:"
   },
   "searchEmail": {
     "search_data_title": "Search Data",
@@ -238,19 +244,20 @@
     "continue": "Continue"
   },
   "surveyPage": {
-      "surveyTitle": "VEYM-MTC Support Survey",
-      "surveyIntro": "Dear parents, thank you for taking the time to participate in this survey. Your information will help the Youth Group operate more effectively!",
-      "parentInfo": "Parent Information ",
-      "parentNameLabel": "Parent's Name:",
-      "canHelpFoodService": "Serve food (e.g., distribute food, clean up)",
-      "canHelpFoodPurchase": "Purchase food (e.g., grocery shopping, ordering)",
-      "helpOptionsIntro": "Parents can assist the Youth Group in the following ways:",
-      "otherNotesLabel": "If you can help in other ways or have additional notes, please write here:",
-      "addParentButton": "Add Another Parent (Max 3)",
-      "removeParentButton": "Remove Parent ",
-      "submitButton": "Submit Survey",
-      "maxParentsAlert": "You can only add a maximum of 3 parents.",
-      "thankYouAlert": "Thank you for completing the survey!",
-      "cancel": "\"Sorry guys, I cannot help!\""
-    }
+    "surveyTitle": "VEYM-MTC Support Survey",
+    "surveyIntro": "Dear parents, thank you for taking the time to participate in this survey. Your information will help the Youth Group operate more effectively!",
+    "parentInfo": "Parent Information ",
+    "parentNameLabel": "Parent's Name:",
+    "canHelpFoodService": "Serve food (e.g., distribute food, clean up)",
+    "canHelpFoodPurchase": "Purchase food (e.g., grocery shopping, ordering)",
+    "helpOptionsIntro": "Parents can assist the Youth Group in the following ways:",
+    "otherNotesLabel": "If you can help in other ways or have additional notes, please write here:",
+    "addParentButton": "Add Another Parent (Max 3)",
+    "removeParentButton": "Remove Parent ",
+    "submitButton": "Submit Survey",
+    "maxParentsAlert": "You can only add a maximum of 3 parents.",
+    "thankYouAlert": "Thank you for completing the survey!",
+    "cancel": "\"Sorry guys, I cannot help!\""
+  },
+  "clearSignature": "Clear Signature"
 }

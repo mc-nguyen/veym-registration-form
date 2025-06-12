@@ -1,12 +1,13 @@
 // RegistrationForm.js
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./RegistrationForm.css";
 import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { saveRegistrationToFirebase } from "../../context/firebaseFuncs";
-import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
+import { useLanguage } from '../../LanguageContext';
+import SignatureCanvas from '../signature/SignatureCanvas'; // Import the new component
 
 const RegistrationForm = () => {
-    const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
+    const { translate: t } = useLanguage();
 
     const [formData, setFormData] = useState(() => {
         const savedData = getFromLocalStorage('registrationFormData') || {
@@ -22,27 +23,29 @@ const RegistrationForm = () => {
             phoneWork: "",
             phoneEmergency: "",
             email: "",
-            day: "", // New
-            month: "", // New
-            year: "", // New
+            day: "",
+            month: "",
+            year: "",
             nganh: ""
         };
         return savedData;
     });
 
-    const [nganhHienThiKey, setNganhHienThiKey] = useState(""); // State để lưu KEY của ngành hiển thị
+    const [nganhHienThiKey, setNganhHienThiKey] = useState("");
     const [isMobile, setIsMobile] = useState(false);
-    const parentCanvasRef = useRef(null);
-    const [isParentDrawing, setIsParentDrawing] = useState(false);
+
+    // Parent Signature States
     const [parentSignatureData, setParentSignatureData] = useState(null);
     const [hasParentDrawn, setHasParentDrawn] = useState(false);
 
-    // Hàm để tính toán KEY ngành dựa trên năm sinh
+    // Student Signature States (NEW)
+    const [studentSignatureData, setStudentSignatureData] = useState(null);
+    const [hasStudentDrawn, setHasStudentDrawn] = useState(false);
+
     const calculateNganhKey = (day, month, year) => {
         if (!day || !month || !year) return "";
 
         const birthYear = parseInt(year, 10);
-        // ... (rest of your switch case remains the same)
         switch (birthYear) {
             case 2019: return "AU_NHI_DU_BI";
             case 2018: return "AU_NHI_CAP_1";
@@ -62,7 +65,7 @@ const RegistrationForm = () => {
 
     useEffect(() => {
         saveToLocalStorage('registrationFormData', formData);
-        const calculatedNganhKey = calculateNganhKey(formData.day, formData.month, formData.year); // Updated
+        const calculatedNganhKey = calculateNganhKey(formData.day, formData.month, formData.year);
         setNganhHienThiKey(calculatedNganhKey);
         setFormData(prevData => ({ ...prevData, nganh: calculatedNganhKey }));
 
@@ -82,78 +85,52 @@ const RegistrationForm = () => {
         }));
     };
 
-    // --- Logic vẽ chữ ký (giữ nguyên) ---
-    const startParentDrawing = (e) => {
-        e.preventDefault();
-        const canvas = parentCanvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const rect = canvas.getBoundingClientRect();
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-        ctx.beginPath();
-        ctx.moveTo(clientX - rect.left, clientY - rect.top);
-        setIsParentDrawing(true);
-        setHasParentDrawn(false);
+    // Parent Signature Callbacks
+    const handleParentSignatureSave = (signatureData) => {
+        setParentSignatureData(signatureData);
+        setHasParentDrawn(signatureData !== null);
     };
 
-    const drawParent = (e) => {
-        e.preventDefault();
-        if (!isParentDrawing) return;
-        const canvas = parentCanvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const rect = canvas.getBoundingClientRect();
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-        ctx.lineWidth = 2;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = '#000';
-        ctx.lineTo(clientX - rect.left, clientY - rect.top);
-        ctx.stroke();
-        setHasParentDrawn(true);
-    };
-
-    const endParentDrawing = () => {
-        setIsParentDrawing(false);
-        // CHỈ LƯU CHỮ KÝ NẾU ĐÃ CÓ NÉT VẼ
-        if (hasParentDrawn) {
-            const canvas = parentCanvasRef.current;
-            setParentSignatureData(canvas.toDataURL());
-        } else {
-            // Nếu không có nét vẽ, đảm bảo dữ liệu chữ ký là null
-            setParentSignatureData(null);
-        }
-        // ĐẶT LẠI TRẠNG THÁI hasParentDrawn sau khi kết thúc vẽ
-    };
-
-    const clearParentCanvas = () => {
-        const canvas = parentCanvasRef.current;
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const handleParentSignatureClear = () => {
         setParentSignatureData(null);
         setHasParentDrawn(false);
     };
-    // --- Kết thúc Logic vẽ chữ ký ---
+
+    // Student Signature Callbacks (NEW)
+    const handleStudentSignatureSave = (signatureData) => {
+        setStudentSignatureData(signatureData);
+        setHasStudentDrawn(signatureData !== null);
+    };
+
+    const handleStudentSignatureClear = () => {
+        setStudentSignatureData(null);
+        setHasStudentDrawn(false);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Validate both signatures
         if (!hasParentDrawn) {
-            alert(t('registrationForm.signatureRequest'));
+            alert(t('registrationForm.signatureRequestParent')); // You might want a specific message for parent
+            return;
+        }
+        if (!hasStudentDrawn) {
+            alert(t('registrationForm.signatureRequestStudent')); // New specific message for student
             return;
         }
 
         const finalFormData = {
             ...formData,
-            ngaySinh: `${formData.year}-${formData.month}-${formData.day}`, // Combine for backend if needed
+            ngaySinh: `${formData.year}-${formData.month}-${formData.day}`,
             parentSignature: parentSignatureData,
+            studentSignature: studentSignatureData, // Include student signature (NEW)
             dateSigned: new Date().toLocaleDateString(),
-            nganh: nganhHienThiKey // Store the KEY, not the translated value
+            nganh: nganhHienThiKey
         };
         saveToLocalStorage('id', await saveRegistrationToFirebase(finalFormData));
         saveToLocalStorage('currentPage', '/payment');
-        saveToLocalStorage('nganh', t(`registrationForm.branch.${nganhHienThiKey}`).split(' ').slice(0, 2).join(' ')); // Use nganhHienThiKey for display
+        saveToLocalStorage('nganh', t(`registrationForm.branch.${nganhHienThiKey}`).split(' ').slice(0, 2).join(' '));
         saveToLocalStorage('fullName', [formData.tenGoi, formData.tenDem, formData.ho].join(' ').trim())
         window.location.href = '/payment';
     };
@@ -310,10 +287,10 @@ const RegistrationForm = () => {
 
                 <div className="form-group">
                     <label>{t('registrationForm.birthDate')}</label>
-                    <div className="date-input-group"> {/* Add a wrapper div for styling */}
+                    <div className="date-input-group">
                         <input
                             type="number"
-                            placeholder={t('registrationForm.common.day')} // Translate placeholder
+                            placeholder={t('registrationForm.common.day')}
                             name="day"
                             value={formData.day}
                             onChange={handleChange}
@@ -323,7 +300,7 @@ const RegistrationForm = () => {
                         />
                         <input
                             type="number"
-                            placeholder={t('registrationForm.common.month')} // Translate placeholder
+                            placeholder={t('registrationForm.common.month')}
                             name="month"
                             value={formData.month}
                             onChange={handleChange}
@@ -333,11 +310,11 @@ const RegistrationForm = () => {
                         />
                         <input
                             type="number"
-                            placeholder={t('registrationForm.common.year')} // Translate placeholder
+                            placeholder={t('registrationForm.common.year')}
                             name="year"
                             value={formData.year}
                             onChange={handleChange}
-                            min="1900" // Adjust as needed
+                            min="1900"
                             max={new Date().getFullYear()}
                             required
                         />
@@ -345,12 +322,11 @@ const RegistrationForm = () => {
                 </div>
             </div>
 
-            {/* Phần hiển thị ngành tự động */}
             <div className="form-section">
                 <h3>{t('registrationForm.branchTitle')}</h3>
                 <p>{t('registrationForm.branchInfo')}</p>
                 <div className={`nganh-badge ${nganhHienThiKey}`}>
-                    {formData.ngaySinh ? (
+                    {formData.day && formData.month && formData.year ? (
                         <strong>{t(`registrationForm.branch.${nganhHienThiKey}`)}</strong>
                     ) : (
                         <p>{t('registrationForm.enterBirthDatePrompt')}</p>
@@ -358,6 +334,25 @@ const RegistrationForm = () => {
                 </div>
             </div>
 
+            {/* Student Signature Section (NEW) */}
+            <div className="form-section">
+                <h3>{t('registrationForm.studentSignatureTitle')}</h3> {/* New title for student signature */}
+                <div className="consent-text">
+                    <label>{t('registrationForm.studentSignatureConsentText')}</label> {/* New consent text for student */}
+                </div>
+
+                <div className="signature-area">
+                    <label>{t('registrationForm.studentSignatureLabel')}</label> {/* New label for student signature */}
+                    <SignatureCanvas
+                        onSave={handleStudentSignatureSave}
+                        onClear={handleStudentSignatureClear}
+                        width={isMobile ? 300 : 500}
+                        height={150}
+                    />
+                </div>
+            </div>
+
+            {/* Parent/Guardian Signature Section */}
             <div className="form-section">
                 <h3>{t('registrationForm.parentGuardianConsent')}</h3>
                 <div className="consent-text">
@@ -366,24 +361,12 @@ const RegistrationForm = () => {
 
                 <div className="signature-area">
                     <label>{t('registrationForm.signatureLabel')}</label>
-                    <canvas
-                        ref={parentCanvasRef}
-                        className="signature-canvas parent-canvas"
+                    <SignatureCanvas
+                        onSave={handleParentSignatureSave}
+                        onClear={handleParentSignatureClear}
                         width={isMobile ? 300 : 500}
                         height={150}
-                        onMouseDown={startParentDrawing}
-                        onMouseMove={drawParent}
-                        onMouseUp={endParentDrawing}
-                        onMouseLeave={endParentDrawing}
-                        onTouchStart={startParentDrawing}
-                        onTouchMove={drawParent}
-                        onTouchEnd={endParentDrawing}
                     />
-                    <div className="signature-actions">
-                        <button type="button" className="clear-btn" onClick={clearParentCanvas}>
-                            <i className="fas fa-eraser"></i> {t('registrationForm.clearSignature')}
-                        </button>
-                    </div>
                 </div>
             </div>
 

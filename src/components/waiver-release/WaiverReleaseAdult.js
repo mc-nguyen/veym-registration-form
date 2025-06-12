@@ -1,11 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+// WaiverReleaseAdult.js
+import React, { useState, useEffect } from "react";
 import "./WaiverRelease.css"; // Dùng chung CSS
 import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { saveWaiverReleaseToFirebase } from "../../context/firebaseFuncs";
-import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
+import { useLanguage } from '../../LanguageContext';
+import SignatureCanvas from '../signature/SignatureCanvas'; // Import SignatureCanvas
 
 const WaiverReleaseAdult = () => {
-    const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
+    const { translate: t } = useLanguage();
 
     const [formData, setFormData] = useState(() => {
         const savedData = getFromLocalStorage('waiverFormData') || {
@@ -19,111 +21,95 @@ const WaiverReleaseAdult = () => {
             initial7: "",
             initial8: "",
             initial9: "",
-            signature: null,
+            signature: null, // Sẽ được quản lý bởi SignatureCanvas
             printedName: getFromLocalStorage('fullName') || "",
             date: new Date().toLocaleDateString('vi-VN')
         };
         return savedData;
     });
 
-    // State cho validation errors
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const canvasRef = useRef(null);
-    const [isDrawing, setIsDrawing] = useState(false);
+    // State mới cho chữ ký và trạng thái vẽ
+    const [signatureData, setSignatureData] = useState(null);
+    const [hasDrawn, setHasDrawn] = useState(false);
+    const [isMobile, setIsMobile] = useState(false); // Để điều chỉnh kích thước canvas
+
+    useEffect(() => {
+        // Kiểm tra kích thước màn hình để điều chỉnh canvas
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Callback khi chữ ký được lưu
+    const handleSignatureSave = (dataUrl) => {
+        setSignatureData(dataUrl);
+        setHasDrawn(dataUrl !== null); // Đặt true nếu có data, false nếu null
+        setFormData(prev => ({ ...prev, signature: dataUrl })); // Cập nhật formData
+    };
+
+    // Callback khi chữ ký được xóa
+    const handleSignatureClear = () => {
+        setSignatureData(null);
+        setHasDrawn(false);
+        setFormData(prev => ({ ...prev, signature: null })); // Cập nhật formData
+    };
 
     useEffect(() => {
         saveToLocalStorage('waiverFormData', formData);
-        saveWaiverReleaseToFirebase(getFromLocalStorage('id'), formData);
+        // saveWaiverReleaseToFirebase(getFromLocalStorage('id'), formData); // Chỉ nên gọi khi submit form cuối cùng
     }, [formData]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
+        setFormData(prev => ({
+            ...prev,
             [name]: value
         }));
-        // Xóa lỗi ngay lập tức khi người dùng bắt đầu nhập
-        setErrors(prevErrors => ({
-            ...prevErrors,
-            [name]: null
-        }));
-    };
-
-    // Signature drawing logic
-    const startDrawing = (e) => {
-        setIsDrawing(true);
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        ctx.beginPath();
-        const { clientX, clientY } = e.touches ? e.touches[0] : e;
-        const rect = canvas.getBoundingClientRect();
-        const x = clientX - rect.left;
-        const y = clientY - rect.top;
-        ctx.moveTo(x, y);
-    };
-
-    const draw = (e) => {
-        if (!isDrawing) return;
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const { clientX, clientY } = e.touches ? e.touches[0] : e;
-        const rect = canvas.getBoundingClientRect();
-        const x = clientX - rect.left;
-        const y = clientY - rect.top;
-
-        ctx.lineTo(x, y);
-        ctx.stroke();
-    };
-
-    const stopDrawing = () => {
-        setIsDrawing(false);
-        const canvas = canvasRef.current;
-        if (canvas) {
-            setFormData(prevData => ({
-                ...prevData,
-                signature: canvas.toDataURL()
-            }));
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: '' }));
         }
     };
 
-    const clearSignature = () => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        setFormData(prevData => ({
-            ...prevData,
-            signature: null
-        }));
-    };
-
-    const validate = () => {
-        let newErrors = {};
-        if (!formData.initial1) newErrors.initial1 = t('errors.required');
-        if (!formData.initial2) newErrors.initial2 = t('errors.required');
-        if (!formData.initial3) newErrors.initial3 = t('errors.required');
-        if (!formData.initial4) newErrors.initial4 = t('errors.required');
-        if (!formData.initial5) newErrors.initial5 = t('errors.required');
-        if (!formData.initial6) newErrors.initial6 = t('errors.required');
-        if (!formData.initial7) newErrors.initial7 = t('errors.required');
-        if (!formData.initial8) newErrors.initial8 = t('errors.required');
-        if (!formData.initial9) newErrors.initial9 = t('errors.required');
-        if (!formData.signature) newErrors.signature = t('errors.signatureRequired');
-        if (!formData.printedName) newErrors.printedName = t('errors.required');
-
+    const validateForm = () => {
+        const newErrors = {};
+        if (!hasDrawn) { // Kiểm tra xem đã ký chưa
+            newErrors.signature = t('waiverRelease.signatureRequired');
+        }
+        if (!formData.printedName) {
+            newErrors.printedName = t('waiverRelease.printedNameRequired');
+        }
+        for (let i = 1; i <= 9; i++) {
+            if (!formData[`initial${i}`]) {
+                newErrors[`initial${i}`] = t('waiverRelease.initialRequired');
+            }
+        }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateForm()) {
+            alert(t('waiverRelease.pleaseFillAllFieldsAndSign'));
+            return;
+        }
+
         setIsSubmitting(true);
-        if (validate()) {
-            saveToLocalStorage('currentPage', '/tntt-rules-adult');
-            window.location.href = '/tntt-rules-adult';
-        } else {
-            alert(t('errors.formErrors'));
+        try {
+            const finalFormData = { ...formData, signature: signatureData };
+            await saveWaiverReleaseToFirebase(getFromLocalStorage('id'), finalFormData);
+            saveToLocalStorage('currentPage', '/medical-release-adult');
+            window.location.href = '/medical-release-adult';
+        } catch (error) {
+            console.error("Error submitting waiver:", error);
+            alert(t('waiverRelease.submissionError'));
+        } finally {
             setIsSubmitting(false);
         }
     };
@@ -279,28 +265,14 @@ const WaiverReleaseAdult = () => {
                     </div>
                 </div>
 
-                <div className={`form-group signature-group ${errors.signature ? 'error' : ''}`}>
+                <div className="form-group signature-area"> {/* Sử dụng class signature-area chung */}
                     <label>{t('waiverRelease.signature')}</label>
-                    <div className="signature-container">
-                        <canvas
-                            ref={canvasRef}
-                            className="signature-canvas"
-                            onMouseDown={startDrawing}
-                            onMouseMove={draw}
-                            onMouseUp={stopDrawing}
-                            onMouseLeave={stopDrawing}
-                            onTouchStart={startDrawing}
-                            onTouchMove={draw}
-                            onTouchEnd={stopDrawing}
-                        />
-                        <button
-                            type="button"
-                            className="clear-signature-btn"
-                            onClick={clearSignature}
-                        >
-                            {t('waiverRelease.clearSignature')}
-                        </button>
-                    </div>
+                    <SignatureCanvas
+                        onSave={handleSignatureSave}
+                        onClear={handleSignatureClear}
+                        width={isMobile ? 300 : 400}
+                        height={150}
+                    />
                     {errors.signature && <span className="error-message">{errors.signature}</span>}
                 </div>
 
@@ -313,6 +285,7 @@ const WaiverReleaseAdult = () => {
                         onChange={handleChange}
                         required
                     />
+                    {errors.printedName && <span className="error-message">{errors.printedName}</span>}
                 </div>
 
                 <div className="form-group">

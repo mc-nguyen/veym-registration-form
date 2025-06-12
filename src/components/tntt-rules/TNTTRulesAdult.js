@@ -1,146 +1,112 @@
-import React, { useState, useRef, useEffect } from 'react';
+// TNTTRulesAdult.js
+import React, { useState, useEffect } from 'react';
 import './TNTTRules.css'; // Dùng chung CSS
 import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { saveTNTTRulesToFirebase } from '../../context/firebaseFuncs';
-import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
+import { useLanguage } from '../../LanguageContext';
+import SignatureCanvas from '../signature/SignatureCanvas'; // Import SignatureCanvas
 
 const TNTTRulesAdult = () => {
-    const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
+    const { translate: t } = useLanguage();
 
     const [formData, setFormData] = useState(() => {
         const savedData = getFromLocalStorage('tnttRulesFormData') || {
             memberName: getFromLocalStorage('fullName') || "",
             date: new Date().toLocaleDateString('vi-VN'),
             nganh: getFromLocalStorage('nganh') || "",
-            signature: null,
+            signature: null, // Sẽ được quản lý bởi SignatureCanvas
             agreed: false
         };
         return savedData;
     });
 
     const [errors, setErrors] = useState({});
-    const canvasRef = useRef(null);
-    const [isDrawing, setIsDrawing] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // State mới cho chữ ký và trạng thái vẽ
+    const [signatureData, setSignatureData] = useState(null);
+    const [hasDrawn, setHasDrawn] = useState(false);
+    const [isMobile, setIsMobile] = useState(false); // Để điều chỉnh kích thước canvas
+
+    useEffect(() => {
+        // Kiểm tra kích thước màn hình để điều chỉnh canvas
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Callback khi chữ ký được lưu
+    const handleSignatureSave = (dataUrl) => {
+        setSignatureData(dataUrl);
+        setHasDrawn(dataUrl !== null);
+        setFormData(prev => ({ ...prev, signature: dataUrl }));
+    };
+
+    // Callback khi chữ ký được xóa
+    const handleSignatureClear = () => {
+        setSignatureData(null);
+        setHasDrawn(false);
+        setFormData(prev => ({ ...prev, signature: null }));
+    };
 
     useEffect(() => {
         saveToLocalStorage('tnttRulesFormData', formData);
-        saveTNTTRulesToFirebase(getFromLocalStorage('id'), formData);
+        // saveTNTTRulesToFirebase(getFromLocalStorage('id'), formData); // Chỉ lưu khi submit
     }, [formData]);
 
-    // Signature handling
-    const startDrawing = (e) => {
-        setIsDrawing(true);
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        ctx.beginPath();
-        const { clientX, clientY } = e.touches ? e.touches[0] : e;
-        const rect = canvas.getBoundingClientRect();
-
-        ctx.moveTo(clientX - rect.left, clientY - rect.top);
-    };
-
-    const draw = (e) => {
-        if (!isDrawing) return;
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const { clientX, clientY } = e.touches ? e.touches[0] : e;
-        const rect = canvas.getBoundingClientRect();
-
-        ctx.lineTo(clientX - rect.left, clientY - rect.top);
-        ctx.stroke();
-    };
-
-    const stopDrawing = () => {
-        setIsDrawing(false);
-        const canvas = canvasRef.current;
-        if (canvas) {
-            setFormData(prevData => ({
-                ...prevData,
-                signature: canvas.toDataURL()
-            }));
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: checked
+        }));
+        if (errors.agreed) {
+            setErrors(prev => ({ ...prev, agreed: '' }));
         }
     };
 
-    const clearSignature = () => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        setFormData(prevData => ({
-            ...prevData,
-            signature: null
-        }));
-    };
-
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
-
-    const validate = () => {
-        let newErrors = {};
-        if (!formData.memberName) newErrors.memberName = t('errors.required');
-        if (!formData.nganh) newErrors.nganh = t('errors.required');
-        if (!formData.signature) newErrors.signature = t('errors.signatureRequired');
-        if (!formData.agreed) newErrors.agreed = t('errors.agreementRequired');
-
+    const validateForm = () => {
+        const newErrors = {};
+        if (!formData.agreed) {
+            newErrors.agreed = t('tnttRules.agreementRequired');
+        }
+        if (!hasDrawn) {
+            newErrors.signature = t('tnttRules.signatureRequired');
+        }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validate()) {
-            // Proceed to next page or confirm
-            saveToLocalStorage('currentPage', '/generate-pdf-adult'); // Assuming next page is /confirmation-adult
-            window.location.href = '/generate-pdf-adult';
-        } else {
-            alert(t('errors.formErrors'));
+        if (!validateForm()) {
+            alert(t('tnttRules.pleaseAgreeAndSign'));
+            return;
+        }
+
+        setIsSubmitting(true);
+        try {
+            const finalFormData = { ...formData, signature: signatureData };
+            await saveTNTTRulesToFirebase(getFromLocalStorage('id'), finalFormData);
+            saveToLocalStorage('currentPage', '/summary-adult'); // Chuyển hướng khác cho người lớn
+            window.location.href = '/summary-adult';
+        } catch (error) {
+            console.error("Error submitting rules:", error);
+            alert(t('tnttRules.submissionError'));
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     return (
         <div className="tntt-rules-container">
-            <h2>{t('tnttRules.title')}</h2> {/* Tên title có thể giữ chung nếu nội dung Rules khác biệt */}
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>{t('tnttRules.memberName')}</label>
-                    <input
-                        type="text"
-                        name="memberName"
-                        value={formData.memberName}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>{t('tnttRules.date')}</label>
-                    <input
-                        type="text"
-                        name="date"
-                        value={formData.date}
-                        onChange={handleChange}
-                        readOnly
-                    />
-                </div>
-                <div className="form-group">
-                    <label>{t('tnttRules.branch')}</label>
-                    <input
-                        type="text"
-                        name="nganh"
-                        value={formData.nganh}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <p className="rules-intro">
-                    {t('tnttRules.rulesIntro')}
-                </p>
-
-                <ol className="rules-list">
+            <h2 className="tntt-rules-title">{t('tnttRules.titleAdult')}</h2> {/* Title for adult form */}
+            <div className="tntt-rules-content">
+                {/* Rules content for adults - adjust as needed */}
+                <ol>
                     <li>{t('tnttRules.rules.rule1')}</li>
                     <li>{t('tnttRules.rules.rule2')}</li>
                     <li>{t('tnttRules.rules.rule3')}</li>
@@ -155,48 +121,67 @@ const TNTTRulesAdult = () => {
                     <li>{t('tnttRules.rules.rule12')}</li>
                     <li>{t('tnttRules.rules.rule13')}</li>
                 </ol>
+            </div>
 
-                <div className="form-group checkbox-group">
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="agreed"
-                            checked={formData.agreed}
-                            onChange={handleChange}
-                            required
-                        />
-                        {t('tnttRules.acknowledgment')}
-                    </label>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>{t('tnttRules.memberName')}</label>
+                    <input
+                        type="text"
+                        name="memberName"
+                        value={formData.memberName}
+                        readOnly
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>{t('tnttRules.date')}</label>
+                    <input
+                        type="text"
+                        name="date"
+                        value={formData.date}
+                        readOnly
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>{t('tnttRules.nganh')}</label>
+                    <input
+                        type="text"
+                        name="nganh"
+                        value={formData.nganh}
+                        readOnly
+                    />
+                </div>
+
+                <div className="form-group agreement-checkbox">
+                    <input
+                        type="checkbox"
+                        id="agreed"
+                        name="agreed"
+                        checked={formData.agreed}
+                        onChange={handleCheckboxChange}
+                    />
+                    <label htmlFor="agreed">{t('tnttRules.acknowledgment')}</label> {/* Adjust agree statement for adult */}
                     {errors.agreed && <span className="error-message">{errors.agreed}</span>}
                 </div>
 
-                <div className={`form-group signature-group ${errors.signature ? 'error' : ''}`}>
+                <div className={`form-group signature-area ${errors.signature ? 'error' : ''}`}> {/* Sử dụng class signature-area chung */}
                     <label>{t('tnttRules.signature')}</label>
-                    <div className="signature-container">
-                        <canvas
-                            ref={canvasRef}
-                            width={400}
-                            height={150}
-                            onMouseDown={startDrawing}
-                            onMouseMove={draw}
-                            onMouseUp={stopDrawing}
-                            onMouseLeave={stopDrawing}
-                            onTouchStart={startDrawing}
-                            onTouchMove={draw}
-                            onTouchEnd={stopDrawing}
-                        />
-                        <button type="button" onClick={clearSignature} className="clear-btn">
-                            {t('tnttRules.clearSignature')}
-                        </button>
-                    </div>
+                    <SignatureCanvas
+                        onSave={handleSignatureSave}
+                        onClear={handleSignatureClear}
+                        width={isMobile ? 300 : 400}
+                        height={150}
+                    />
                     {errors.signature && <span className="error-message">{errors.signature}</span>}
                 </div>
 
                 <div className="form-note">
-                    <p>{t('tnttRules.note')}</p> {/* Điều chỉnh note nếu cần khác với form trẻ em */}
+                    <p>{t('tnttRules.noteAdult')}</p> {/* Điều chỉnh note nếu cần khác với form trẻ em */}
                 </div>
 
-                <button type="submit" className="submit-btn">
+                <button type="submit" className="submit-btn" disabled={isSubmitting}>
                     {t('tnttRules.submitButton')}
                 </button>
             </form>

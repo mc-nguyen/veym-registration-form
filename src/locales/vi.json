@@ -104,7 +104,12 @@
       "day": "ngày",
       "month": "tháng",
       "year": "năm"
-    }
+    },
+    "signatureRequestParent": "Vui lòng ký tên phụ huynh/người giám hộ.",
+    "signatureRequestStudent": "Vui lòng ký tên đoàn sinh.",
+    "studentSignatureTitle": "Chữ Ký Đoàn Sinh",
+    "studentSignatureConsentText": "Em xin được ghi danh gia nhập phong trào TNTT tại Ðoàn TNTT Mẹ Thiên Chúa, Riverside. Em hứa sẽ vâng lời và theo sự hướng dẫn của cha Tuyên Úy Ðoàn, Đoàn Trưởng, các trợ tá, các phụ huynh cũng như các anh chị huynh trưởng có trách nhiệm trong đoàn và trong ngành mà em sinh hoạt hằng tuần. Em sẽ cố gắng sống 4 khẩu hiệu của Thiếu Nhi: Cầu Nguyện, Rước Lễ, Hy Sinh và Làm Việc Tông Ðồ cũng như thực hành các tôn chỉ của phong trào TNTT. Em sẽ chu toàn bổn phận của một đoàn sinh trong đoàn TNTT và thực thi đúng các nội quy của đoàn TNTT.",
+    "studentSignatureLabel": "Chữ ký của Đoàn sinh"
   },
   "paymentPage": {
     "title": "THANH TOÁN PHÍ SINH HOẠT",
@@ -214,7 +219,8 @@
     "signature": "Chữ ký:",
     "clearSignature": "Xóa chữ ký",
     "note": "*** Phụ huynh/Người giám hộ giữ một bản sao của trang này và cùng xem lại nội quy với con cái của mình.",
-    "submitButton": "Gửi"
+    "submitButton": "Gửi",
+    "nganh": "Ngành:"
   },
   "searchEmail": {
     "search_data_title": "Tìm Kiếm Dữ Liệu",
@@ -239,19 +245,20 @@
     "continue": "Tiếp Tục"
   },
   "surveyPage": {
-      "surveyTitle": "Khảo Sát Hỗ Trợ Đoàn Thiếu Nhi Thánh Thể - Mẹ Thiên Chúa",
-      "surveyIntro": "Xin chào quý phụ huynh, cảm ơn quý vị đã dành thời gian tham gia khảo sát này. Thông tin của quý vị sẽ giúp Đoàn Thiếu Nhi hoạt động hiệu quả hơn!",
-      "parentInfo": "Thông tin Phụ huynh ",
-      "parentNameLabel": "Tên Phụ huynh:",
-      "canHelpFoodService": "Phục vụ đồ ăn (ví dụ: chia đồ ăn, dọn dẹp)",
-      "canHelpFoodPurchase": "Mua đồ ăn (ví dụ: đi chợ, đặt hàng)",
-      "helpOptionsIntro": "Quý phụ huynh có thể giúp Đoàn Thiếu Nhi theo các cách sau:",
-      "otherNotesLabel": "Nếu có thể giúp theo cách khác hoặc có ghi chú thêm, xin vui lòng ghi tại đây:",
-      "addParentButton": "Thêm Phụ huynh Khác (Tối đa 3)",
-      "removeParentButton": "Xóa thông tin Phụ huynh ",
-      "submitButton": "Gửi Khảo Sát",
-      "maxParentsAlert": "Bạn chỉ có thể thêm tối đa 3 phụ huynh.",
-      "thankYouAlert": "Cảm ơn bạn đã hoàn thành khảo sát!",
-      "cancel": "\"Xin lỗi các Huynh Trưởng!\""
-    }
+    "surveyTitle": "Khảo Sát Hỗ Trợ Đoàn Thiếu Nhi Thánh Thể - Mẹ Thiên Chúa",
+    "surveyIntro": "Xin chào quý phụ huynh, cảm ơn quý vị đã dành thời gian tham gia khảo sát này. Thông tin của quý vị sẽ giúp Đoàn Thiếu Nhi hoạt động hiệu quả hơn!",
+    "parentInfo": "Thông tin Phụ huynh ",
+    "parentNameLabel": "Tên Phụ huynh:",
+    "canHelpFoodService": "Phục vụ đồ ăn (ví dụ: chia đồ ăn, dọn dẹp)",
+    "canHelpFoodPurchase": "Mua đồ ăn (ví dụ: đi chợ, đặt hàng)",
+    "helpOptionsIntro": "Quý phụ huynh có thể giúp Đoàn Thiếu Nhi theo các cách sau:",
+    "otherNotesLabel": "Nếu có thể giúp theo cách khác hoặc có ghi chú thêm, xin vui lòng ghi tại đây:",
+    "addParentButton": "Thêm Phụ huynh Khác (Tối đa 3)",
+    "removeParentButton": "Xóa thông tin Phụ huynh ",
+    "submitButton": "Gửi Khảo Sát",
+    "maxParentsAlert": "Bạn chỉ có thể thêm tối đa 3 phụ huynh.",
+    "thankYouAlert": "Cảm ơn bạn đã hoàn thành khảo sát!",
+    "cancel": "\"Xin lỗi các Huynh Trưởng!\""
+  },
+  "clearSignature": "Xóa chữ ký"
 }

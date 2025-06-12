@@ -22,6 +22,7 @@ import EmailSearch from "./components/email-search/EmailSearch";
 import ConfirmationTable from "./admin/ConfirmationTable";
 import EmailSearchAdult from "./components/email-search/EmailSearchAdult";
 import ParentSurveyForm from "./components/parent-survey-form/ParentSurveyForm";
+import SignatureCanvas from "./components/signature/SignatureCanvas";
 
 function App() {
   return (

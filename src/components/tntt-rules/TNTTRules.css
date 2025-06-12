@@ -77,7 +77,7 @@ canvas {
 }
 
 .clear-btn {
-    background: #f5f5f5;
+    background: #ff0000;
     border: 1px solid #ddd;
     padding: 5px 10px;
     border-radius: 4px;
@@ -85,7 +85,7 @@ canvas {
 }
 
 .clear-btn:hover {
-    background: #e0e0e0;
+    background: #660000;
 }
 
 .submit-btn {
