@@ -116,9 +116,12 @@ const TNTTRules = () => {
                     <li>{t('tnttRules.rules.rule8')}</li>
                     <li>{t('tnttRules.rules.rule9')}</li>
                     <li>{t('tnttRules.rules.rule10')}</li>
-                    <li>{t('tnttRules.rules.rule11')}</li>
-                    <li>{t('tnttRules.rules.rule12')}</li>
-                    <li>{t('tnttRules.rules.rule13')}</li>
+                </ol>
+                <p style={{ textDecorationLine: 'underline' }}>{t('tnttRules.rules.consequences')}</p>
+                <ol>
+                    <li>{t('tnttRules.rules.consequence1')}</li>
+                    <li>{t('tnttRules.rules.consequence2')}</li>
+                    <li>{t('tnttRules.rules.consequence3')}</li>
                 </ol>
             </div>
 

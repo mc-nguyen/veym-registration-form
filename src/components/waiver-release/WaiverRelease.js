@@ -233,7 +233,7 @@ const WaiverRelease = () => {
 
                     <div className="waiver-section">
                         <p>
-                            <strong>7.</strong> {t('waiverRelease.waiver.w7')}<br />
+                            <strong>7.</strong> <a dangerouslySetInnerHTML={{ __html: t('waiverRelease.waiver.w7') }}></a><br />
                             <InitialInput
                                 name="initial7"
                                 value={formData.initial7}
@@ -268,9 +268,7 @@ const WaiverRelease = () => {
                     </div>
 
                     <div className="waiver-section">
-                        <p>
-                            ● {t('waiverRelease.waiver.w10')}<br />
-                        </p>
+                        <p dangerouslySetInnerHTML={{ __html: t('waiverRelease.waiver.w10') }}></p>
                     </div>
 
                     <div className="waiver-section">
@@ -286,9 +284,9 @@ const WaiverRelease = () => {
                     </div>
 
                     <div className="signature-section">
-                        <p>
+                        <strong>
                             {t('waiverRelease.waiver.foot')}<br />
-                        </p>
+                        </strong>
                     </div>
                 </div>
 
