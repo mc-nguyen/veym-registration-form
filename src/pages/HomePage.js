@@ -37,7 +37,7 @@ const HomePage = () => {
                                 className="start-button"
                                 onClick={() => {
                                     saveToLocalStorage('currentPage', '/registration')
-                                    navigate('/registration');
+                                    navigate('/email-search');
                                 }}
                             >
                                 {t('homePage.startRegistration')}
@@ -47,7 +47,7 @@ const HomePage = () => {
                                 className="start-adult-button"
                                 onClick={() => {
                                     saveToLocalStorage('currentPage', '/registration-adult')
-                                    navigate('/registration-adult');
+                                    navigate('/email-search-adult');
                                 }}
                             >
                                 {t('homePage.startAdultRegistration')}

@@ -1,17 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./WaiverRelease.css";
-import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { saveWaiverReleaseToFirebase } from "../../context/firebaseFuncs";
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 
 const WaiverRelease = () => {
-    removeFromLocalStorage('tnttRulesFormData');
-
-    if (!getFromLocalStorage('currentPage'))
-        window.location.href = '/';
-    else if (getFromLocalStorage('currentPage') !== '/waiver-release')
-        window.location.href = getFromLocalStorage('currentPage');
-
     const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
     const [formData, setFormData] = useState(() => {

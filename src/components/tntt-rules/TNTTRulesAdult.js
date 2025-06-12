@@ -1,15 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './TNTTRules.css'; // Dùng chung CSS
-import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { saveTNTTRulesToFirebase } from '../../context/firebaseFuncs';
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 
 const TNTTRulesAdult = () => {
-    if (!getFromLocalStorage('currentPage'))
-        window.location.href = '/';
-    else if (getFromLocalStorage('currentPage') !== '/tntt-rules-adult')
-        window.location.href = getFromLocalStorage('currentPage');
-
     const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
     const [formData, setFormData] = useState(() => {

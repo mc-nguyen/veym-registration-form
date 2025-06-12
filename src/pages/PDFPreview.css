@@ -9,16 +9,22 @@ body {
 }
 
 .pdf-container {
-    max-width: 210mm;
+    max-width: 210mm; /* A4 width */
     margin: 0 auto;
     background: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .pdf-page {
-    padding: 10mm;
+    padding: 15mm 10mm; /* Tăng padding trên/dưới một chút để có lề tốt hơn trên giấy */
     background: white;
-    page-break-after: always;
+    page-break-after: always; /* Đảm bảo mỗi .pdf-page là một trang mới */
+    box-sizing: border-box; /* Quan trọng để padding được tính vào tổng kích thước */
+}
+
+/* Đảm bảo trang cuối cùng không tạo ra trang trống */
+.pdf-page:last-child {
+    page-break-after: auto;
 }
 
 /* Header Styles */
@@ -53,20 +59,20 @@ body {
 .section-title {
     text-align: center;
     font-size: 16pt;
-    margin: 8px 0 15px;
+    margin: 8px 0 15px; /* Điều chỉnh margin bottom để có khoảng cách rõ ràng */
     padding-bottom: 3px;
     border-bottom: 1px solid #000;
 }
 
 /* Form Elements */
 .form-section {
-    margin: 12px 0;
+    margin: 15px 0; /* Tăng margin để có khoảng trống giữa các section */
 }
 
 .pdf-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 8px 0 12px;
+    margin: 10px 0 15px; /* Điều chỉnh margin cho bảng */
     font-size: 10.5pt;
 }
 
@@ -79,7 +85,7 @@ body {
 /* Layout */
 .form-row {
     display: flex;
-    margin: 8px 0;
+    margin: 10px 0; /* Điều chỉnh margin cho hàng form */
 }
 
 .form-col {
@@ -91,7 +97,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 8px 16px;
-    margin: 8px 0 12px;
+    margin: 10px 0 15px; /* Điều chỉnh margin cho grid ngành */
 }
 
 .nganh-col {
@@ -110,9 +116,10 @@ body {
 .payment-section,
 .waiver-section,
 .rules-section {
-    margin: 14px 0;
+    margin: 18px 0; /* Tăng margin giữa các section lớn */
     font-size: 10.5pt;
     line-height: 1.4;
+    padding: 5px 0; /* Thêm padding nhẹ để nội dung không bị dính sát mép section */
 }
 
 .pledge-section {
@@ -121,22 +128,26 @@ body {
 }
 
 .waiver-item {
-    margin: 8px 0;
+    margin: 10px 0; /* Tăng margin giữa các waiver item */
     padding-left: 10px;
     border-left: 2px solid #3498db;
 }
 
 /* Signature Lines */
+.signature-section {
+    margin-top: 25px; /* Khoảng cách lớn hơn trước phần ký tên */
+}
+
 .signature-line {
     display: flex;
     justify-content: space-between;
-    margin: 16px 0 8px;
-    padding-top: 12px;
+    margin: 20px 0 10px; /* Điều chỉnh margin cho dòng ký tên */
+    padding-top: 15px; /* Tăng padding trên để có khoảng trống trước đường kẻ */
     border-top: 1px dashed #000;
 }
 
-.signature-line>div {
-    width: 45%;
+.signature-line > div {
+    width: 48%; /* Điều chỉnh width để có khoảng cách tốt hơn giữa các cột */
 }
 
 /* Notes */
@@ -144,10 +155,10 @@ body {
     font-size: 9pt;
     font-style: italic;
     color: #555;
-    margin-top: 4px;
+    margin-top: 6px; /* Điều chỉnh margin top */
 }
 
-/* Control Buttons */
+/* Control Buttons (Ẩn khi in) */
 .controls {
     text-align: center;
     margin: 20px 0;
@@ -176,81 +187,120 @@ body {
     color: white;
 }
 
-/* Print Styles */
+/* ------------------------------------------------------------------------- */
+/* Print Styles - Quan trọng nhất để tối ưu hóa in ấn */
+/* ------------------------------------------------------------------------- */
 @media print {
+    /* Đặt kích thước giấy và lề trang in */
+    @page {
+        size: A4 portrait; /* Hoặc 'letter portrait' nếu bạn dùng cỡ giấy Letter */
+        margin: 10mm; /* Lề 10mm cho tất cả các cạnh.
+                         Bạn có thể thử '0' nếu muốn tối đa không gian,
+                         nhưng 10mm thường an toàn hơn để tránh nội dung bị cắt. */
+    }
+
     body {
         margin: 0;
         padding: 0;
         background: white;
+        -webkit-color-adjust: exact; /* Đảm bảo màu nền và border được in */
     }
 
     .pdf-container {
         box-shadow: none;
         width: 100%;
+        max-width: 100%; /* Đảm bảo chiếm toàn bộ chiều rộng có thể in được */
     }
 
     .pdf-page {
-        padding: 10mm;
-        margin: 0;
-        page-break-after: always;
+        /* Padding nội bộ của trang PDF. Phải cân nhắc với margin của @page */
+        padding: 5mm; /* Giảm padding một chút trong chế độ in để có thêm không gian */
+        margin: 0; /* Đảm bảo không có margin thừa */
+        background: white;
+        page-break-after: always; /* Bắt buộc mỗi .pdf-page là một trang mới */
+        box-sizing: border-box; /* Quan trọng để padding được tính vào tổng kích thước */
     }
 
-    /* Hide controls when printing */
-    .controls {
-        display: none;
+    .pdf-page:last-child {
+        page-break-after: auto; /* Trang cuối cùng không cần ngắt trang */
     }
 
-    /* Optimize font sizes for print */
+    /* Tối ưu hóa kích thước font cho in ấn để nội dung vừa vặn và dễ đọc hơn */
     .pdf-header h1 {
-        font-size: 22pt;
+        font-size: 18pt; /* Giảm nhẹ font size */
     }
 
     .pdf-header h2 {
-        font-size: 18pt;
+        font-size: 14pt; /* Giảm nhẹ font size */
+    }
+
+    .header-info p {
+        font-size: 9pt; /* Giảm nhẹ font size */
     }
 
     .form-title,
     .section-title {
-        font-size: 17pt;
+        font-size: 15pt; /* Giảm nhẹ font size */
+        margin-bottom: 10px; /* Điều chỉnh khoảng cách */
     }
 
     .pdf-table,
     .pledge-section,
     .parent-section,
     .waiver-section,
-    .rules-section {
-        font-size: 11pt;
+    .rules-section,
+    .nganh-col div,
+    .form-section p {
+        font-size: 10pt; /* Đặt font size chung cho nội dung chính */
+        line-height: 1.3; /* Điều chỉnh line-height cho compact hơn */
     }
 
-    /* Prevent unwanted breaks */
+    .pdf-table td {
+        padding: 4px 3px; /* Giảm padding ô bảng để tiết kiệm không gian */
+    }
+
+    /* Ngăn các phần tử không bị ngắt ngang qua các trang */
     table,
     .pledge-section,
     .parent-section,
     .signature-line,
     .waiver-item,
-    .rules-section ol {
+    .rules-section ol,
+    .form-section {
         page-break-inside: avoid;
     }
 
-    /* Compact tables for print */
-    .pdf-table td {
-        padding: 5px 3px;
-    }
-
-    /* Adjust spacing for print */
-    .form-section {
-        margin: 10px 0;
-    }
-
+    /* Điều chỉnh spacing cho in */
+    .form-section,
     .pledge-section,
     .parent-section,
+    .payment-section,
     .waiver-section,
     .rules-section {
-        margin: 12px 0;
+        margin: 10px 0; /* Giảm margin để tiết kiệm không gian dọc */
     }
 
-    /* Ensure last page doesn't create empty page */
+    .signature-line {
+        margin: 15px 0 5px; /* Điều chỉnh margin dòng ký tên */
+        padding-top: 10px; /* Giảm padding trên */
+    }
+
+    .note {
+        font-size: 8pt; /* Giảm font size cho ghi chú */
+    }
+
+    /* Đảm bảo hình ảnh, màu nền được in (nếu có) */
+    * {
+        print-color-adjust: exact !important;
+        -webkit-print-color-adjust: exact !important;
+    }
+
     .pdf-page:last-child {
-        page-break-after: auto;
+        page-break-after: auto; /* Điều này sẽ ngăn trang cuối cùng tạo ra trang trống */
+    }
+
+    .translator,
+    .controls {
+        display: none;
     }
 }

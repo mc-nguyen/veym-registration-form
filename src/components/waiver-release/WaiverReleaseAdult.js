@@ -1,17 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./WaiverRelease.css"; // Dùng chung CSS
-import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { saveWaiverReleaseToFirebase } from "../../context/firebaseFuncs";
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 
 const WaiverReleaseAdult = () => {
-    removeFromLocalStorage('tnttRulesFormData');
-
-    if (!getFromLocalStorage('currentPage'))
-        window.location.href = '/';
-    else if (getFromLocalStorage('currentPage') !== '/waiver-release-adult')
-        window.location.href = getFromLocalStorage('currentPage');
-
     const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
     const [formData, setFormData] = useState(() => {
@@ -107,8 +100,6 @@ const WaiverReleaseAdult = () => {
 
     const validate = () => {
         let newErrors = {};
-        if (!formData.fullName1) newErrors.fullName1 = t('errors.required');
-        if (!formData.fullName2) newErrors.fullName1 = t('errors.required');
         if (!formData.initial1) newErrors.initial1 = t('errors.required');
         if (!formData.initial2) newErrors.initial2 = t('errors.required');
         if (!formData.initial3) newErrors.initial3 = t('errors.required');
@@ -344,18 +335,6 @@ const WaiverReleaseAdult = () => {
         </div>
     );
 };
-
-const InlineInput = ({ name, value, onChange, width }) => (
-    <input
-        type="text"
-        className="inline-input"
-        name={name}
-        value={value}
-        onChange={onChange}
-        style={{ width }}
-        required
-    />
-);
 
 const InitialInput = ({ name, value, onChange }) => (
     <input

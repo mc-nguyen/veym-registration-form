@@ -140,7 +140,7 @@ export const getDataByEmail = async (email) => {
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-      console.log("Dữ liệu đã tìm thấy:", data);
+      console.log("Dữ liệu đã tìm thấy:");
       return data; // Trả về dữ liệu ở định dạng JSON
     } else {
       console.log("Không tìm thấy tài liệu với ID:", email);
@@ -203,6 +203,16 @@ export const getAllConfirmations = async () => {
     throw error; // Ném lỗi để component gọi có thể bắt và xử lý
   }
 };
+
+export const saveParentSurvey = async (data) => {
+  try {
+    const docRef = await addDoc(collection(db, "parents"), data);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    throw error;
+  }
+}
 
 const auth = getAuth(app); // Khởi tạo Auth
 

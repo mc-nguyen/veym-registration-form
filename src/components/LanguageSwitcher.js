@@ -10,7 +10,7 @@ function LanguageSwitcher() {
   };
 
   return (
-    <div style={{ margin: '10px' }}>
+    <div style={{ margin: '10px' }} className='translator'>
       <label htmlFor="language-select">Chọn ngôn ngữ (Choose your language):</label>
       <select id="language-select" value={language} onChange={handleLanguageChange}>
         <option value="vi">Tiếng Việt</option>

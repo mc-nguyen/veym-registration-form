@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './Payment.css';
-import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { checkConfirmationCode, savePaymentToFirebase } from '../../context/firebaseFuncs';
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 import zelle from '../../assets/zelle.png';
 
 const PaymentAdult = () => {
-  removeFromLocalStorage('healthInfoFormData');
-  removeFromLocalStorage('waiverFormData');
-  removeFromLocalStorage('tnttRulesFormData');
-
-  if (!getFromLocalStorage('currentPage'))
-    window.location.href = '/';
-  else if (getFromLocalStorage('currentPage') !== '/payment-adult')
-    window.location.href = getFromLocalStorage('currentPage');
-
   const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
   // Danh sách các khoản phí

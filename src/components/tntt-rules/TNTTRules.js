@@ -1,15 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './TNTTRules.css';
-import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { saveTNTTRulesToFirebase } from '../../context/firebaseFuncs';
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 
 const TNTTRules = () => {
-    if (!getFromLocalStorage('currentPage'))
-        window.location.href = '/';
-    else if (getFromLocalStorage('currentPage') !== '/tntt-rules')
-        window.location.href = getFromLocalStorage('currentPage');
-
     const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
     const [formData, setFormData] = useState(() => {
@@ -101,8 +96,8 @@ const TNTTRules = () => {
         e.preventDefault();
         if (validate()) {
             // Proceed to next page or confirm
-            saveToLocalStorage('currentPage', '/generate-pdf'); // Assuming next page is /confirmation
-            window.location.href = '/generate-pdf';
+            saveToLocalStorage('currentPage', '/parent-survey'); // Assuming next page is /confirmation
+            window.location.href = '/parent-survey';
         } else {
             alert(t('errors.formErrors'));
         }

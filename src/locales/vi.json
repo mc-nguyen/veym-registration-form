@@ -99,7 +99,12 @@
     "signatureLabel": "Chữ ký xác nhận:",
     "clearSignature": "Xóa chữ ký",
     "nextButton": "Chuyển tiếp",
-    "signatureRequest": "Xin ký tên!"
+    "signatureRequest": "Xin ký tên!",
+    "common": {
+      "day": "ngày",
+      "month": "tháng",
+      "year": "năm"
+    }
   },
   "paymentPage": {
     "title": "THANH TOÁN PHÍ SINH HOẠT",
@@ -222,6 +227,31 @@
     "message_searching_for_email": "Đang tìm kiếm dữ liệu cho email: {{email}}...",
     "message_skipped": "Bạn đã bỏ qua bước tìm kiếm. Đang chuyển hướng...",
     "message_data_found": "Tìm thấy dữ liệu cho email: {{email}}",
-    "message_search_error": "Có lỗi xảy ra khi tìm kiếm dữ liệu."
-  }
+    "message_search_error": "Có lỗi xảy ra khi tìm kiếm dữ liệu.",
+    "message_search_success": "Tìm kiếm email thành công!",
+    "message_no_data_found": "Không tìm thấy dữ liệu cho {email}.",
+    "label_name": "Họ và Tên",
+    "label_dob": "Ngày Sinh",
+    "number": "STT",
+    "id": "ID",
+    "name": "Họ và Tên",
+    "dob": "Ngày Sinh",
+    "continue": "Tiếp Tục"
+  },
+  "surveyPage": {
+      "surveyTitle": "Khảo Sát Hỗ Trợ Đoàn Thiếu Nhi Thánh Thể - Mẹ Thiên Chúa",
+      "surveyIntro": "Xin chào quý phụ huynh, cảm ơn quý vị đã dành thời gian tham gia khảo sát này. Thông tin của quý vị sẽ giúp Đoàn Thiếu Nhi hoạt động hiệu quả hơn!",
+      "parentInfo": "Thông tin Phụ huynh ",
+      "parentNameLabel": "Tên Phụ huynh:",
+      "canHelpFoodService": "Phục vụ đồ ăn (ví dụ: chia đồ ăn, dọn dẹp)",
+      "canHelpFoodPurchase": "Mua đồ ăn (ví dụ: đi chợ, đặt hàng)",
+      "helpOptionsIntro": "Quý phụ huynh có thể giúp Đoàn Thiếu Nhi theo các cách sau:",
+      "otherNotesLabel": "Nếu có thể giúp theo cách khác hoặc có ghi chú thêm, xin vui lòng ghi tại đây:",
+      "addParentButton": "Thêm Phụ huynh Khác (Tối đa 3)",
+      "removeParentButton": "Xóa thông tin Phụ huynh ",
+      "submitButton": "Gửi Khảo Sát",
+      "maxParentsAlert": "Bạn chỉ có thể thêm tối đa 3 phụ huynh.",
+      "thankYouAlert": "Cảm ơn bạn đã hoàn thành khảo sát!",
+      "cancel": "\"Xin lỗi các Huynh Trưởng!\""
+    }
 }

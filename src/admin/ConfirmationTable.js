@@ -21,7 +21,7 @@ function ConfirmationTable() {
     };
 
     fetchConfirmations();
-  }, []); // Mảng rỗng đảm bảo useEffect chỉ chạy một lần khi component mount
+  }); // Mảng rỗng đảm bảo useEffect chỉ chạy một lần khi component mount
 
   if (loading) {
     return <div className="loading-message">Đang tải dữ liệu...</div>;

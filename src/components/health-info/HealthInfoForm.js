@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './HealthInfoForm.css';
-import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { saveHealthInfoToFirebase } from '../../context/firebaseFuncs';
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 
 const HealthInfoForm = () => {
-    removeFromLocalStorage('waiverFormData');
-    removeFromLocalStorage('tnttRulesFormData');
-
-    if (!getFromLocalStorage('currentPage'))
-        window.location.href = '/';
-    else if (getFromLocalStorage('currentPage') !== '/health-info')
-        window.location.href = getFromLocalStorage('currentPage');
-
     const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
     const [formData, setFormData] = useState(() => {
@@ -45,8 +37,6 @@ const HealthInfoForm = () => {
         };
         return savedData;
     });
-
-    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         saveToLocalStorage('healthInfoFormData', formData);
@@ -83,8 +73,7 @@ const HealthInfoForm = () => {
         if (!formData.emergencyContact) newErrors.emergencyContact = t('errors.required');
         if (!formData.emergencyPhone) newErrors.emergencyPhone = t('errors.required');
         if (!formData.emergencyRelationship) newErrors.emergencyRelationship = t('errors.required');
-
-        setErrors(newErrors);
+        
         return Object.keys(newErrors).length === 0;
     };
 

@@ -6,7 +6,7 @@ import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 import { getDataByEmail, getDataById } from '../../context/firebaseFuncs';
 import { saveToLocalStorage } from '../../context/storageUtils';
 
-function EmailSearch() {
+function EmailSearchAdult() {
     const { translate: t } = useLanguage();
 
     const [email, setEmail] = useState('');
@@ -41,18 +41,10 @@ function EmailSearch() {
                     const individualData = await getDataById(id); // AWAIT this call
                     const registrationData = individualData.registration;
                     const forParent = [
-                        "Ấu Nhi Dự Bị",
-                        "Ấu Nhi Cấp 1",
-                        "Ấu Nhi Cấp 2",
-                        "Ấu Nhi Cấp 3",
-                        "Thiếu Nhi Cấp 1",
-                        "Thiếu Nhi Cấp 2",
-                        "Thiếu Nhi Cấp 3",
-                        "Nghĩa Sĩ Cấp 1",
-                        "Nghĩa Sĩ Cấp 2",
-                        "Nghĩa Sĩ Cấp 3",
-                        "Hiệp Sĩ Cấp 1",
-                        "Hiệp Sĩ Cấp 2"
+                        "Hiệp Sĩ Trưởng Thành",
+                        "Huynh Trưởng",
+                        "Trợ Tá",
+                        "Huấn Luyện Viên"
                     ]
                     console.log(forParent.includes(registrationData.nganh));
 
@@ -91,7 +83,7 @@ function EmailSearch() {
         saveToLocalStorage("healthInfoFormData", individualData.healthInfo);
         saveToLocalStorage("waiverFormData", individualData.waiverRelease);
         saveToLocalStorage("tnttRulesFormData", individualData.tnttRules);
-        window.location.href = '/registration';
+        window.location.href = '/registration-adult';
     }
 
     const handleSkip = () => {
@@ -103,7 +95,7 @@ function EmailSearch() {
             // window.location.href = '/next-page';
             console.log('Chuyển hướng đến trang tiếp theo.');
             setMessage('');
-            window.location.href = '/registration';
+            window.location.href = '/registration-adult';
         }, 1500);
     };
 
@@ -135,7 +127,7 @@ function EmailSearch() {
                             <th>{t('searchEmail.id')}</th>
                             <th>{t('searchEmail.name')}</th>
                             <th>{t('searchEmail.dob')}</th>
-                            <th></th>
+                            <th>{t('searchEmail.continue')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -147,4 +139,4 @@ function EmailSearch() {
     );
 }
 
-export default EmailSearch;
+export default EmailSearchAdult;

@@ -97,7 +97,12 @@
     "signatureLabel": "Confirming signature:",
     "clearSignature": "Clear Signature",
     "nextButton": "Next",
-    "signatureRequest": "Please sign!"
+    "signatureRequest": "Please sign!",
+    "common": {
+      "day": "day",
+      "month": "month",
+      "year": "year"
+    }
   },
   "registrationFormAdult": {
     "title": "ADULT REGISTRATION FORM",
@@ -221,6 +226,31 @@
     "message_searching_for_email": "Searching for data for email: {{email}}...",
     "message_skipped": "You have skipped the search step. Redirecting...",
     "message_data_found": "Data found for email: {{email}}",
-    "message_search_error": "An error occurred while searching for data."
-  }
+    "message_search_error": "An error occurred while searching for data.",
+    "message_search_success": "Email search successful!",
+    "message_no_data_found": "No data found for {email}.",
+    "label_name": "Full Name",
+    "label_dob": "Date of Birth",
+    "number": "No.",
+    "id": "ID",
+    "name": "Full Name",
+    "dob": "Date of Birth",
+    "continue": "Continue"
+  },
+  "surveyPage": {
+      "surveyTitle": "VEYM-MTC Support Survey",
+      "surveyIntro": "Dear parents, thank you for taking the time to participate in this survey. Your information will help the Youth Group operate more effectively!",
+      "parentInfo": "Parent Information ",
+      "parentNameLabel": "Parent's Name:",
+      "canHelpFoodService": "Serve food (e.g., distribute food, clean up)",
+      "canHelpFoodPurchase": "Purchase food (e.g., grocery shopping, ordering)",
+      "helpOptionsIntro": "Parents can assist the Youth Group in the following ways:",
+      "otherNotesLabel": "If you can help in other ways or have additional notes, please write here:",
+      "addParentButton": "Add Another Parent (Max 3)",
+      "removeParentButton": "Remove Parent ",
+      "submitButton": "Submit Survey",
+      "maxParentsAlert": "You can only add a maximum of 3 parents.",
+      "thankYouAlert": "Thank you for completing the survey!",
+      "cancel": "\"Sorry guys, I cannot help!\""
+    }
 }

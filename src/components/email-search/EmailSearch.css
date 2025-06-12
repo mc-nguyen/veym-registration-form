@@ -73,6 +73,14 @@ button {
     background-color: #5a6268;
 }
 
+.action-button {
+    background-color: #009e0d;
+}
+
+.action-button:hover {
+    background-color: #00df13;
+}
+
 .message {
     margin-top: 20px;
     padding: 10px;
@@ -104,4 +112,46 @@ button {
     background-color: #d1ecf1;
     color: #0c5460;
     border: 1px solid #bee5eb;
+}
+
+/* src/components/EmailSearch.css */
+
+.container {
+    /* Đảm bảo container có width cụ thể để bảng có thể vừa vào */
+    max-width: 900px; /* Ví dụ: hoặc một giá trị phù hợp với thiết kế của bạn */
+    margin: 20px auto; /* Canh giữa container */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    /* Thêm overflow-x nếu bạn muốn bảng có thể cuộn ngang khi quá rộng */
+    overflow-x: auto;
+}
+
+table {
+    width: 100%; /* Bảng sẽ chiếm toàn bộ chiều rộng của phần tử cha (container) */
+    border-collapse: collapse; /* Gộp các đường viền của ô */
+    margin-top: 20px; /* Khoảng cách với các phần tử phía trên */
+}
+
+th, td {
+    border: 1px solid #ddd; /* Đường viền cho ô */
+    padding: 8px; /* Khoảng cách bên trong ô */
+    text-align: left; /* Căn lề trái cho nội dung trong ô */
+}
+
+th {
+    background-color: #f2f2f2; /* Màu nền cho header của bảng */
+    font-weight: bold;
+}
+
+/* Tùy chọn: Thêm kiểu cho hàng chẵn/lẻ để dễ nhìn hơn */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Tùy chọn: Hover effect cho hàng */
+tr:hover {
+    background-color: #f1f1f1;
 }

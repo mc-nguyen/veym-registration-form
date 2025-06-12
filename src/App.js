@@ -20,6 +20,8 @@ import AdminDashboard from "./admin/AdminDashboard";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import EmailSearch from "./components/email-search/EmailSearch";
 import ConfirmationTable from "./admin/ConfirmationTable";
+import EmailSearchAdult from "./components/email-search/EmailSearchAdult";
+import ParentSurveyForm from "./components/parent-survey-form/ParentSurveyForm";
 
 function App() {
   return (
@@ -28,15 +30,19 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/guide" element={<GuidePage />} />
+          <Route path="/preview-pdf" element={<PDFPreview />} />
+
           <Route path="/email-search" element={<EmailSearch />} />
           <Route path="/registration" element={<RegistrationForm />} />
-          <Route path="/guide" element={<GuidePage />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/health-info" element={<HealthInfoForm />} />
           <Route path="/waiver-release" element={<WaiverRelease />} />
           <Route path="/tntt-rules" element={<TNTTRules />} />
-          <Route path="/preview-pdf" element={<PDFPreview />} />
+          <Route path="/parent-survey" element={<ParentSurveyForm />} />
           <Route path="/generate-pdf" element={<GeneratePDF />} />
+
+          <Route path="/email-search-adult" element={<EmailSearchAdult />} />
           <Route path="/registration-adult" element={<RegistrationFormAdult />} />
           <Route path="/payment-adult" element={<PaymentAdult />} />
           <Route path="/health-info-adult" element={<HealthInfoFormAdult />} />

@@ -1,20 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./RegistrationForm.css"; // Dùng chung CSS với RegistrationForm
-import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { saveEmailWithID, saveRegistrationToFirebase } from "../../context/firebaseFuncs";
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 
 const RegistrationFormAdult = () => {
-    removeFromLocalStorage('healthInfoFormData');
-    removeFromLocalStorage('waiverFormData');
-    removeFromLocalStorage('tnttRulesFormData');
-    removeFromLocalStorage('paymentFormData');
-
-    if (!getFromLocalStorage('currentPage'))
-        window.location.href = '/';
-    else if (getFromLocalStorage('currentPage') !== '/registration-adult')
-        window.location.href = getFromLocalStorage('currentPage');
-
     const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
     const [formData, setFormData] = useState(() => {
@@ -29,7 +19,9 @@ const RegistrationFormAdult = () => {
             phoneWork: "",
             phoneEmergency: "",
             email: "",
-            ngaySinh: "",
+            day: "", // New
+            month: "", // New
+            year: "", // New
             nganh: "",
             signature: null
         };
@@ -130,12 +122,18 @@ const RegistrationFormAdult = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Simple validation, enhance as needed
-        if (!formData.tenThanh || !formData.ho || !formData.tenGoi || !formData.nganh || !formData.signature) {
+        if (!formData.tenThanh || !formData.ho || !formData.tenGoi || !formData.nganh || !formData.signature || !formData.day || !formData.month || !formData.year) {
             alert(t('errors.allFieldsRequired')); // Use translation for alert
             return;
         }
-        saveToLocalStorage('registrationFormData', formData);
-        saveToLocalStorage('id', await saveRegistrationToFirebase(formData));
+
+        const finalFormData = {
+            ...formData,
+            ngaySinh: `${formData.year}-${formData.month}-${formData.day}`, // Combine for backend if needed
+        };
+
+        saveToLocalStorage('registrationFormData', finalFormData); // Save the combined data
+        saveToLocalStorage('id', await saveRegistrationToFirebase(finalFormData));
         await saveEmailWithID(formData.email, getFromLocalStorage('id'));
         saveToLocalStorage('currentPage', '/payment-adult');
         saveToLocalStorage('nganh', formData.nganh);
@@ -261,13 +259,38 @@ const RegistrationFormAdult = () => {
                     </div>
                     <div className="form-group">
                         <label>{t('registrationFormAdult.birthDate')}</label>
-                        <input
-                            type="date"
-                            name="ngaySinh"
-                            value={formData.ngaySinh}
-                            onChange={handleChange}
-                            required
-                        />
+                        <div className="date-input-group"> {/* Add a wrapper div for styling */}
+                            <input
+                                type="number"
+                                placeholder={t('registrationForm.common.day')}
+                                name="day"
+                                value={formData.day}
+                                onChange={handleChange}
+                                min="1"
+                                max="31"
+                                required
+                            />
+                            <input
+                                type="number"
+                                placeholder={t('registrationForm.common.month')}
+                                name="month"
+                                value={formData.month}
+                                onChange={handleChange}
+                                min="1"
+                                max="12"
+                                required
+                            />
+                            <input
+                                type="number"
+                                placeholder={t('registrationForm.common.year')}
+                                name="year"
+                                value={formData.year}
+                                onChange={handleChange}
+                                min="1900" // Adjust as needed
+                                max={new Date().getFullYear()}
+                                required
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -485,3 +485,35 @@ alert {
   border-radius: 8px;
   padding: 15px;
 }
+
+/* For the container of your date inputs */
+.date-input-group {
+    display: flex; /* Makes items arrange in a row */
+    gap: 10px; /* Adds space between the inputs */
+    /* You might want to adjust width or margin-bottom as needed */
+    margin-bottom: 15px; /* Example spacing below the group */
+}
+
+/* For the individual date inputs within the group */
+.date-input-group input[type="number"] {
+    flex: 1; /* Allows each input to take up equal available space */
+    /* You can adjust padding, border, etc., if they look off */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+    text-align: center; /* Center the text inside the input */
+}
+
+/* Optional: Adjustments for smaller screens (mobile responsiveness) */
+@media (max-width: 768px) {
+    .date-input-group {
+        flex-direction: column; /* Stack inputs vertically on small screens */
+        gap: 8px; /* Adjust gap for vertical stacking */
+    }
+
+    .date-input-group input[type="number"] {
+        flex: unset; /* Remove flex property when stacked */
+        width: 100%; /* Make inputs take full width when stacked */
+    }
+}

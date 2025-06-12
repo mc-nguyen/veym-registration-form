@@ -31,7 +31,7 @@ const PDFPreview = () => {
             {/* Page 1: Registration Form */}
             <div className="pdf-page">
                 {renderHeader()}
-                <h2 className="form-title">Đơn Ghi Danh Đoàn Thiếu Nhi Thánh Thể 2024-2025</h2>
+                <h2 className="form-title">Đơn Ghi Danh Đoàn Thiếu Nhi Thánh Thể 2025-2026</h2>
 
                 <div className="form-section">
                     <table className="pdf-table">
@@ -161,7 +161,6 @@ const PDFPreview = () => {
 
             {/* Page 2: Health Information */}
             <div className="pdf-page">
-                {renderHeader()}
                 <h2 className="section-title">PARTICIPANT AGREEMENT FORM</h2>
                 <h3>PARTICIPANT'S INFORMATION (please print)</h3>
 
@@ -200,11 +199,10 @@ const PDFPreview = () => {
 
             {/* Page 3: Waiver and Release */}
             <div className="pdf-page">
-                {renderHeader()}
                 <h2 className="section-title">WAIVER AND RELEASE</h2>
 
                 <div className="waiver-section">
-                    <p>an adult [age of majority, per State (e.g., 18 years old in California)] and I
+                    <p>I, ________________________, an adult [age of majority, per State (e.g., 18 years old in California)] and I
                         am the named participant, or I am the parent/guardian of the minor who will be participating in the
                         above-mentioned event (“The Event”) organized and/or sponsored by the Vietnamese Eucharistic Youth Movement
                         in the U.S.A. (“VEYM”). I am fully aware that my or my child’s participation in The Event is totally voluntary.
@@ -358,7 +356,6 @@ const PDFPreview = () => {
 
             {/* Page 4: TNTT Rules */}
             <div className="pdf-page">
-                {renderHeader()}
                 <h2 className="section-title">ĐOÀN THIẾU NHI THÁNH THẾ'S (TNTT) RULES</h2>
 
                 <div className="rules-section">

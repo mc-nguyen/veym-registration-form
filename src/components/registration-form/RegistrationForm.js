@@ -1,21 +1,11 @@
 // RegistrationForm.js
 import React, { useState, useRef, useEffect } from "react";
 import "./RegistrationForm.css";
-import { saveToLocalStorage, getFromLocalStorage, removeFromLocalStorage } from '../../context/storageUtils';
+import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { saveRegistrationToFirebase } from "../../context/firebaseFuncs";
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 
 const RegistrationForm = () => {
-    removeFromLocalStorage('healthInfoFormData');
-    removeFromLocalStorage('waiverFormData');
-    removeFromLocalStorage('tnttRulesFormData');
-    removeFromLocalStorage('paymentFormData');
-
-    if (!getFromLocalStorage('currentPage'))
-        window.location.href = '/';
-    else if (getFromLocalStorage('currentPage') !== '/registration')
-        window.location.href = getFromLocalStorage('currentPage');
-
     const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
     const [formData, setFormData] = useState(() => {
@@ -32,8 +22,10 @@ const RegistrationForm = () => {
             phoneWork: "",
             phoneEmergency: "",
             email: "",
-            ngaySinh: "",
-            nganh: "" // Sẽ lưu KEY của ngành vào đây
+            day: "", // New
+            month: "", // New
+            year: "", // New
+            nganh: ""
         };
         return savedData;
     });
@@ -46,33 +38,32 @@ const RegistrationForm = () => {
     const [hasParentDrawn, setHasParentDrawn] = useState(false);
 
     // Hàm để tính toán KEY ngành dựa trên năm sinh
-    const calculateNganhKey = (birthDateString) => {
-        if (!birthDateString) return "";
+    const calculateNganhKey = (day, month, year) => {
+        if (!day || !month || !year) return "";
 
-        const birthYear = new Date(birthDateString).getFullYear();
-
+        const birthYear = parseInt(year, 10);
+        // ... (rest of your switch case remains the same)
         switch (birthYear) {
             case 2019: return "AU_NHI_DU_BI";
             case 2018: return "AU_NHI_CAP_1";
             case 2017: return "AU_NHI_CAP_2";
-            case 2016: return "AU_NHI_CAP_3"; // Giả định cấp Thiếu Nhi
+            case 2016: return "AU_NHI_CAP_3";
             case 2015: return "THIEU_NHI_CAP_1";
             case 2014: return "THIEU_NHI_CAP_2";
-            case 2013: return "THIEU_NHI_CAP_3"; // Giả định cấp Nghĩa Sĩ
+            case 2013: return "THIEU_NHI_CAP_3";
             case 2012: return "NGHIA_SI_CAP_1";
             case 2011: return "NGHIA_SI_CAP_2";
-            case 2010: return "NGHIA_SI_CAP_3"; // Giả định cấp Hiệp Sĩ
+            case 2010: return "NGHIA_SI_CAP_3";
             case 2009: return "HIEP_SI_CAP_1";
             case 2008: return "HIEP_SI_CAP_2";
-            default: return "INVALID_BRANCH"; // Mặc định là "Không hợp lệ"
+            default: return "INVALID_BRANCH";
         }
     };
 
     useEffect(() => {
         saveToLocalStorage('registrationFormData', formData);
-        const calculatedNganhKey = calculateNganhKey(formData.ngaySinh);
+        const calculatedNganhKey = calculateNganhKey(formData.day, formData.month, formData.year); // Updated
         setNganhHienThiKey(calculatedNganhKey);
-        // Lưu KEY của ngành vào formData để gửi lên Firebase
         setFormData(prevData => ({ ...prevData, nganh: calculatedNganhKey }));
 
         const handleResize = () => {
@@ -81,7 +72,7 @@ const RegistrationForm = () => {
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [formData, t]); // Thêm 't' vào dependency array để re-render khi ngôn ngữ thay đổi
+    }, [formData, t]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -155,13 +146,14 @@ const RegistrationForm = () => {
 
         const finalFormData = {
             ...formData,
+            ngaySinh: `${formData.year}-${formData.month}-${formData.day}`, // Combine for backend if needed
             parentSignature: parentSignatureData,
             dateSigned: new Date().toLocaleDateString(),
-            nganh: t(`registrationForm.branch.${nganhHienThiKey}`) // Đảm bảo KEY ngành được lưu
+            nganh: nganhHienThiKey // Store the KEY, not the translated value
         };
         saveToLocalStorage('id', await saveRegistrationToFirebase(finalFormData));
         saveToLocalStorage('currentPage', '/payment');
-        saveToLocalStorage('nganh', t(`registrationForm.branch.${formData.nganh}`).split(' ').slice(0, 2).join(' '));
+        saveToLocalStorage('nganh', t(`registrationForm.branch.${nganhHienThiKey}`).split(' ').slice(0, 2).join(' ')); // Use nganhHienThiKey for display
         saveToLocalStorage('fullName', [formData.tenGoi, formData.tenDem, formData.ho].join(' ').trim())
         window.location.href = '/payment';
     };
@@ -317,15 +309,39 @@ const RegistrationForm = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="birthDate">{t('registrationForm.birthDate')}</label>
-                    <input
-                        type="date"
-                        id="birthDate"
-                        name="ngaySinh"
-                        value={formData.ngaySinh}
-                        onChange={handleChange}
-                        required
-                    />
+                    <label>{t('registrationForm.birthDate')}</label>
+                    <div className="date-input-group"> {/* Add a wrapper div for styling */}
+                        <input
+                            type="number"
+                            placeholder={t('registrationForm.common.day')} // Translate placeholder
+                            name="day"
+                            value={formData.day}
+                            onChange={handleChange}
+                            min="1"
+                            max="31"
+                            required
+                        />
+                        <input
+                            type="number"
+                            placeholder={t('registrationForm.common.month')} // Translate placeholder
+                            name="month"
+                            value={formData.month}
+                            onChange={handleChange}
+                            min="1"
+                            max="12"
+                            required
+                        />
+                        <input
+                            type="number"
+                            placeholder={t('registrationForm.common.year')} // Translate placeholder
+                            name="year"
+                            value={formData.year}
+                            onChange={handleChange}
+                            min="1900" // Adjust as needed
+                            max={new Date().getFullYear()}
+                            required
+                        />
+                    </div>
                 </div>
             </div>
 
