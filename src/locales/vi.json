@@ -261,5 +261,31 @@
     "thankYouAlert": "Cảm ơn bạn đã hoàn thành khảo sát!",
     "cancel": "\"Xin lỗi các Huynh Trưởng!\""
   },
-  "clearSignature": "Xóa chữ ký"
+  "clearSignature": "Xóa chữ ký",
+  "exportExcel": {
+    "exportTitle": "Xuất Tất Cả Dữ Liệu Đăng Ký ra Excel",
+    "exportButton": "Xuất ra Excel",
+    "exporting": "Đang xuất...",
+    "noDataFound": "Không tìm thấy dữ liệu đăng ký nào để xuất.",
+    "exportError": "Đã xảy ra lỗi trong quá trình xuất. Vui lòng thử lại.",
+    "tenThanh": "Tên Thánh",
+    "ho": "Họ",
+    "tenDem": "Tên Đệm",
+    "tenGoi": "Tên Gọi",
+    "tenCha": "Tên Cha",
+    "tenMe": "Tên Mẹ",
+    "diaChi": "Địa Chỉ",
+    "phoneHome": "Điện Thoại Nhà",
+    "phoneCell": "Điện Thoại Di Động",
+    "phoneWork": "Điện Thoại Cơ Quan",
+    "phoneEmergency": "Điện Thoại Khẩn Cấp",
+    "email": "Email",
+    "birthDay": "Ngày Sinh",
+    "birthMonth": "Tháng Sinh",
+    "birthYear": "Năm Sinh",
+    "nganh": "Ngành",
+    "parentSignature": "Chữ Ký Phụ Huynh",
+    "nguoiGiamHo": "Tên Người Giám Hộ",
+    "moiQuanHe": "Mối Quan Hệ"
+  }
 }

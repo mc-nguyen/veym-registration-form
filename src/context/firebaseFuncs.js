@@ -214,6 +214,56 @@ export const saveParentSurvey = async (data) => {
   }
 }
 
+export const getAllRegistrationsData = async () => {
+  try {
+    const registrationsRef = collection(db, 'registrations');
+    const querySnapshot = await getDocs(registrationsRef);
+
+    let allRegistrationsData = [];
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      if (data.registration) { // Chỉ lấy nếu có phần 'registration'
+        allRegistrationsData.push(data.registration);
+      }
+    });
+
+    // Định nghĩa thứ tự ưu tiên của các ngành
+    const nganhOrder = [
+      "Ấu Nhi Dự Bị", "Ấu Nhi Cấp 1", "Ấu Nhi Cấp 2", "Ấu Nhi Cấp 3",
+      "Thiếu Nhi Cấp 1", "Thiếu Nhi Cấp 2", "Thiếu Nhi Cấp 3",
+      "Nghĩa Sĩ Cấp 1", "Nghĩa Sĩ Cấp 2", "Nghĩa Sĩ Cấp 3",
+      "Hiệp Sĩ Cấp 1", "Hiệp Sĩ Cấp 2", "Hiệp Sĩ Trưởng Thành",
+      "Huynh Trưởng", "Trợ Tá", "Huấn Luyện Viên"
+    ];
+
+    // Tạo một map để tra cứu chỉ số (thứ tự) của ngành
+    const nganhIndexMap = new Map(nganhOrder.map((nganh, index) => [nganh, index]));
+
+    // Sắp xếp dữ liệu
+    allRegistrationsData.sort((a, b) => {
+      const nganhA = a.nganh || ""; // Đảm bảo có giá trị để so sánh, tránh undefined
+      const nganhB = b.nganh || "";
+
+      const indexA = nganhIndexMap.has(nganhA) ? nganhIndexMap.get(nganhA) : Infinity; // Đưa ngành không xác định xuống cuối
+      const indexB = nganhIndexMap.has(nganhB) ? nganhIndexMap.get(nganhB) : Infinity;
+
+      if (indexA !== indexB) {
+        return indexA - indexB;
+      }
+
+      // Nếu cùng ngành, sắp xếp theo tên gọi (first name)
+      const tenGoiA = a.tenGoi || "";
+      const tenGoiB = b.tenGoi || "";
+      return tenGoiA.localeCompare(tenGoiB);
+    });
+
+    return allRegistrationsData;
+  } catch (error) {
+    console.error("Lỗi khi lấy tất cả dữ liệu đăng ký:", error);
+    throw error;
+  }
+};
+
 const auth = getAuth(app); // Khởi tạo Auth
 
 export { db, auth }; // Export auth

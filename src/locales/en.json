@@ -260,5 +260,31 @@
     "thankYouAlert": "Thank you for completing the survey!",
     "cancel": "\"Sorry guys, I cannot help!\""
   },
-  "clearSignature": "Clear Signature"
+  "clearSignature": "Clear Signature",
+  "exportExcel": {
+    "exportTitle": "Export All Registration Data to Excel",
+    "exportButton": "Export to Excel",
+    "exporting": "Exporting...",
+    "noDataFound": "No registration data found to export.",
+    "exportError": "An error occurred during export. Please try again.",
+    "tenThanh": "Saint Name",
+    "ho": "Last Name",
+    "tenDem": "Middle Name",
+    "tenGoi": "First Name",
+    "tenCha": "Father's Name",
+    "tenMe": "Mother's Name",
+    "diaChi": "Address",
+    "phoneHome": "Home Phone",
+    "phoneCell": "Cell Phone",
+    "phoneWork": "Work Phone",
+    "phoneEmergency": "Emergency Phone",
+    "email": "Email",
+    "birthDay": "Birth Day",
+    "birthMonth": "Birth Month",
+    "birthYear": "Birth Year",
+    "nganh": "Nganh",
+    "parentSignature": "Parent Signature",
+    "nguoiGiamHo": "Guardian Name",
+    "moiQuanHe": "Relationship"
+  }
 }

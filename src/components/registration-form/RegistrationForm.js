@@ -126,7 +126,7 @@ const RegistrationForm = () => {
             parentSignature: parentSignatureData,
             studentSignature: studentSignatureData, // Include student signature (NEW)
             dateSigned: new Date().toLocaleDateString(),
-            nganh: nganhHienThiKey
+            nganh: t(`registrationForm.branch.${nganhHienThiKey}`)
         };
         saveToLocalStorage('id', await saveRegistrationToFirebase(finalFormData));
         saveToLocalStorage('currentPage', '/payment');
