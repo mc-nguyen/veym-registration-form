@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth, db, getDataById } from '../context/firebaseFuncs'; // Đảm bảo đường dẫn đúng
-import { doc, getDoc } from 'firebase/firestore';
+import { auth, getDataById } from '../context/firebaseFuncs'; // Đảm bảo đường dẫn đúng
 import { saveToLocalStorage } from '../context/storageUtils';
 
 const AdminDashboard = () => {
@@ -85,7 +84,7 @@ const AdminDashboard = () => {
 
     return (
         <div className="admin-dashboard-container">
-            <h2>Chào mừng, Admin!</h2>
+            <h2>Chào mừng, Admin {user}!</h2>
             <button onClick={handleLogout} style={{ float: 'right' }}>Đăng xuất</button>
 
             <h3>Tìm kiếm thông tin đăng ký theo ID</h3>

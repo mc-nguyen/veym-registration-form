@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Payment.css';
 import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
-import { checkConfirmationCode, savePaymentToFirebase } from '../../context/firebaseFuncs';
+import { activateConfirmation, checkConfirmationCode, savePaymentToFirebase } from '../../context/firebaseFuncs';
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 import zelle from '../../assets/zelle.png';
 
@@ -41,7 +41,7 @@ const PaymentAdult = () => {
   });
 
   const [confirmationCode, setConfirmationCode] = useState('');
-  const [isValidCode, setIsValidCode] = useState(false);
+  const [isValidCode, setIsValidCode] = useState(null);
 
   useEffect(() => {
     saveToLocalStorage('paymentFormData', quantities);
@@ -67,11 +67,22 @@ const PaymentAdult = () => {
   const totalAmount = calculateTotal();
 
   // Kiểm tra mã xác nhận
-  const handleCodeChange = (e) => {
+  const handleCodeChange = async (e) => {
     const code = e.target.value;
     setConfirmationCode(code);
-    setIsValidCode(checkConfirmationCode(getFromLocalStorage('id'))); // Giả lập kiểm tra mã
+    setIsValidCode(await checkConfirmationCode(code));
   };
+
+  const handleSubmit = async () => {
+    saveToLocalStorage('currentPage', '/health-info');
+    await savePaymentToFirebase(getFromLocalStorage('id'), quantities);
+    if (!isValidCode.found) {
+      alert(isValidCode.message);
+      return;
+    }
+    await activateConfirmation(confirmationCode);
+    window.location.href = '/health-info';
+  }
 
   return (
     <div className="payment-container">
@@ -114,7 +125,7 @@ const PaymentAdult = () => {
         <h3>{t('paymentPage.zellePaymentTitle')}</h3>
         <div className="qr-code-container">
           <img src={zelle} alt="Zelle" className="zelle-logo" />
-          <p className="zelle-email">{t('paymentPage.zelleEmail')}<br/>tnttmethienchuariverside@gmail.com</p>
+          <p className="zelle-email">{t('paymentPage.zelleEmail')}<br />tnttmethienchuariverside@gmail.com</p>
           <p className="payment-note">
             {t('paymentPage.paymentNote1')}
             <br /><strong>714-873-3039</strong><br />
@@ -144,11 +155,7 @@ const PaymentAdult = () => {
         <button
           className={`submit-btn ${isValidCode ? '' : 'disabled'}`}
           disabled={!isValidCode}
-          onClick={async () => {
-            saveToLocalStorage('currentPage', '/health-info-adult');
-            await savePaymentToFirebase(getFromLocalStorage('id'), quantities);
-            window.location.href = '/health-info-adult';
-          }}
+          onClick={handleSubmit}
         >
           {t('paymentPage.completeRegistrationButton')}
         </button>

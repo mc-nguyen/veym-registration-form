@@ -7,8 +7,18 @@ const ParentSurveyForm = () => {
 
     const initialParentState = {
         parentName: '',
+        parentPhone: '', // New field for phone number
+        parentEmail: '', // New field for email
         canHelpFoodService: false,
         canHelpFoodPurchase: false,
+        activityVolunteer: { // New object for activity options
+            assistant: false,
+            cookChildren: false,
+            teaching: false,
+            finance: false,
+            liturgy: false,
+            medical: false,
+        },
         otherNotes: '',
     };
 
@@ -17,10 +27,22 @@ const ParentSurveyForm = () => {
     const handleInputChange = (index, event) => {
         const { name, value, type, checked } = event.target;
         const newParents = [...parents];
-        newParents[index] = {
-            ...newParents[index],
-            [name]: type === 'checkbox' ? checked : value,
-        };
+
+        if (name.startsWith('activityVolunteer.')) {
+            const activityName = name.split('.')[1];
+            newParents[index] = {
+                ...newParents[index],
+                activityVolunteer: {
+                    ...newParents[index].activityVolunteer,
+                    [activityName]: checked,
+                },
+            };
+        } else {
+            newParents[index] = {
+                ...newParents[index],
+                [name]: type === 'checkbox' ? checked : value,
+            };
+        }
         setParents(newParents);
     };
 
@@ -43,6 +65,7 @@ const ParentSurveyForm = () => {
         alert(t('surveyPage.thankYouAlert')); // Sử dụng t() với key đầy đủ
         // Tùy chọn: Reset form sau khi gửi
         setParents([initialParentState]);
+        window.location.href = '/generate-pdf';
     };
 
     return (
@@ -66,6 +89,30 @@ const ParentSurveyForm = () => {
                             />
                         </div>
 
+                        {/* New field: Phone Number */}
+                        <div className="form-group">
+                            <label htmlFor={`parentPhone-${index}`}>{t('surveyPage.parentPhoneLabel')}</label>
+                            <input
+                                type="tel" // Use type="tel" for phone numbers
+                                id={`parentPhone-${index}`}
+                                name="parentPhone"
+                                value={parent.parentPhone}
+                                onChange={(e) => handleInputChange(index, e)}
+                            />
+                        </div>
+
+                        {/* New field: Email */}
+                        <div className="form-group">
+                            <label htmlFor={`parentEmail-${index}`}>{t('surveyPage.parentEmailLabel')}</label>
+                            <input
+                                type="email" // Use type="email" for email addresses
+                                id={`parentEmail-${index}`}
+                                name="parentEmail"
+                                value={parent.parentEmail}
+                                onChange={(e) => handleInputChange(index, e)}
+                            />
+                        </div>
+
                         <div className="form-group checkbox-group">
                             <p>{t('surveyPage.helpOptionsIntro')}</p> {/* Dịch dòng giới thiệu */}
                             <label>
@@ -85,6 +132,60 @@ const ParentSurveyForm = () => {
                                     onChange={(e) => handleInputChange(index, e)}
                                 />
                                 {t('surveyPage.canHelpFoodPurchase')}
+                            </label>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="activityVolunteer.assistant"
+                                    checked={parent.activityVolunteer.assistant}
+                                    onChange={(e) => handleInputChange(index, e)}
+                                />
+                                {t('surveyPage.activityAssistant')}
+                            </label>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="activityVolunteer.cookChildren"
+                                    checked={parent.activityVolunteer.cookChildren}
+                                    onChange={(e) => handleInputChange(index, e)}
+                                />
+                                {t('surveyPage.activityCookChildren')}
+                            </label>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="activityVolunteer.teaching"
+                                    checked={parent.activityVolunteer.teaching}
+                                    onChange={(e) => handleInputChange(index, e)}
+                                />
+                                {t('surveyPage.activityTeaching')}
+                            </label>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="activityVolunteer.finance"
+                                    checked={parent.activityVolunteer.finance}
+                                    onChange={(e) => handleInputChange(index, e)}
+                                />
+                                {t('surveyPage.activityFinance')}
+                            </label>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="activityVolunteer.liturgy"
+                                    checked={parent.activityVolunteer.liturgy}
+                                    onChange={(e) => handleInputChange(index, e)}
+                                />
+                                {t('surveyPage.activityLiturgy')}
+                            </label>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="activityVolunteer.medical"
+                                    checked={parent.activityVolunteer.medical}
+                                    onChange={(e) => handleInputChange(index, e)}
+                                />
+                                {t('surveyPage.activityMedical')}
                             </label>
                         </div>
 
@@ -116,11 +217,6 @@ const ParentSurveyForm = () => {
                 <button type="submit" className="submit-button">
                     {t('surveyPage.submitButton')}
                 </button>
-                <div style={{ textAlign: "right", paddingTop: 10 }}>
-                    <a href='/generate-pdf'>
-                        {t('surveyPage.cancel')}
-                    </a>
-                </div>
             </form>
         </div>
     );

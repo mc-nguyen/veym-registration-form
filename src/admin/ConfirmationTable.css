@@ -58,3 +58,46 @@ h1 {
     /* Màu đỏ cho lỗi */
     font-weight: bold;
 }
+
+.generate-button {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.generate-button:hover {
+    background-color: #0056b3;
+}
+
+.generate-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.status-cell {
+    text-align: center; /* Để căn giữa dấu tích/chéo */
+    font-weight: bold; /* Để dấu tích/chéo nổi bật hơn */
+    font-size: 1.2em; /* Tăng kích thước icon */
+}
+
+.status-icon {
+    display: inline-block; /* Để có thể áp dụng màu và kích thước */
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.status-true {
+    color: #28a745; /* Màu xanh lá cây cho dấu tích */
+}
+
+.status-false {
+    color: #dc3545; /* Màu đỏ cho dấu gạch chéo */
+}

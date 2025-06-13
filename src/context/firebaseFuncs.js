@@ -20,10 +20,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const saveRegistrationToFirebase = async (data) => {
-  const confirmationCode = generateRandomConfirmationCode();
   try {
     const docRef = await addDoc(collection(db, "registrations"), {
-      confirmationCode: confirmationCode,
       registration: data,
       status: 'pending'
     });
@@ -34,42 +32,76 @@ export const saveRegistrationToFirebase = async (data) => {
   }
 }
 
-function generateRandomConfirmationCode() {
+export const generateRandomConfirmationCode = async () => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
   const charactersLength = characters.length;
   for (let i = 0; i < 4; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
-  return result;
+  try {
+    await setDoc(doc(db, 'confirmations', result), {
+      used: false,
+      given: false
+    });
+  } catch (error) {
+    console.error("Lỗi khi lưu tài liệu:", error);
+    throw error; // Ném lỗi để xử lý ở nơi gọi
+  }
 }
 
-export const checkConfirmationCode = async (docId, codeToCheck) => {
+export const checkConfirmationCode = async (codeToCheck) => {
   try {
-    const docRef = doc(db, 'registrations', docId);
+    const docRef = doc(db, 'confirmations', codeToCheck);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-      const storedCode = data.confirmationCode;
 
-      if (storedCode && storedCode === codeToCheck) {
-        console.log("Mã xác nhận trùng khớp!");
-        await updateDoc(docRef, { status: 'paid' });
-        return true;
-      } else {
-        console.log("Mã xác nhận không trùng khớp hoặc không tồn tại trong tài liệu.");
-        return false;
-      }
-    } else {
-      console.log("Không tìm thấy tài liệu với ID:", docId);
-      return false;
-    }
+      if (data.given)
+        if (data.used) return {
+          found: false,
+          message: "Mã xác nhận đã được sử dụng/Confirmation have been used!"
+        };
+        else return {
+          found: true,
+          message: "Trùng khớp/Matched!"
+        };
+      else return {
+        found: false,
+        message: "Không trùng khớp/Mismatched!"
+      };
+    } else return {
+      found: false,
+      message: "Không trùng khớp/Mismatched!"
+    };
   } catch (error) {
     console.error("Lỗi khi kiểm tra mã xác nhận:", error);
     throw error; // Ném lỗi để component gọi có thể bắt và xử lý
   }
 };
+
+export const giveConfirmation = async (code) => {
+  try {
+    const docRef = doc(db, 'confirmations', code);
+    const givenBooleanValue = (await getDoc(docRef)).data().given;
+    await updateDoc(docRef, { given: !givenBooleanValue });
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    throw error;
+  }
+}
+
+export const activateConfirmation = async (code) => {
+  try {
+    const docRef = doc(db, 'confirmations', code);
+    const usedBooleanValue = (await getDoc(docRef)).data().used;
+    await updateDoc(docRef, { used: !usedBooleanValue });
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    throw error;
+  }
+}
 
 export const savePaymentToFirebase = async (id, data) => {
   try {
@@ -159,7 +191,7 @@ export const saveEmailWithID = async (email, id) => {
     const existed = await getDoc(doc(db, 'emails', email));
     if (!existed.exists()) {// ko tồn tại
       console.log("Ko tìm thấy " + email);
-      
+
       await setDoc(doc(db, 'emails', email), {
         length: 1,
         0: id
@@ -169,7 +201,7 @@ export const saveEmailWithID = async (email, id) => {
       console.log("tìm thấy " + email);
       await updateDoc(doc(db, 'emails', email), {
         [existed.data().length]: id,
-        length: existed.data().length+1
+        length: existed.data().length + 1
       });
     }
     return email; // Trả về ID tài liệu (chính là email)
@@ -182,7 +214,7 @@ export const saveEmailWithID = async (email, id) => {
 export const getAllConfirmations = async () => {
   try {
     // 1. Tạo một tham chiếu đến collection 'registrations'
-    const registrationsRef = collection(db, 'registrations');
+    const registrationsRef = collection(db, 'confirmations');
 
     // 2. Lấy tất cả các tài liệu từ collection
     const querySnapshot = await getDocs(registrationsRef);
@@ -193,8 +225,9 @@ export const getAllConfirmations = async () => {
       // doc.data() is never undefined for query doc snapshots
       console.log(doc.id, " => ", doc.data());
       allData.push({
-        id: doc.id,
-        confirmation: doc.data().confirmationCode,
+        confirmation: doc.id,
+        given: doc.data().given,
+        used: doc.data().used,
       });
     });
     return allData; // Trả về một mảng chứa tất cả dữ liệu

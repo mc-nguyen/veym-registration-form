@@ -50,29 +50,31 @@ h2 {
 }
 
 .form-group input[type="text"],
+.form-group input[type="tel"], /* Added for phone number */
+.form-group input[type="email"], /* Added for email */
 .form-group textarea {
   width: calc(100% - 20px);
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
-  box-sizing: border-box; /* Đảm bảo padding và border không làm tăng width */
+  box-sizing: border-box;
 }
 
 .form-group textarea {
-  resize: vertical; /* Cho phép thay đổi kích thước theo chiều dọc */
+  resize: vertical;
 }
 
 .checkbox-group label {
-  display: flex; /* Dùng flexbox để căn chỉnh checkbox và text */
-  align-items: center; /* Căn giữa theo chiều dọc */
+  display: flex;
+  align-items: center;
   margin-bottom: 10px;
-  font-weight: normal; /* Đặt lại font-weight vì đã có bold cho label chung */
+  font-weight: normal;
 }
 
 .checkbox-group input[type="checkbox"] {
-  margin-right: 10px; /* Khoảng cách giữa checkbox và text */
-  transform: scale(1.2); /* Phóng to checkbox một chút */
+  margin-right: 10px;
+  transform: scale(1.2);
 }
 
 button {
@@ -82,7 +84,7 @@ button {
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease;
-  margin-right: 10px; /* Khoảng cách giữa các nút */
+  margin-right: 10px;
 }
 
 .add-button {
@@ -108,7 +110,7 @@ button {
 .submit-button {
   background-color: #007bff;
   color: white;
-  display: block; /* Để nút submit chiếm toàn bộ chiều rộng */
+  display: block;
   width: 100%;
   margin-top: 30px;
   padding: 12px 20px;

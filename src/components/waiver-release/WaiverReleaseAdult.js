@@ -104,8 +104,8 @@ const WaiverReleaseAdult = () => {
         try {
             const finalFormData = { ...formData, signature: signatureData };
             await saveWaiverReleaseToFirebase(getFromLocalStorage('id'), finalFormData);
-            saveToLocalStorage('currentPage', '/medical-release-adult');
-            window.location.href = '/medical-release-adult';
+            saveToLocalStorage('currentPage', '/tntt-rules-adult');
+            window.location.href = '/tntt-rules-adult';
         } catch (error) {
             console.error("Error submitting waiver:", error);
             alert(t('waiverRelease.submissionError'));

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getFromLocalStorage, removeFromLocalStorage } from '../context/storageUtils';
+import { getFromLocalStorage } from '../context/storageUtils';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -15,18 +15,12 @@ const GeneratePDFAdult = () => {
   const tnttRulesData = getFromLocalStorage('tnttRulesFormData') || {};
   const paymentData = getFromLocalStorage('paymentFormData') || {};
 
-  // Hàm render chữ ký
-  const renderSignature = (signatureData) => {
-    if (!signatureData) return '<span class="signature-placeholder">[Chưa ký]</span>';
-    return `<img src="${signatureData}" style="width: 150px; height: auto; border-bottom: 1px solid #000;" alt="Signature" />`;
-  };
-
   useEffect(() => {
     if (!hasGenerated.current) { // Chỉ chạy nếu chưa tạo PDF
       hasGenerated.current = true;
       generatePDF();
     }
-  }, []);
+  });
 
   const generatePDF = () => {
     // Tạo một div ẩn để chứa nội dung PDF

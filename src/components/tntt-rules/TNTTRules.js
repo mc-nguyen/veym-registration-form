@@ -91,8 +91,8 @@ const TNTTRules = () => {
         try {
             const finalFormData = { ...formData, signature: signatureData };
             await saveTNTTRulesToFirebase(getFromLocalStorage('id'), finalFormData);
-            saveToLocalStorage('currentPage', '/summary');
-            window.location.href = '/summary';
+            saveToLocalStorage('currentPage', '/parent-survey');
+            window.location.href = '/parent-survey';
         } catch (error) {
             console.error("Error submitting rules:", error);
             alert(t('tnttRules.submissionError'));

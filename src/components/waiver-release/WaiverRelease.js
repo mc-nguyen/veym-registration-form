@@ -111,8 +111,8 @@ const WaiverRelease = () => {
             // Đảm bảo signatureData đã được cập nhật vào formData
             const finalFormData = { ...formData, signature: signatureData };
             await saveWaiverReleaseToFirebase(getFromLocalStorage('id'), finalFormData);
-            saveToLocalStorage('currentPage', '/medical-release');
-            window.location.href = '/medical-release';
+            saveToLocalStorage('currentPage', '/tntt-rules');
+            window.location.href = '/tntt-rules';
         } catch (error) {
             console.error("Error submitting waiver:", error);
             alert(t('waiverRelease.submissionError'));
