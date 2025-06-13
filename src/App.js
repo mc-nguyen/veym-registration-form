@@ -19,7 +19,6 @@ import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import EmailSearch from "./components/email-search/EmailSearch";
-import ConfirmationTable from "./admin/ConfirmationTable";
 import EmailSearchAdult from "./components/email-search/EmailSearchAdult";
 import ParentSurveyForm from "./components/parent-survey-form/ParentSurveyForm";
 import ExportDataToExcel from "./components/excel/ExportDataToExcel";
@@ -59,7 +58,6 @@ function App() {
 
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/confirmation-table" element={<ConfirmationTable />} />
           <Route path="/admin/excel" element={<ExportDataToExcel />} />
           <Route path="/admin/parents" element={<ParentDataTable />} />
         </Routes>

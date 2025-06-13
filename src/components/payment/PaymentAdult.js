@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './Payment.css';
 import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
-import { activateConfirmation, checkConfirmationCode, savePaymentToFirebase } from '../../context/firebaseFuncs';
+import { savePaymentToFirebase } from '../../context/firebaseFuncs';
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
-import zelle from '../../assets/zelle.png';
+import zelle from '../../assets/zelle.png'; // Đường dẫn đến logo của bạn
 
-const PaymentAdult = () => {
+const Payment = () => {
   const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
 
   // Danh sách các khoản phí
@@ -40,11 +40,9 @@ const PaymentAdult = () => {
     return savedData;
   });
 
-  const [confirmationCode, setConfirmationCode] = useState('');
-  const [isValidCode, setIsValidCode] = useState(null);
-
   useEffect(() => {
     saveToLocalStorage('paymentFormData', quantities);
+    savePaymentToFirebase(getFromLocalStorage('id'), quantities);
   }, [quantities]);
 
   // Cập nhật số lượng
@@ -66,21 +64,8 @@ const PaymentAdult = () => {
 
   const totalAmount = calculateTotal();
 
-  // Kiểm tra mã xác nhận
-  const handleCodeChange = async (e) => {
-    const code = e.target.value;
-    setConfirmationCode(code);
-    setIsValidCode(await checkConfirmationCode(code));
-  };
-
   const handleSubmit = async () => {
     saveToLocalStorage('currentPage', '/health-info');
-    await savePaymentToFirebase(getFromLocalStorage('id'), quantities);
-    if (!isValidCode.found) {
-      alert(isValidCode.message);
-      return;
-    }
-    await activateConfirmation(confirmationCode);
     window.location.href = '/health-info';
   }
 
@@ -128,33 +113,18 @@ const PaymentAdult = () => {
           <p className="zelle-email">{t('paymentPage.zelleEmail')}<br />tnttmethienchuariverside@gmail.com</p>
           <p className="payment-note">
             {t('paymentPage.paymentNote1')}
-            <br /><strong>714-873-3039</strong><br />
-            {t('paymentPage.paymentNote2')}
-            <br /><br /><br /><br />"{t('paymentPage.paymentNoteAdultFormat', { id: getFromLocalStorage('id') })}"<br /><br /><br /><br />
-            Thư Ký/Thủ Quỹ sẽ gửi lại mã xác nhận để nhập bên dưới
+            <br /><strong>
+              714-873-3039 - Trưởng Quang Vy (Marvin Calvin) - Thư Ký/Secretary<br />
+              951-396-9396 - Trưởng Thanh Paula <br />
+              714-310-2250 - Trưởng Tina - Thủ Quỹ/Treasurer
+            </strong><br />
           </p>
-        </div>
-      </div>
-
-      <div className="payment-section">
-        <h3>{t('paymentPage.confirmationTitle')}</h3>
-        <div className="confirmation-input">
-          <label htmlFor="confirmationCode">{t('paymentPage.confirmationCodeLabel')}</label>
-          <input
-            type="text"
-            id="confirmationCode"
-            value={confirmationCode}
-            onChange={handleCodeChange}
-            placeholder={t('paymentPage.confirmationCodePlaceholder')}
-          />
-          <p className="instruction">{t('paymentPage.confirmationCodeInstruction')}</p>
         </div>
       </div>
 
       <div className="navigation-buttons">
         <button
-          className={`submit-btn ${isValidCode ? '' : 'disabled'}`}
-          disabled={!isValidCode}
+          className="submit-btn"
           onClick={handleSubmit}
         >
           {t('paymentPage.completeRegistrationButton')}
@@ -164,4 +134,4 @@ const PaymentAdult = () => {
   );
 };
 
-export default PaymentAdult;
+export default Payment;

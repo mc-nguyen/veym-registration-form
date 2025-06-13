@@ -32,77 +32,6 @@ export const saveRegistrationToFirebase = async (data) => {
   }
 }
 
-export const generateRandomConfirmationCode = async () => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-  const charactersLength = characters.length;
-  for (let i = 0; i < 4; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  try {
-    await setDoc(doc(db, 'confirmations', result), {
-      used: false,
-      given: false
-    });
-  } catch (error) {
-    console.error("Lỗi khi lưu tài liệu:", error);
-    throw error; // Ném lỗi để xử lý ở nơi gọi
-  }
-}
-
-export const checkConfirmationCode = async (codeToCheck) => {
-  try {
-    const docRef = doc(db, 'confirmations', codeToCheck);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-
-      if (data.given)
-        if (data.used) return {
-          found: false,
-          message: "Mã xác nhận đã được sử dụng/Confirmation have been used!"
-        };
-        else return {
-          found: true,
-          message: "Trùng khớp/Matched!"
-        };
-      else return {
-        found: false,
-        message: "Không trùng khớp/Mismatched!"
-      };
-    } else return {
-      found: false,
-      message: "Không trùng khớp/Mismatched!"
-    };
-  } catch (error) {
-    console.error("Lỗi khi kiểm tra mã xác nhận:", error);
-    throw error; // Ném lỗi để component gọi có thể bắt và xử lý
-  }
-};
-
-export const giveConfirmation = async (code) => {
-  try {
-    const docRef = doc(db, 'confirmations', code);
-    const givenBooleanValue = (await getDoc(docRef)).data().given;
-    await updateDoc(docRef, { given: !givenBooleanValue });
-  } catch (error) {
-    console.error("Error adding document: ", error);
-    throw error;
-  }
-}
-
-export const activateConfirmation = async (code) => {
-  try {
-    const docRef = doc(db, 'confirmations', code);
-    const usedBooleanValue = (await getDoc(docRef)).data().used;
-    await updateDoc(docRef, { used: !usedBooleanValue });
-  } catch (error) {
-    console.error("Error adding document: ", error);
-    throw error;
-  }
-}
-
 export const savePaymentToFirebase = async (id, data) => {
   try {
     const docRef = doc(db, 'registrations', id);
@@ -210,32 +139,6 @@ export const saveEmailWithID = async (email, id) => {
     throw error; // Ném lỗi để xử lý ở nơi gọi
   }
 }
-
-export const getAllConfirmations = async () => {
-  try {
-    // 1. Tạo một tham chiếu đến collection 'registrations'
-    const registrationsRef = collection(db, 'confirmations');
-
-    // 2. Lấy tất cả các tài liệu từ collection
-    const querySnapshot = await getDocs(registrationsRef);
-
-    // 3. Xử lý dữ liệu
-    const allData = [];
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-      allData.push({
-        confirmation: doc.id,
-        given: doc.data().given,
-        used: doc.data().used,
-      });
-    });
-    return allData; // Trả về một mảng chứa tất cả dữ liệu
-  } catch (error) {
-    console.error("Lỗi khi lấy tất cả dữ liệu:", error);
-    throw error; // Ném lỗi để component gọi có thể bắt và xử lý
-  }
-};
 
 export const saveParentSurvey = async (dataArray) => {
   try {

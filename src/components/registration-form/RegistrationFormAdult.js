@@ -91,10 +91,10 @@ const RegistrationFormAdult = () => {
         saveToLocalStorage('registrationFormData', finalFormData);
         saveToLocalStorage('id', await saveRegistrationToFirebase(finalFormData));
         await saveEmailWithID(formData.email, getFromLocalStorage('id'));
-        saveToLocalStorage('currentPage', '/payment-adult');
+        saveToLocalStorage('currentPage', '/health-info-adult');
         saveToLocalStorage('nganh', formData.nganh);
         saveToLocalStorage('fullName', [formData.tenGoi, formData.tenDem, formData.ho].join(' ').trim())
-        window.location.href = '/payment-adult';
+        window.location.href = '/health-info-adult';
     };
 
     return (
