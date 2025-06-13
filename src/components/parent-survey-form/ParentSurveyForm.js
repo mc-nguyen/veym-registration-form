@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 import './ParentSurveyForm.css';
+import { saveParentSurvey } from '../../context/firebaseFuncs';
 
 const ParentSurveyForm = () => {
     const { translate: t } = useLanguage(); // Lấy hàm translate (đổi tên thành t) và các giá trị khác
@@ -9,8 +10,6 @@ const ParentSurveyForm = () => {
         parentName: '',
         parentPhone: '', // New field for phone number
         parentEmail: '', // New field for email
-        canHelpFoodService: false,
-        canHelpFoodPurchase: false,
         activityVolunteer: { // New object for activity options
             assistant: false,
             cookChildren: false,
@@ -18,8 +17,10 @@ const ParentSurveyForm = () => {
             finance: false,
             liturgy: false,
             medical: false,
+            canHelpFoodService: false,
+            canHelpFoodPurchase: false,
         },
-        otherNotes: '',
+        otherNotes: ''
     };
 
     const [parents, setParents] = useState([initialParentState]);
@@ -59,11 +60,12 @@ const ParentSurveyForm = () => {
         setParents(newParents);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log('Dữ liệu khảo sát:', parents);
         alert(t('surveyPage.thankYouAlert')); // Sử dụng t() với key đầy đủ
         // Tùy chọn: Reset form sau khi gửi
+        await saveParentSurvey(parents);
         setParents([initialParentState]);
         window.location.href = '/generate-pdf';
     };
@@ -118,8 +120,8 @@ const ParentSurveyForm = () => {
                             <label>
                                 <input
                                     type="checkbox"
-                                    name="canHelpFoodService"
-                                    checked={parent.canHelpFoodService}
+                                    name="activityVolunteer.canHelpFoodService"
+                                    checked={parent.activityVolunteer.canHelpFoodService}
                                     onChange={(e) => handleInputChange(index, e)}
                                 />
                                 {t('surveyPage.canHelpFoodService')}
@@ -127,8 +129,8 @@ const ParentSurveyForm = () => {
                             <label>
                                 <input
                                     type="checkbox"
-                                    name="canHelpFoodPurchase"
-                                    checked={parent.canHelpFoodPurchase}
+                                    name="activityVolunteer.canHelpFoodPurchase"
+                                    checked={parent.activityVolunteer.canHelpFoodPurchase}
                                     onChange={(e) => handleInputChange(index, e)}
                                 />
                                 {t('surveyPage.canHelpFoodPurchase')}

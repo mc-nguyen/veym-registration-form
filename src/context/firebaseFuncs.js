@@ -237,9 +237,16 @@ export const getAllConfirmations = async () => {
   }
 };
 
-export const saveParentSurvey = async (data) => {
+export const saveParentSurvey = async (dataArray) => {
   try {
-    const docRef = await addDoc(collection(db, "parents"), data);
+    const registrationData = {};
+    dataArray.forEach((data, index) => {
+      if (data !== undefined) { // Check for undefined before assigning
+        registrationData[index.toString()] = data;
+      }
+    });
+
+    const docRef = await addDoc(collection(db, "parents"), registrationData);
     return docRef.id;
   } catch (error) {
     console.error("Error adding document: ", error);

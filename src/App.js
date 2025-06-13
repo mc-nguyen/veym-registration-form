@@ -23,6 +23,7 @@ import ConfirmationTable from "./admin/ConfirmationTable";
 import EmailSearchAdult from "./components/email-search/EmailSearchAdult";
 import ParentSurveyForm from "./components/parent-survey-form/ParentSurveyForm";
 import ExportDataToExcel from "./components/excel/ExportDataToExcel";
+import ParentDataTable from "./components/parent-survey-form/ParentDataTable";
 
 function App() {
   const currentPathname = window.location.pathname;
@@ -60,6 +61,7 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/confirmation-table" element={<ConfirmationTable />} />
           <Route path="/admin/excel" element={<ExportDataToExcel />} />
+          <Route path="/admin/parents" element={<ParentDataTable />} />
         </Routes>
       </Router>
     </div>
