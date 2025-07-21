@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getFromLocalStorage } from '../context/storageUtils';
+import { getFromLocalStorage, saveToLocalStorage } from '../context/storageUtils';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -9,6 +9,12 @@ const GeneratePDFAdult = () => {
   const hasGenerated = useRef(false); // Thêm biến ref để kiểm tra
 
   // Lấy dữ liệu từ tất cả các form
+  const params = new URLSearchParams(window.location.search);
+  const idFromUrl = params.get('id'); // Lấy giá trị của tham số 'id'
+
+  if (idFromUrl) {
+    saveToLocalStorage('id', idFromUrl); // Lưu ID vào localStorage
+  }
   const registrationData = getFromLocalStorage('registrationFormData') || {};
   const healthInfoData = getFromLocalStorage('healthInfoFormData') || {};
   const waiverData = getFromLocalStorage('waiverFormData') || {};

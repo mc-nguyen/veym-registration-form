@@ -22,7 +22,7 @@ import ParentSurveyForm from "./components/parent-survey-form/ParentSurveyForm";
 import ExportDataToExcel from "./components/excel/ExportDataToExcel";
 import ParentDataTable from "./components/parent-survey-form/ParentDataTable";
 import ProcessingPage from "./components/processing/ProcessingPage";
-import AdminPaidChange from "./admin/AdminPaidChange";
+import AdminRegistrationList from "./admin/AdminRegistrationList";
 
 function App() {
   const currentPathname = window.location.pathname;
@@ -61,7 +61,7 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/excel" element={<ExportDataToExcel />} />
           <Route path="/admin/parents" element={<ParentDataTable />} />
-          <Route path="/admin/paid" element={<AdminPaidChange />} />
+          <Route path="/admin/registrations" element={<AdminRegistrationList />} />
         </Routes>
       </Router>
     </div>
