@@ -1,7 +1,7 @@
 // src/context/firebaseFuncs.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, query, where, setDoc, getDocs, deleteDoc } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage"; // Import for storage operations
 
 // Your web app's Firebase configuration
@@ -24,7 +24,7 @@ const storage = getStorage(app); // Khởi tạo Storage
 export const saveRegistrationToFirebase = async (data) => {
   try {
     const docRef = await addDoc(collection(db, "registrations"), {
-      ...data, // Lưu trực tiếp formData ở cấp cao nhất
+      registration: data, // Lưu trực tiếp formData ở cấp cao nhất
       status: 'pending', // Giữ trường status nếu bạn vẫn muốn dùng
       isPaid: false, // Thêm trường isPaid, mặc định là false
       timestamp: Date.now()

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getFromLocalStorage } from '../context/storageUtils';
+import { getFromLocalStorage, saveToLocalStorage } from '../context/storageUtils';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { getDataById } from '../context/firebaseFuncs';
@@ -18,6 +18,12 @@ const GeneratePDF = () => {
 
   const generatePDF = async () => {
     // Lấy dữ liệu từ tất cả các form
+    const params = new URLSearchParams(window.location.search);
+    const idFromUrl = params.get('id'); // Lấy giá trị của tham số 'id'
+
+    if (idFromUrl) {
+      saveToLocalStorage('id', idFromUrl); // Lưu ID vào localStorage
+    }
     const data = await getDataById(getFromLocalStorage('id'));
     const registrationData = data.registration || {};
     const healthInfoData = data.healthInfo || {};

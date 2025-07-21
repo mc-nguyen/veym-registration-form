@@ -10,11 +10,7 @@ const ProcessingPage = () => {
     const navigate = useNavigate(); // Initialize useNavigate hook
 
     const [showHomeButton, setShowHomeButton] = useState(false); // New state to control button visibility
-
-    // Lấy thông tin họ tên và ngành từ localStorage
-    const fullName = getFromLocalStorage('fullName');
-    const nganh = getFromLocalStorage('nganh');
-
+    
     useEffect(() => {
         // Set a timeout to show the button after 5 seconds
         const timer = setTimeout(() => {
