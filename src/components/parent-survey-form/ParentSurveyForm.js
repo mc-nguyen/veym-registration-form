@@ -67,7 +67,7 @@ const ParentSurveyForm = () => {
         // Tùy chọn: Reset form sau khi gửi
         await saveParentSurvey(parents);
         setParents([initialParentState]);
-        window.location.href = '/generate-pdf';
+        window.location.href = '/processing';
     };
 
     return (

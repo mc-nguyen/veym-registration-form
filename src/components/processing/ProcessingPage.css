@@ -1,0 +1,158 @@
+/* Chosen Palette: Calm Harmony */
+/* Application Structure Plan: The ProcessingPage is a standalone notification page. Its structure is a single, centered card containing a title, main message, a loading spinner, and instructional/contact text. This simple, focused structure is chosen because its primary purpose is to convey information clearly and concisely, without requiring complex navigation or interaction. The user flow is linear: form submission -> this page -> (eventually) payment page. */
+/* Visualization & Content Choices: Summary: Report Info -> Notification of registration status and next steps (payment/contact). Goal -> Inform the user about the pending status and guide them on what to do next. Viz/Presentation Method -> Text Blocks (for title, main message, instructions, and contact info) and a Loading Spinner (HTML/CSS) for visual feedback. Interaction -> None directly on this page. Justification -> Minimalist approach for clarity, spinner adds modern UI touch. Library/Method -> HTML for structure, Tailwind CSS for styling, basic CSS for spinner animation. */
+/* CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. */
+
+.processing-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 60px); /* Adjust based on your header/footer height */
+    background-color: #F8F5F2; /* Warm off-white background */
+    padding: 24px; /* Increased padding */
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif; /* Using Inter font */
+}
+
+.processing-card {
+    background-color: #FFFFFF; /* Clean white card background */
+    padding: 48px; /* More generous padding */
+    border-radius: 16px; /* More rounded corners */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer, deeper shadow */
+    text-align: center;
+    max-width: 640px; /* Slightly wider card */
+    width: 100%;
+    animation: fadeInScale 0.8s ease-out forwards; /* New animation */
+    border: 1px solid #E0E0E0; /* Subtle border */
+    position: relative; /* For potential future absolute positioning */
+}
+
+.processing-title {
+    color: #2C3E50; /* Darker text for prominence */
+    font-size: 2.8em; /* Larger title */
+    margin-bottom: 20px;
+    font-weight: 700; /* Bolder */
+    letter-spacing: -0.02em; /* Tighter letter spacing */
+}
+
+.processing-message {
+    color: #555555; /* Softer grey for body text */
+    font-size: 1.25em; /* Slightly larger message */
+    margin-bottom: 25px;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.processing-spinner {
+    border: 8px solid #E0E0E0; /* Light grey */
+    border-top: 8px solid #3498DB; /* Vibrant blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite; /* Smoother animation curve */
+    margin: 30px auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Subtle shadow on spinner */
+}
+
+.processing-instruction {
+    color: #2980B9; /* A distinct blue for instructions */
+    font-size: 1.15em;
+    margin-top: 30px; /* More space above */
+    margin-bottom: 20px;
+    font-weight: 600; /* Semi-bold */
+    line-height: 1.5;
+}
+
+.processing-note,
+.processing-contact {
+    color: #7F8C8D; /* Consistent muted grey for notes */
+    font-size: 0.9em; /* Slightly smaller for secondary info */
+    margin-top: 15px;
+    line-height: 1.5;
+}
+
+.processing-contact {
+    margin-top: 25px; /* More space for contact info */
+    font-weight: 500;
+}
+
+
+/* Keyframe Animations */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: translateY(30px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .processing-container {
+        padding: 16px;
+    }
+
+    .processing-card {
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .processing-title {
+        font-size: 2.2em;
+    }
+
+    .processing-message {
+        font-size: 1.1em;
+    }
+
+    .processing-spinner {
+        width: 50px;
+        height: 50px;
+        margin: 25px auto;
+    }
+
+    .processing-instruction {
+        font-size: 1.05em;
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
+
+    .processing-note,
+    .processing-contact {
+        font-size: 0.85em;
+        margin-top: 10px;
+    }
+}
+
+.home-button {
+    margin-top: 20px; /* Khoảng cách từ nội dung phía trên */
+    padding: 10px 20px;
+    background-color: #007bff; /* Màu nền xanh dương */
+    color: white; /* Chữ màu trắng */
+    border: none;
+    border-radius: 5px; /* Bo tròn góc */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà khi hover */
+}
+
+.home-button:hover {
+    background-color: #0056b3; /* Màu nền đậm hơn khi di chuột qua */
+}
+
+@media (max-width: 480px) {
+    .processing-card {
+        padding: 20px;
+    }
+
+    .processing-title {
+        font-size: 1.8em;
+    }
+
+    .processing-message {
+        font-size: 1em;
+    }
+}

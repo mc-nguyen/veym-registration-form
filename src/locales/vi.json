@@ -294,5 +294,13 @@
     "parentSignature": "Chữ Ký Phụ Huynh",
     "nguoiGiamHo": "Tên Người Giám Hộ",
     "moiQuanHe": "Mối Quan Hệ"
+  },
+  "processingPage": {
+    "title": "Đơn Ghi Danh Chưa Hoàn Tất",
+    "paymentInstruction": "Xin quý vị điền đơn đóng tiền cho Thủ Quỹ/Thư Ký hoặc một Huynh Trưởng trong ban chấp hành thường vụ.",
+    "afterPaymentNote": "Nếu quý vị điền đơn đã đóng tiền, xin liên lạc với một Huynh Trưởng trong ban chấp hành để Ban Chấp Hành có thể sắp xếp hoàn tất đơn ghi danh và nhận email từ tnttmethienchuariverside@gmail.com",
+    "contactInfo": "Mọi thắc mắc, vui lòng liên hệ ban tổ chức.",
+    "saveIDMessage": "Xin vui lòng lưu lại số ID như mã xác nhận {{id}}",
+    "goHomeButton": "Về Trang Chủ"
   }
 }

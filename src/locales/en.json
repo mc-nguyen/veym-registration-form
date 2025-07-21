@@ -293,5 +293,13 @@
     "parentSignature": "Parent Signature",
     "nguoiGiamHo": "Guardian Name",
     "moiQuanHe": "Relationship"
+  },
+  "processingPage": {
+    "title": "Registration Incomplete",
+    "paymentInstruction": "Dear applicants, please make payment to the Treasurer/Secretary or a Huynh Trưởng in the Executive Committee.",
+    "afterPaymentNote": "If you have already made the payment, please contact a Huynh Trưởng in the Executive Committee so that we can finalize the registration and you can receive an email from tnttmethienchuariverside@gmail.com.",
+    "contactInfo": "For any questions, please contact the organizers.",
+    "saveIDMessage": "Please save this ID below as your confirmation {{id}}",
+    "goHomeButton": "Go to Homepage"
   }
 }

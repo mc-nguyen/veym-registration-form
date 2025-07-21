@@ -23,9 +23,7 @@ const RegistrationForm = () => {
             phoneWork: "",
             phoneEmergency: "",
             email: "",
-            day: "",
-            month: "",
-            year: "",
+            ngaySinh: "", // Changed to single field for full date
             nganh: ""
         };
         return savedData;
@@ -42,30 +40,41 @@ const RegistrationForm = () => {
     const [studentSignatureData, setStudentSignatureData] = useState(null);
     const [hasStudentDrawn, setHasStudentDrawn] = useState(false);
 
-    const calculateNganhKey = (day, month, year) => {
-        if (!day || !month || !year) return "";
+    const calculateNganhKey = (birthDateString) => {
+        if (!birthDateString) return "";
 
-        const birthYear = parseInt(year, 10);
-        switch (birthYear) {
-            case 2019: return "AU_NHI_DU_BI";
-            case 2018: return "AU_NHI_CAP_1";
-            case 2017: return "AU_NHI_CAP_2";
-            case 2016: return "AU_NHI_CAP_3";
-            case 2015: return "THIEU_NHI_CAP_1";
-            case 2014: return "THIEU_NHI_CAP_2";
-            case 2013: return "THIEU_NHI_CAP_3";
-            case 2012: return "NGHIA_SI_CAP_1";
-            case 2011: return "NGHIA_SI_CAP_2";
-            case 2010: return "NGHIA_SI_CAP_3";
-            case 2009: return "HIEP_SI_CAP_1";
-            case 2008: return "HIEP_SI_CAP_2";
+        const birthDate = new Date(birthDateString);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        // Mapping age to nganh based on the original birth year mapping provided
+        // Example: If 2019 born is AU_NHI_DU_BI, and current year is 2025, then age is 6.
+        // So, AU_NHI_DU_BI corresponds to age 6.
+        switch (age) {
+            case 6: return "AU_NHI_DU_BI";
+            case 7: return "AU_NHI_CAP_1";
+            case 8: return "AU_NHI_CAP_2";
+            case 9: return "AU_NHI_CAP_3";
+            case 10: return "THIEU_NHI_CAP_1";
+            case 11: return "THIEU_NHI_CAP_2";
+            case 12: return "THIEU_NHI_CAP_3";
+            case 13: return "NGHIA_SI_CAP_1";
+            case 14: return "NGHIA_SI_CAP_2";
+            case 15: return "NGHIA_SI_CAP_3";
+            case 16: return "HIEP_SI_CAP_1";
+            case 17: return "HIEP_SI_CAP_2";
             default: return "INVALID_BRANCH";
         }
     };
 
     useEffect(() => {
         saveToLocalStorage('registrationFormData', formData);
-        const calculatedNganhKey = calculateNganhKey(formData.day, formData.month, formData.year);
+        const calculatedNganhKey = calculateNganhKey(formData.ngaySinh); // Pass full date string
         setNganhHienThiKey(calculatedNganhKey);
         setFormData(prevData => ({ ...prevData, nganh: calculatedNganhKey }));
 
@@ -122,7 +131,7 @@ const RegistrationForm = () => {
 
         const finalFormData = {
             ...formData,
-            ngaySinh: `${formData.year}-${formData.month}-${formData.day}`,
+            ngaySinh: formData.ngaySinh, // Already in YYYY-MM-DD format
             parentSignature: parentSignatureData,
             studentSignature: studentSignatureData, // Include student signature (NEW)
             dateSigned: new Date().toLocaleDateString(),
@@ -286,39 +295,16 @@ const RegistrationForm = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>{t('registrationForm.birthDate')}</label>
-                    <div className="date-input-group">
-                        <input
-                            type="number"
-                            placeholder={t('registrationForm.common.day')}
-                            name="day"
-                            value={formData.day}
-                            onChange={handleChange}
-                            min="1"
-                            max="31"
-                            required
-                        />
-                        <input
-                            type="number"
-                            placeholder={t('registrationForm.common.month')}
-                            name="month"
-                            value={formData.month}
-                            onChange={handleChange}
-                            min="1"
-                            max="12"
-                            required
-                        />
-                        <input
-                            type="number"
-                            placeholder={t('registrationForm.common.year')}
-                            name="year"
-                            value={formData.year}
-                            onChange={handleChange}
-                            min="1900"
-                            max={new Date().getFullYear()}
-                            required
-                        />
-                    </div>
+                    <label htmlFor="birthDate">{t('registrationForm.birthDate')}</label>
+                    <input
+                        type="date"
+                        id="birthDate"
+                        name="ngaySinh"
+                        value={formData.ngaySinh}
+                        onChange={handleChange}
+                        max={new Date().toISOString().split('T')[0]} // Prevents future dates
+                        required
+                    />
                 </div>
             </div>
 
@@ -326,7 +312,7 @@ const RegistrationForm = () => {
                 <h3>{t('registrationForm.branchTitle')}</h3>
                 <p>{t('registrationForm.branchInfo')}</p>
                 <div className={`nganh-badge ${nganhHienThiKey}`}>
-                    {formData.day && formData.month && formData.year ? (
+                    {formData.ngaySinh ? ( // Check if full date is entered
                         <strong>{t(`registrationForm.branch.${nganhHienThiKey}`)}</strong>
                     ) : (
                         <p>{t('registrationForm.enterBirthDatePrompt')}</p>

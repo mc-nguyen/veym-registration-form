@@ -1,0 +1,216 @@
+/* src/pages/AdminPage/AdminPage.css */
+
+.admin-page-container {
+    padding: 20px;
+    max-width: 1200px; /* Tăng chiều rộng để chứa 2 cột */
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.registration-sections {
+    display: flex; /* Sử dụng flexbox để chia làm 2 cột */
+    gap: 20px; /* Khoảng cách giữa 2 cột */
+    margin-bottom: 30px;
+}
+
+.registration-list {
+    flex: 1; /* Mỗi cột chiếm một phần bằng nhau */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.registration-list h2 {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: left;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.registration-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.registration-item {
+    display: flex;
+    flex-wrap: wrap; /* Cho phép xuống dòng trên màn hình nhỏ */
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.registration-item span {
+    flex-grow: 1;
+    font-size: 1.05em;
+    color: #555;
+    margin-bottom: 5px; /* Khoảng cách với nút trên mobile */
+}
+
+.item-actions {
+    display: flex;
+    gap: 8px; /* Khoảng cách giữa các nút */
+    flex-wrap: wrap; /* Cho phép các nút xuống dòng */
+    margin-left: auto; /* Đẩy các nút sang phải */
+}
+
+.registration-item button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background-color 0.2s ease;
+    white-space: nowrap; /* Ngăn nút bị ngắt dòng */
+}
+
+.registration-item button:first-of-type { /* Edit button */
+    background-color: #007bff;
+    color: white;
+}
+
+.registration-item button:first-of-type:hover {
+    background-color: #0056b3;
+}
+
+/* Style cho nút đổi trạng thái */
+.status-toggle-btn.mark-paid {
+    background-color: #28a745; /* Màu xanh lá cây cho 'Mark as Paid' */
+    color: white;
+}
+
+.status-toggle-btn.mark-paid:hover {
+    background-color: #218838;
+}
+
+.status-toggle-btn.mark-unpaid {
+    background-color: #ffc107; /* Màu vàng cam cho 'Mark as Unpaid' */
+    color: #333;
+}
+
+.status-toggle-btn.mark-unpaid:hover {
+    background-color: #e0a800;
+}
+
+
+.registration-item button:last-of-type { /* Delete button */
+    background-color: #dc3545;
+    color: white;
+}
+
+.registration-item button:last-of-type:hover {
+    background-color: #c82333;
+}
+
+.edit-form-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #e9e9e9;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.edit-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #444;
+}
+
+.form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s ease;
+}
+
+.form-actions button:first-of-type { /* Save Changes button */
+    background-color: #28a745;
+    color: white;
+}
+
+.form-actions button:first-of-type:hover {
+    background-color: #218838;
+}
+
+.form-actions button:last-of-type { /* Cancel button */
+    background-color: #6c757d;
+    color: white;
+}
+
+.form-actions button:last-of-type:hover {
+    background-color: #5a6268;
+}
+
+/* Media Queries cho màn hình nhỏ hơn */
+@media (max-width: 768px) {
+    .registration-sections {
+        flex-direction: column; /* Xếp chồng các cột trên màn hình nhỏ */
+    }
+
+    .registration-item {
+        flex-direction: column; /* Xếp chồng nội dung item */
+        align-items: flex-start;
+    }
+
+    .item-actions {
+        margin-top: 10px; /* Khoảng cách giữa tên và nút */
+        margin-left: 0; /* Loại bỏ margin-left để căn chỉnh */
+        width: 100%; /* Chiếm toàn bộ chiều rộng */
+        justify-content: space-around; /* Căn đều các nút */
+    }
+
+    .registration-item button {
+        flex: 1; /* Các nút chiếm đều không gian */
+        margin: 5px 0; /* Khoảng cách trên/dưới cho nút */
+    }
+}

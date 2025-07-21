@@ -65,8 +65,8 @@ const Payment = () => {
   const totalAmount = calculateTotal();
 
   const handleSubmit = async () => {
-    saveToLocalStorage('currentPage', '/health-info');
-    window.location.href = '/health-info';
+    saveToLocalStorage('currentPage', '/health-info-adult');
+    window.location.href = '/health-info-adult';
   }
 
   return (

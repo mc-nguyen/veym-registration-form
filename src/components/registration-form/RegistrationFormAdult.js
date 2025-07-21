@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "./RegistrationForm.css"; // Dùng chung CSS với RegistrationForm
 import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
-import { saveEmailWithID, saveRegistrationToFirebase } from "../../context/firebaseFuncs";
+import { saveRegistrationToFirebase } from "../../context/firebaseFuncs";
 import { useLanguage } from '../../LanguageContext';
 import SignatureCanvas from '../signature/SignatureCanvas'; // Import SignatureCanvas component
 
@@ -21,18 +21,16 @@ const RegistrationFormAdult = () => {
             phoneWork: "",
             phoneEmergency: "",
             email: "",
-            day: "",
-            month: "",
-            year: "",
+            ngaySinh: "", // Changed from separate day, month, year
             nganh: "",
-            signature: null // This will now be managed by the SignatureCanvas component's callback
+            signature: null
         };
         return savedData;
     });
 
     const [isMobile, setIsMobile] = useState(false);
-    const [adultSignatureData, setAdultSignatureData] = useState(null); // State để lưu chữ ký người lớn
-    const [hasAdultSigned, setHasAdultSigned] = useState(false); // State để kiểm tra xem đã ký hay chưa
+    const [adultSignatureData, setAdultSignatureData] = useState(null);
+    const [hasAdultSigned, setHasAdultSigned] = useState(false);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -46,13 +44,11 @@ const RegistrationFormAdult = () => {
         };
     }, []);
 
-    // Callback function khi chữ ký được lưu từ SignatureCanvas
     const handleAdultSignatureSave = (signatureData) => {
         setAdultSignatureData(signatureData);
-        setHasAdultSigned(signatureData !== null); // Đặt true nếu có data, false nếu null
+        setHasAdultSigned(signatureData !== null);
     };
 
-    // Callback function khi chữ ký được xóa từ SignatureCanvas
     const handleAdultSignatureClear = () => {
         setAdultSignatureData(null);
         setHasAdultSigned(false);
@@ -76,21 +72,18 @@ const RegistrationFormAdult = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Simple validation, enhance as needed
-        if (!formData.tenThanh || !formData.ho || !formData.tenGoi || !formData.nganh || !hasAdultSigned || !formData.day || !formData.month || !formData.year) {
+        if (!formData.tenThanh || !formData.ho || !formData.tenGoi || !formData.nganh || !hasAdultSigned || !formData.ngaySinh) { // Updated validation
             alert(t('errors.allFieldsRequired'));
             return;
         }
 
         const finalFormData = {
             ...formData,
-            ngaySinh: `${formData.year}-${formData.month}-${formData.day}`,
-            signature: adultSignatureData, // Sử dụng dữ liệu chữ ký từ state mới
+            signature: adultSignatureData,
         };
 
         saveToLocalStorage('registrationFormData', finalFormData);
         saveToLocalStorage('id', await saveRegistrationToFirebase(finalFormData));
-        await saveEmailWithID(formData.email, getFromLocalStorage('id'));
         saveToLocalStorage('currentPage', '/payment-adult');
         saveToLocalStorage('nganh', formData.nganh);
         saveToLocalStorage('fullName', [formData.tenGoi, formData.tenDem, formData.ho].join(' ').trim())
@@ -215,38 +208,14 @@ const RegistrationFormAdult = () => {
                     </div>
                     <div className="form-group">
                         <label>{t('registrationFormAdult.birthDate')}</label>
-                        <div className="date-input-group">
-                            <input
-                                type="number"
-                                placeholder={t('registrationForm.common.day')}
-                                name="day"
-                                value={formData.day}
-                                onChange={handleChange}
-                                min="1"
-                                max="31"
-                                required
-                            />
-                            <input
-                                type="number"
-                                placeholder={t('registrationForm.common.month')}
-                                name="month"
-                                value={formData.month}
-                                onChange={handleChange}
-                                min="1"
-                                max="12"
-                                required
-                            />
-                            <input
-                                type="number"
-                                placeholder={t('registrationForm.common.year')}
-                                name="year"
-                                value={formData.year}
-                                onChange={handleChange}
-                                min="1900"
-                                max={new Date().getFullYear()}
-                                required
-                            />
-                        </div>
+                        {/* Changed to a single date input */}
+                        <input
+                            type="date"
+                            name="ngaySinh"
+                            value={formData.ngaySinh}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
                 </div>
             </div>

@@ -18,11 +18,11 @@ import GeneratePDFAdult from "./components/GeneratePDFAdult";
 import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
 import LanguageSwitcher from "./components/LanguageSwitcher";
-import EmailSearch from "./components/email-search/EmailSearch";
-import EmailSearchAdult from "./components/email-search/EmailSearchAdult";
 import ParentSurveyForm from "./components/parent-survey-form/ParentSurveyForm";
 import ExportDataToExcel from "./components/excel/ExportDataToExcel";
 import ParentDataTable from "./components/parent-survey-form/ParentDataTable";
+import ProcessingPage from "./components/processing/ProcessingPage";
+import AdminPaidChange from "./admin/AdminPaidChange";
 
 function App() {
   const currentPathname = window.location.pathname;
@@ -38,8 +38,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/guide" element={<GuidePage />} />
           <Route path="/preview-pdf" element={<PDFPreview />} />
+          <Route path="/processing" element={<ProcessingPage />} />
 
-          <Route path="/email-search" element={<EmailSearch />} />
+          {/* <Route path="/email-search" element={<EmailSearch />} /> */}
           <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/health-info" element={<HealthInfoForm />} />
@@ -48,7 +49,7 @@ function App() {
           <Route path="/parent-survey" element={<ParentSurveyForm />} />
           <Route path="/generate-pdf" element={<GeneratePDF />} />
 
-          <Route path="/email-search-adult" element={<EmailSearchAdult />} />
+          {/* <Route path="/email-search-adult" element={<EmailSearchAdult />} /> */}
           <Route path="/registration-adult" element={<RegistrationFormAdult />} />
           <Route path="/payment-adult" element={<PaymentAdult />} />
           <Route path="/health-info-adult" element={<HealthInfoFormAdult />} />
@@ -60,6 +61,7 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/excel" element={<ExportDataToExcel />} />
           <Route path="/admin/parents" element={<ParentDataTable />} />
+          <Route path="/admin/paid" element={<AdminPaidChange />} />
         </Routes>
       </Router>
     </div>

@@ -1,9 +1,8 @@
-// Import the functions you need from the SDKs you need
+// src/context/firebaseFuncs.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, setDoc, getDocs } from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, query, where, setDoc, getDocs, deleteDoc } from "firebase/firestore";
+import { getStorage, ref, deleteObject } from "firebase/storage"; // Import for storage operations
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,12 +17,17 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app); // Khởi tạo Auth
+const storage = getStorage(app); // Khởi tạo Storage
 
+// Hàm lưu đăng ký mới vào Firebase
 export const saveRegistrationToFirebase = async (data) => {
   try {
     const docRef = await addDoc(collection(db, "registrations"), {
-      registration: data,
-      status: 'pending'
+      ...data, // Lưu trực tiếp formData ở cấp cao nhất
+      status: 'pending', // Giữ trường status nếu bạn vẫn muốn dùng
+      isPaid: false, // Thêm trường isPaid, mặc định là false
+      timestamp: Date.now()
     });
     return docRef.id;
   } catch (error) {
@@ -67,7 +71,8 @@ export const saveTNTTRulesToFirebase = async (id, data) => {
     const docRef = doc(db, 'registrations', id);
     await updateDoc(docRef, {
       tnttRules: data,
-      status: 'completed'
+      status: 'unpaid', // Cập nhật status
+      isPaid: false // Đảm bảo isPaid vẫn là false ở bước này
     });
   } catch (error) {
     console.error("Error adding document: ", error);
@@ -77,74 +82,29 @@ export const saveTNTTRulesToFirebase = async (id, data) => {
 
 export const getDataById = async (docId) => {
   try {
-    const docRef = doc(db, 'registrations', docId); // 'registrations' là tên collection của bạn
+    const docRef = doc(db, 'registrations', docId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-      console.log("Dữ liệu đã tìm thấy:", data);
-      return data; // Trả về dữ liệu ở định dạng JSON
+      // Nếu dữ liệu đăng ký ban đầu được lưu trong một trường 'registration', hãy trả về nó
+      // Hoặc trả về toàn bộ doc.data() nếu bạn đã thay đổi cách lưu trữ
+      return data;
     } else {
       console.log("Không tìm thấy tài liệu với ID:", docId);
-      return null; // Trả về null nếu không tìm thấy
+      return null;
     }
   } catch (error) {
     console.error("Lỗi khi lấy dữ liệu:", error);
-    throw error; // Ném lỗi để component gọi có thể bắt và xử lý
+    throw error;
   }
 };
-
-export const getDataByEmail = async (email) => {
-  try {
-    const docRef = doc(db, 'emails', email); // 'registrations' là tên collection của bạn
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      console.log("Dữ liệu đã tìm thấy:");
-      return data; // Trả về dữ liệu ở định dạng JSON
-    } else {
-      console.log("Không tìm thấy tài liệu với ID:", email);
-      return null; // Trả về null nếu không tìm thấy
-    }
-  } catch (error) {
-    console.error("Lỗi khi lấy dữ liệu:", error);
-    throw error; // Ném lỗi để component gọi có thể bắt và xử lý
-  }
-};
-
-export const saveEmailWithID = async (email, id) => {
-  try {
-    // Sử dụng doc() để tạo tham chiếu tài liệu với email làm ID
-    // Sau đó dùng setDoc() để ghi dữ liệu vào tài liệu đó
-    const existed = await getDoc(doc(db, 'emails', email));
-    if (!existed.exists()) {// ko tồn tại
-      console.log("Ko tìm thấy " + email);
-
-      await setDoc(doc(db, 'emails', email), {
-        length: 1,
-        0: id
-      });
-    }
-    else {
-      console.log("tìm thấy " + email);
-      await updateDoc(doc(db, 'emails', email), {
-        [existed.data().length]: id,
-        length: existed.data().length + 1
-      });
-    }
-    return email; // Trả về ID tài liệu (chính là email)
-  } catch (error) {
-    console.error("Lỗi khi lưu tài liệu:", error);
-    throw error; // Ném lỗi để xử lý ở nơi gọi
-  }
-}
 
 export const saveParentSurvey = async (dataArray) => {
   try {
     const registrationData = {};
     dataArray.forEach((data, index) => {
-      if (data !== undefined) { // Check for undefined before assigning
+      if (data !== undefined) {
         registrationData[index.toString()] = data;
       }
     });
@@ -157,6 +117,23 @@ export const saveParentSurvey = async (dataArray) => {
   }
 }
 
+// Hàm mới: Đánh dấu một đăng ký là đã trả tiền
+export const markRegistrationAsPaid = async (registrationId) => {
+  try {
+    const registrationRef = doc(db, 'registrations', registrationId);
+    await updateDoc(registrationRef, {
+      isPaid: true,
+      status: 'paid', // Cập nhật status nếu bạn vẫn sử dụng
+      paymentDate: new Date().toISOString() // Lưu thời gian thanh toán
+    });
+    console.log(`Registration ${registrationId} marked as paid.`);
+  } catch (error) {
+    console.error("Error marking registration as paid:", error);
+    throw error;
+  }
+};
+
+// Hàm để lấy tất cả các đơn đăng ký và làm phẳng dữ liệu
 export const getAllRegistrationsData = async () => {
   try {
     const registrationsRef = collection(db, 'registrations');
@@ -165,9 +142,14 @@ export const getAllRegistrationsData = async () => {
     let allRegistrationsData = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      if (data.registration) { // Chỉ lấy nếu có phần 'registration'
-        allRegistrationsData.push(data.registration);
-      }
+      // Phẳng hóa dữ liệu: Lấy các trường trực tiếp nếu không còn nested 'registration'
+      // Nếu bạn vẫn có 'registration: {...}' thì cần điều chỉnh lại ở đây
+      allRegistrationsData.push({
+        id: doc.id,
+        ...data, // Bao gồm tất cả các trường, kể cả isPaid
+        fullName: [data.tenGoi, data.tenDem, data.ho].filter(Boolean).join(' ').trim(), // Tạo fullName từ các trường
+        // Đảm bảo ngaySinh đúng định dạng nếu cần
+      });
     });
 
     // Định nghĩa thứ tự ưu tiên của các ngành
@@ -184,17 +166,16 @@ export const getAllRegistrationsData = async () => {
 
     // Sắp xếp dữ liệu
     allRegistrationsData.sort((a, b) => {
-      const nganhA = a.nganh || ""; // Đảm bảo có giá trị để so sánh, tránh undefined
+      const nganhA = a.nganh || "";
       const nganhB = b.nganh || "";
 
-      const indexA = nganhIndexMap.has(nganhA) ? nganhIndexMap.get(nganhA) : Infinity; // Đưa ngành không xác định xuống cuối
+      const indexA = nganhIndexMap.has(nganhA) ? nganhIndexMap.get(nganhA) : Infinity;
       const indexB = nganhIndexMap.has(nganhB) ? nganhIndexMap.get(nganhB) : Infinity;
 
       if (indexA !== indexB) {
         return indexA - indexB;
       }
 
-      // Nếu cùng ngành, sắp xếp theo tên gọi (first name)
       const tenGoiA = a.tenGoi || "";
       const tenGoiB = b.tenGoi || "";
       return tenGoiA.localeCompare(tenGoiB);
@@ -207,6 +188,71 @@ export const getAllRegistrationsData = async () => {
   }
 };
 
-const auth = getAuth(app); // Khởi tạo Auth
+export const getAllRegistrations = async () => {
+    try {
+        const q = query(collection(db, 'registrations')); // Lấy tất cả tài liệu trong collection 'registrations'
+        const querySnapshot = await getDocs(q);
 
-export { db, auth }; // Export auth
+        const allRegistrations = [];
+        querySnapshot.forEach((doc) => {
+            allRegistrations.push({ id: doc.id, ...doc.data() });
+        });
+        return allRegistrations;
+    } catch (error) {
+        console.error("Error fetching all registrations:", error);
+        throw error;
+    }
+};
+
+// Hàm để cập nhật dữ liệu của một đơn đăng ký (sử dụng cho các trường bất kỳ)
+export const updateRegistrationData = async (id, newData) => {
+    try {
+        const registrationRef = doc(db, 'registrations', id);
+        await updateDoc(registrationRef, newData);
+        console.log("Registration updated successfully for ID:", id);
+    } catch (error) {
+        console.error("Error updating registration data:", error);
+        throw error;
+    }
+};
+
+// Hàm mới: Cập nhật trạng thái thanh toán (Paid/Unpaid)
+export const updatePaymentStatus = async (id, isPaid) => {
+    try {
+        const registrationRef = doc(db, 'registrations', id);
+        await updateDoc(registrationRef, {
+            isPaid: isPaid,
+            status: isPaid ? 'paid' : 'unpaid' // Cập nhật cả trường status
+        });
+        console.log(`Registration ${id} payment status updated to ${isPaid ? 'Paid' : 'Unpaid'}.`);
+    } catch (error) {
+        console.error("Error updating payment status:", error);
+        throw error;
+    }
+};
+
+// Hàm mới: Xóa một đơn đăng ký
+export const deleteRegistration = async (id, signatureUrl) => {
+  try {
+    // Xóa tài liệu Firestore
+    await deleteDoc(doc(db, 'registrations', id));
+    console.log("Registration document deleted successfully for ID:", id);
+
+    // Nếu có URL chữ ký và chữ ký được lưu trong Firebase Storage, xóa nó
+    if (signatureUrl && signatureUrl.startsWith('gs://')) { // Kiểm tra nếu là URL Storage
+      const signatureRef = ref(storage, signatureUrl);
+      await deleteObject(signatureRef);
+      console.log("Signature image deleted successfully for ID:", id);
+    } else if (signatureUrl && typeof signatureUrl === 'string' && signatureUrl.startsWith('data:')) {
+      // Nếu chữ ký là base64 data URL, không cần xóa từ storage
+      console.log("Signature is base64 data, no file to delete from storage.");
+    }
+
+  } catch (error) {
+    console.error("Error deleting registration or signature:", error);
+    throw error;
+  }
+};
+
+
+export { db, auth, storage }; // Export auth và storage
