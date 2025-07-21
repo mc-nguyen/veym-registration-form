@@ -5,7 +5,7 @@ import { removeFromLocalStorage, saveToLocalStorage } from '../context/storageUt
 import { useLanguage } from '../LanguageContext'; // Import useLanguage hook
 // Import logo image
 import favicon from '../assets/favicon.png'; // Đường dẫn đến logo của bạn
-import { cleanOldRegistrations } from '../context/firebaseFuncs'; 
+import { cleanOldUnpaidRegistrations } from '../context/firebaseFuncs'; 
 
 const HomePage = () => {
     // Xóa dữ liệu cũ khi vào trang chủ để đảm bảo form sạch
@@ -28,7 +28,7 @@ const HomePage = () => {
         const runCleanup = async () => {
             try {
                 console.log("Attempting to clean old registrations from HomePage...");
-                await cleanOldRegistrations(); // Gọi hàm dọn dẹp
+                await cleanOldUnpaidRegistrations(); // Gọi hàm dọn dẹp
                 console.log("Old registrations cleanup initiated successfully from HomePage.");
             } catch (error) {
                 console.error("Error during homepage cleanup:", error);

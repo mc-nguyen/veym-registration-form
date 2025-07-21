@@ -255,17 +255,21 @@ export const deleteRegistration = async (id, signatureUrl) => {
 };
 
 // Hàm ẩn để xóa các dữ liệu đăng ký cũ hơn một tuần
-export const cleanOldRegistrations = async () => {
+export const cleanOldUnpaidRegistrations = async () => {
   try {
-    const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000); // 7 ngày * 24 giờ * 60 phút * 60 giây * 1000 mili giây
-    console.log(`Starting cleanup: Deleting registrations older than ${new Date(oneWeekAgo).toLocaleString()}`);
+    const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000); // 7 ngày trước
+    console.log(`Starting cleanup: Deleting UNPAID registrations older than ${new Date(oneWeekAgo).toLocaleString()}`);
 
-    // Truy vấn các tài liệu có timestamp cũ hơn một tuần
-    const q = query(collection(db, 'registrations'), where('timestamp', '<', oneWeekAgo));
+    // Truy vấn các tài liệu có timestamp cũ hơn một tuần VÀ isPaid là false
+    const q = query(
+      collection(db, 'registrations'),
+      where('timestamp', '<', oneWeekAgo),
+      where('isPaid', '==', false) // THÊM ĐIỀU KIỆN NÀY
+    );
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      console.log("No old registrations found to delete.");
+      console.log("No old UNPAID registrations found to delete.");
       return;
     }
 
@@ -273,15 +277,14 @@ export const cleanOldRegistrations = async () => {
     querySnapshot.forEach((docSnap) => {
       const data = docSnap.data();
       const id = docSnap.id;
-      // Gọi hàm deleteRegistration để xóa cả tài liệu và chữ ký liên quan
       deletePromises.push(deleteRegistration(id, data.signature));
-      console.log(`Scheduling deletion for registration ID: ${id}`);
+      console.log(`Scheduling deletion for UNPAID registration ID: ${id}`);
     });
 
     await Promise.all(deletePromises);
-    console.log(`Successfully deleted ${deletePromises.length} old registrations.`);
+    console.log(`Successfully deleted ${deletePromises.length} old UNPAID registrations.`);
   } catch (error) {
-    console.error("Error during old registrations cleanup:", error);
+    console.error("Error during old UNPAID registrations cleanup:", error);
     throw error;
   }
 };
