@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import { removeFromLocalStorage, saveToLocalStorage } from '../context/storageUtils';
 import { useLanguage } from '../LanguageContext'; // Import useLanguage hook
 // Import logo image
 import favicon from '../assets/favicon.png'; // Đường dẫn đến logo của bạn
+import { cleanOldRegistrations } from '../context/firebaseFuncs'; 
 
 const HomePage = () => {
     // Xóa dữ liệu cũ khi vào trang chủ để đảm bảo form sạch
@@ -16,6 +17,27 @@ const HomePage = () => {
 
     const navigate = useNavigate();
     const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
+
+    useEffect(() => {
+        // Gọi hàm dọn dẹp dữ liệu cũ khi component HomePage được mount
+        // LƯU Ý QUAN TRỌNG: Việc chạy các thao tác dọn dẹp dữ liệu mạnh mẽ như xóa dữ liệu cũ
+        // từ phía client (trình duyệt của người dùng) KHÔNG ĐƯỢC KHUYẾN NGHỊ cho môi trường sản phẩm thực tế
+        // do các vấn đề về bảo mật, hiệu suất và độ tin cậy.
+        // Giải pháp an toàn và hiệu quả hơn là sử dụng Firebase Cloud Functions (Hàm đám mây Firebase)
+        // với các hàm được lập lịch (scheduled functions) để chạy định kỳ trên máy chủ.
+        const runCleanup = async () => {
+            try {
+                console.log("Attempting to clean old registrations from HomePage...");
+                await cleanOldRegistrations(); // Gọi hàm dọn dẹp
+                console.log("Old registrations cleanup initiated successfully from HomePage.");
+            } catch (error) {
+                console.error("Error during homepage cleanup:", error);
+            }
+        };
+
+        runCleanup(); // Kích hoạt dọn dẹp khi trang chủ tải
+    }, []); // Chạy một lần khi component được mount
+
 
     return (
         <div>

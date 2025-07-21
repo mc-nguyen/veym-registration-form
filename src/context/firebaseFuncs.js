@@ -254,5 +254,36 @@ export const deleteRegistration = async (id, signatureUrl) => {
   }
 };
 
+// Hàm ẩn để xóa các dữ liệu đăng ký cũ hơn một tuần
+export const cleanOldRegistrations = async () => {
+  try {
+    const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000); // 7 ngày * 24 giờ * 60 phút * 60 giây * 1000 mili giây
+    console.log(`Starting cleanup: Deleting registrations older than ${new Date(oneWeekAgo).toLocaleString()}`);
+
+    // Truy vấn các tài liệu có timestamp cũ hơn một tuần
+    const q = query(collection(db, 'registrations'), where('timestamp', '<', oneWeekAgo));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("No old registrations found to delete.");
+      return;
+    }
+
+    const deletePromises = [];
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const id = docSnap.id;
+      // Gọi hàm deleteRegistration để xóa cả tài liệu và chữ ký liên quan
+      deletePromises.push(deleteRegistration(id, data.signature));
+      console.log(`Scheduling deletion for registration ID: ${id}`);
+    });
+
+    await Promise.all(deletePromises);
+    console.log(`Successfully deleted ${deletePromises.length} old registrations.`);
+  } catch (error) {
+    console.error("Error during old registrations cleanup:", error);
+    throw error;
+  }
+};
 
 export { db, auth, storage }; // Export auth và storage
