@@ -22,10 +22,6 @@ import ParentSurveyForm from "./components/parent-survey-form/ParentSurveyForm";
 import ExportDataToExcel from "./components/excel/ExportDataToExcel";
 import ParentDataTable from "./components/parent-survey-form/ParentDataTable";
 import ProcessingPage from "./components/processing/ProcessingPage";
-<<<<<<< HEAD
-=======
-import AdminPaidChange from "./admin/AdminPaidChange";
->>>>>>> a6df68639482dd4e5c1bc13043c11e5925c213ca
 import AdminRegistrationList from "./admin/AdminRegistrationList";
 
 function App() {
