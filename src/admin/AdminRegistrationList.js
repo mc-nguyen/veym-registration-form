@@ -116,12 +116,21 @@ const AdminRegistrationList = () => {
                             {registrations.map((reg) => (
                                 <tr key={reg.id}>
                                     <td>{reg.id}</td>
+<<<<<<< HEAD
                                     <td>{[reg.registration.tenGoi, reg.registration.tenDem, reg.registration.ho].filter(Boolean).join(' ').trim()}</td>
                                     <td>{reg.registration.nganh}</td>
                                     <td>{reg.registration.ngaySinh}</td>
                                     <td>{reg.registration.email}</td>
                                     <td>{reg.registration.phoneCell}</td>
                                     <td>{reg.registration.phoneHome}</td>
+=======
+                                    <td>{[reg.tenGoi, reg.tenDem, reg.ho].filter(Boolean).join(' ').trim()}</td>
+                                    <td>{reg.nganh}</td>
+                                    <td>{reg.ngaySinh}</td>
+                                    <td>{reg.email}</td>
+                                    <td>{reg.phoneCell}</td>
+                                    <td>{reg.phoneHome}</td>
+>>>>>>> a6df68639482dd4e5c1bc13043c11e5925c213ca
                                     <td>{reg.isPaid ? 'Đã trả' : 'Chưa trả'}</td>
                                     <td>{formatTimestamp(reg.timestamp)}</td>
                                     <td className="actions-cell">
