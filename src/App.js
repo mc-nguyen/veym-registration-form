@@ -61,10 +61,6 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/excel" element={<ExportDataToExcel />} />
           <Route path="/admin/parents" element={<ParentDataTable />} />
-<<<<<<< HEAD
-=======
-          <Route path="/admin/paid" element={<AdminPaidChange />} />
->>>>>>> a6df68639482dd4e5c1bc13043c11e5925c213ca
           <Route path="/admin/registrations" element={<AdminRegistrationList />} />
         </Routes>
       </Router>
