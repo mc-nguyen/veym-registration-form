@@ -134,7 +134,7 @@ const PDFPreview = () => {
                 </div>
 
                 <div className="payment-section">
-                    <p><strong>Tiền niên liễm ($40 - student supplies/materials/fees/incentives)</strong></p>
+                    <p><strong>Tiền niên liễm ($50 - student supplies/materials/fees/incentives)</strong></p>
                     <p><strong>Áo đồng phục có logo ($25/each)</strong></p>
                     <p><strong>Skort đồng phục ($25/each)</strong></p>
                     <p><strong>TNTT scarf ($10/each)</strong></p>

@@ -91,8 +91,8 @@ const TNTTRulesAdult = () => {
         try {
             const finalFormData = { ...formData, signature: signatureData };
             await saveTNTTRulesToFirebase(getFromLocalStorage('id'), finalFormData);
-            saveToLocalStorage('currentPage', '/processing'); // Chuyển hướng khác cho người lớn
-            window.location.href = '/processing';
+            saveToLocalStorage('currentPage', '/payment'); // Chuyển hướng khác cho người lớn
+            window.location.href = '/payment';
         } catch (error) {
             console.error("Error submitting rules:", error);
             alert(t('tnttRules.submissionError'));

@@ -138,10 +138,10 @@ const RegistrationForm = () => {
             nganh: t(`registrationForm.branch.${nganhHienThiKey}`)
         };
         saveToLocalStorage('id', await saveRegistrationToFirebase(finalFormData));
-        saveToLocalStorage('currentPage', '/payment');
+        saveToLocalStorage('currentPage', '/health-info');
         saveToLocalStorage('nganh', t(`registrationForm.branch.${nganhHienThiKey}`).split(' ').slice(0, 2).join(' '));
         saveToLocalStorage('fullName', [formData.tenGoi, formData.tenDem, formData.ho].join(' ').trim())
-        window.location.href = '/payment';
+        window.location.href = '/health-info';
     };
 
     return (

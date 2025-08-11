@@ -20,7 +20,8 @@
     "startRegistration": "START REGISTRATION",
     "startAdultRegistration": "START REGISTRATION (ADULT VERSION)",
     "guide": "GUIDE",
-    "previewPdf": "REGISTRATION FORM PDF"
+    "previewPdf": "REGISTRATION FORM PDF",
+    "search": "SEARCH AND CONTINUE"
   },
   "healthInfoForm": {
     "title": "HEALTH INFORMATION",
