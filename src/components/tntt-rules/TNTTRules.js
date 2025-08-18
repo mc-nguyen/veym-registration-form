@@ -91,6 +91,9 @@ const TNTTRules = () => {
         try {
             const finalFormData = { ...formData, signature: signatureData };
             await saveTNTTRulesToFirebase(getFromLocalStorage('id'), finalFormData);
+            
+            if (getFromLocalStorage('complete')) window.location.href = '/complete';
+            
             saveToLocalStorage('currentPage', '/parent-survey');
             window.location.href = '/parent-survey';
         } catch (error) {

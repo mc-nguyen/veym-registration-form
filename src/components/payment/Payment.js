@@ -72,8 +72,8 @@ const Payment = () => {
   const totalAmount = calculateTotal();
 
   const handleSubmit = async () => {
-    saveToLocalStorage('currentPage', '/processing');
-    window.location.href = '/processing';
+    if (getFromLocalStorage('complete')) window.location.href = '/complete';
+    else window.location.href = '/processing';
   }
 
   return (

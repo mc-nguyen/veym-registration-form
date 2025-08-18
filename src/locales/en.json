@@ -303,6 +303,14 @@
     "saveIDMessage": "Please capture screenshot this page to save this ID below as your confirmation {{id}}",
     "goHomeButton": "Go to Homepage"
   },
+  "complete": {
+    "title": "Registration Complete",
+    "paymentInstruction": "Registrants will be able to participate in the Đoàn's activities starting from the Opening Day (September 7th, 2025)",
+    "afterPaymentNote": "If you have paid for your registration, please contact a member of the Executive Board with a screenshot so that the Executive Board can send a confirmation email or a notification from tnttmethienchuariverside@gmail.com",
+    "contactInfo": "For any questions, please contact the organizing committee.",
+    "saveIDMessage": "Please take a screenshot to save the ID number as your confirmation code {{id}}",
+    "goHomeButton": "Go to Homepage"
+  },
   "paidRegistrationsList": {
     "title": "Danh Sách Đăng Ký Đã Trả Tiền",
     "loading": "Đang tải danh sách đăng ký đã trả tiền...",

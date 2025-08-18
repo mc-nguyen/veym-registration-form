@@ -78,8 +78,8 @@ const HomePage = () => {
                             <button
                                 className="search-button"
                                 onClick={() => {
-                                    saveToLocalStorage('currentPage', '/registration-adult')
-                                    navigate('/registration-adult');
+                                    saveToLocalStorage('currentPage', '/search')
+                                    navigate('/search');
                                 }}
                             >
                                 {t('homePage.search')}

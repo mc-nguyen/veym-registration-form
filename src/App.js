@@ -24,6 +24,8 @@ import ParentDataTable from "./components/parent-survey-form/ParentDataTable";
 import ProcessingPage from "./components/processing/ProcessingPage";
 import AdminRegistrationList from "./admin/AdminRegistrationList";
 import AdminPaidRegistrationList from "./admin/AdminPaidRegistrationList";
+import SearchByEmail from "./components/SearchByEmail";
+import Complete from "./components/processing/Complete";
 
 function App() {
   const currentPathname = window.location.pathname;
@@ -40,6 +42,8 @@ function App() {
           <Route path="/guide" element={<GuidePage />} />
           <Route path="/preview-pdf" element={<PDFPreview />} />
           <Route path="/processing" element={<ProcessingPage />} />
+          <Route path="/search" element={<SearchByEmail />} />
+          <Route path="/complete" element={<Complete />} />
 
           {/* <Route path="/email-search" element={<EmailSearch />} /> */}
           <Route path="/registration" element={<RegistrationForm />} />

@@ -304,6 +304,14 @@
     "saveIDMessage": "Xin vui lòng chụp lại màn hình để lưu lại số ID như mã xác nhận {{id}}",
     "goHomeButton": "Về Trang Chủ"
   },
+  "complete": {
+    "title": "Đơn Ghi Danh Hoàn Tất",
+    "paymentInstruction": "Người ghi danh sẽ có thể tham gia các hoạt động của Đoàn bắt đầu từ ngày Khai Giảng (September 7th, 2025)",
+    "afterPaymentNote": "Nếu quý vị điền đơn đã đóng tiền, xin liên lạc kèm theo ảnh chụp màn hình với một Huynh Trưởng trong ban chấp hành để Ban Chấp Hành gửi email thông báo từ tnttmethienchuariverside@gmail.com",
+    "contactInfo": "Mọi thắc mắc, vui lòng liên hệ ban tổ chức.",
+    "saveIDMessage": "Xin vui lòng chụp lại màn hình để lưu lại số ID như mã xác nhận {{id}}",
+    "goHomeButton": "Về Trang Chủ"
+  },
   "paidRegistrationsList": {
     "title": "Danh Sách Đăng Ký Đã Trả Tiền",
     "loading": "Đang tải danh sách đăng ký đã trả tiền...",

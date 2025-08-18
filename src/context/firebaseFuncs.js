@@ -289,4 +289,33 @@ export const cleanOldUnpaidRegistrations = async () => {
   }
 };
 
+export const getRegistrationByEmail = async (email) => {
+    try {
+        const registrationsRef = collection(db, 'registrations');
+        
+        // Tạo một query để tìm kiếm theo trường email nằm trong sub-field 'registration'
+        const q = query(registrationsRef, where('registration.email', '==', email));
+        
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            console.log("Không tìm thấy người dùng nào với email này.");
+            return null;
+        }
+
+        // Lấy dữ liệu của người dùng đầu tiên tìm thấy
+        const doc = querySnapshot.docs[0];
+        const data = doc.data(); // Lấy dữ liệu từ sub-field 'registration'
+        
+        return {
+            id: doc.id,
+            ...data
+        };
+        
+    } catch (error) {
+        console.error("Lỗi khi tìm kiếm người dùng theo email:", error);
+        throw error;
+    }
+};
+
 export { db, auth, storage }; // Export auth và storage
