@@ -299,9 +299,21 @@
   "processingPage": {
     "title": "Đơn Ghi Danh Chưa Hoàn Tất",
     "paymentInstruction": "Xin quý vị điền đơn đóng tiền cho Thủ Quỹ/Thư Ký hoặc một Huynh Trưởng trong ban chấp hành thường vụ.",
-    "afterPaymentNote": "Nếu quý vị điền đơn đã đóng tiền, xin liên lạc với một Huynh Trưởng trong ban chấp hành để Ban Chấp Hành có thể sắp xếp hoàn tất đơn ghi danh và nhận email từ tnttmethienchuariverside@gmail.com",
+    "afterPaymentNote": "Nếu quý vị điền đơn đã đóng tiền, xin liên lạc kèm theo ảnh chụp màn hình với một Huynh Trưởng trong ban chấp hành để Ban Chấp Hành có thể sắp xếp hoàn tất đơn ghi danh và nhận email từ tnttmethienchuariverside@gmail.com",
     "contactInfo": "Mọi thắc mắc, vui lòng liên hệ ban tổ chức.",
-    "saveIDMessage": "Xin vui lòng lưu lại số ID như mã xác nhận {{id}}",
+    "saveIDMessage": "Xin vui lòng chụp lại màn hình để lưu lại số ID như mã xác nhận {{id}}",
     "goHomeButton": "Về Trang Chủ"
+  },
+  "paidRegistrationsList": {
+    "title": "Danh Sách Đăng Ký Đã Trả Tiền",
+    "loading": "Đang tải danh sách đăng ký đã trả tiền...",
+    "fetchError": "Lỗi khi tải danh sách đăng ký: ",
+    "noRegistrations": "Không có đơn đăng ký đã trả tiền nào được tìm thấy.",
+    "fullName": "Họ Tên",
+    "email": "Email",
+    "birthDate": "Ngày Sinh",
+    "branch": "Ngành",
+    "actions": "Hành Động",
+    "generatePdfButton": "Tạo PDF"
   }
 }

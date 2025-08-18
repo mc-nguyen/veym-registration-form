@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getFromLocalStorage, saveToLocalStorage } from '../context/storageUtils';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -7,24 +7,30 @@ import { getDataById } from '../context/firebaseFuncs';
 
 const GeneratePDF = () => {
   const navigate = useNavigate();
+  const { id } = useParams(); // Lấy ID trực tiếp từ URL path
   const hasGenerated = useRef(false); // Thêm biến ref để kiểm tra
 
   useEffect(() => {
-    if (!hasGenerated.current) { // Chỉ chạy nếu chưa tạo PDF
+    if (!hasGenerated.current && id) { // Chỉ chạy nếu chưa tạo PDF và có ID
       hasGenerated.current = true;
-      generatePDF();
+      generatePDF(id); // Truyền ID vào hàm tạo PDF
     }
-  });
+  }, [id]); // Chạy lại khi ID trong URL thay đổi
 
-  const generatePDF = async () => {
-    // Lấy dữ liệu từ tất cả các form
-    const params = new URLSearchParams(window.location.search);
-    const idFromUrl = params.get('id'); // Lấy giá trị của tham số 'id'
-
-    if (idFromUrl) {
-      saveToLocalStorage('id', idFromUrl); // Lưu ID vào localStorage
+  const generatePDF = async (registrationId) => {
+    if (!registrationId) {
+      console.error("Lỗi: Không tìm thấy ID đăng ký.");
+      navigate('/'); // Chuyển về trang chủ nếu không có ID
+      return;
     }
-    const data = await getDataById(getFromLocalStorage('id'));
+
+    // Lấy dữ liệu từ tất cả các form bằng ID
+    const data = await getDataById(registrationId);
+    if (!data) {
+        console.error("Không tìm thấy dữ liệu đăng ký với ID này.");
+        return;
+    }
+    
     const registrationData = data.registration || {};
     const healthInfoData = data.healthInfo || {};
     const waiverData = data.waiverRelease || {};
@@ -141,7 +147,7 @@ const GeneratePDF = () => {
           <table class="payment-table">
             <tr>
               <td>Tiền niên liễm ($40 - student supplies/materials/fees/incentives)</td>
-              <td>$${paymentData[1] ? paymentData[1] * 40 : 0}</td>
+              <td>$${paymentData[1] ? paymentData[1] * 50 : 0}</td>
             </tr>
             <tr>
               <td>Áo đồng phục có logo ($25/each)</td>
@@ -631,7 +637,7 @@ const GeneratePDF = () => {
 
     // Render từng trang riêng biệt
     const pages = pdfContent.querySelectorAll('.pdf-page');
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdf = new jsPDF('p', 'mm', 'letter');
 
     const renderPages = async (index) => {
       if (index >= pages.length) {

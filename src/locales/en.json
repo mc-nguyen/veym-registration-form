@@ -298,9 +298,21 @@
   "processingPage": {
     "title": "Registration Incomplete",
     "paymentInstruction": "Dear applicants, please make payment to the Treasurer/Secretary or a Huynh Trưởng in the Executive Committee.",
-    "afterPaymentNote": "If you have already made the payment, please contact a Huynh Trưởng in the Executive Committee so that we can finalize the registration and you can receive an email from tnttmethienchuariverside@gmail.com.",
+    "afterPaymentNote": "If you have already made the payment, please contact with the screenshot a Huynh Trưởng in the Executive Committee so that we can finalize the registration and you can receive an email from tnttmethienchuariverside@gmail.com.",
     "contactInfo": "For any questions, please contact the organizers.",
-    "saveIDMessage": "Please save this ID below as your confirmation {{id}}",
+    "saveIDMessage": "Please capture screenshot this page to save this ID below as your confirmation {{id}}",
     "goHomeButton": "Go to Homepage"
+  },
+  "paidRegistrationsList": {
+    "title": "Danh Sách Đăng Ký Đã Trả Tiền",
+    "loading": "Đang tải danh sách đăng ký đã trả tiền...",
+    "fetchError": "Lỗi khi tải danh sách đăng ký: ",
+    "noRegistrations": "Không có đơn đăng ký đã trả tiền nào được tìm thấy.",
+    "fullName": "Họ Tên",
+    "email": "Email",
+    "birthDate": "Ngày Sinh",
+    "branch": "Ngành",
+    "actions": "Hành Động",
+    "generatePdfButton": "Tạo PDF"
   }
 }

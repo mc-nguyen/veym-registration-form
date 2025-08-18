@@ -1,0 +1,92 @@
+/* src/pages/PaidRegistrationsList/PaidRegistrationsList.css */
+.paid-list-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.paid-list-container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.paid-registration-table-wrapper {
+    overflow-x: auto; /* Cho phép cuộn ngang trên màn hình nhỏ */
+}
+
+.paid-list-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.paid-list-container th,
+.paid-list-container td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.paid-list-container th {
+    background-color: #e2e2e2;
+    color: #333;
+    font-weight: bold;
+}
+
+.paid-list-container tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.paid-list-container tr:hover {
+    background-color: #e0e0e0;
+}
+
+.actions-cell {
+    text-align: center;
+    white-space: nowrap; /* Ngăn nút xuống dòng */
+}
+
+.btn-generate-pdf {
+    background-color: #28a745; /* Màu xanh lá cây */
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-generate-pdf:hover {
+    background-color: #218838;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .paid-list-container {
+        padding: 10px;
+        margin: 10px auto;
+    }
+
+    .paid-list-container th,
+    .paid-list-container td {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    .btn-generate-pdf {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+}

@@ -23,6 +23,7 @@ import ExportDataToExcel from "./components/excel/ExportDataToExcel";
 import ParentDataTable from "./components/parent-survey-form/ParentDataTable";
 import ProcessingPage from "./components/processing/ProcessingPage";
 import AdminRegistrationList from "./admin/AdminRegistrationList";
+import AdminPaidRegistrationList from "./admin/AdminPaidRegistrationList";
 
 function App() {
   const currentPathname = window.location.pathname;
@@ -47,7 +48,7 @@ function App() {
           <Route path="/waiver-release" element={<WaiverRelease />} />
           <Route path="/tntt-rules" element={<TNTTRules />} />
           <Route path="/parent-survey" element={<ParentSurveyForm />} />
-          <Route path="/generate-pdf" element={<GeneratePDF />} />
+          <Route path="/generate-pdf/:id" element={<GeneratePDF />} />
 
           {/* <Route path="/email-search-adult" element={<EmailSearchAdult />} /> */}
           <Route path="/registration-adult" element={<RegistrationFormAdult />} />
@@ -55,13 +56,14 @@ function App() {
           <Route path="/health-info-adult" element={<HealthInfoFormAdult />} />
           <Route path="/waiver-release-adult" element={<WaiverReleaseAdult />} />
           <Route path="/tntt-rules-adult" element={<TNTTRulesAdult />} />
-          <Route path="/generate-pdf-adult" element={<GeneratePDFAdult />} />
+          <Route path="/generate-pdf-adult/:id" element={<GeneratePDFAdult />} />
 
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/excel" element={<ExportDataToExcel />} />
           <Route path="/admin/parents" element={<ParentDataTable />} />
           <Route path="/admin/registrations" element={<AdminRegistrationList />} />
+          <Route path="/admin/paid" element={<AdminPaidRegistrationList />} />
         </Routes>
       </Router>
     </div>
