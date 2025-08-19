@@ -103,7 +103,7 @@ const TNTTRulesAdult = () => {
 
     return (
         <div className="tntt-rules-container">
-            <h2 className="tntt-rules-title">{t('tnttRules.titleAdult')}</h2> {/* Title for adult form */}
+            <h2 className="tntt-rules-title">{t('tnttRules.title')}</h2> {/* Title for adult form */}
             <div className="tntt-rules-content">
                 {/* Rules content for adults - adjust as needed */}
                 <ol>
