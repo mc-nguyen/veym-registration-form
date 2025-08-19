@@ -221,7 +221,8 @@
     "clearSignature": "Clear Signature",
     "note": "*** Parent/Guardian keeps a copy of this page and goes over the rules with his/her children.",
     "submitButton": "Submit",
-    "nganh": "Branch:"
+    "nganh": "Branch:",
+    "noteAdult": "*** Please keep a copy of this page as the rules' reference."
   },
   "searchEmail": {
     "search_data_title": "Search Data",
