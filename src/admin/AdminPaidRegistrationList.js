@@ -1,16 +1,23 @@
 // src/pages/PaidRegistrationsList/PaidRegistrationsList.js
 import React, { useState, useEffect } from 'react';
 import { getAllRegistrationsData } from '../context/firebaseFuncs';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate để điều hướng
-import { useLanguage } from '../LanguageContext'; // Để hỗ trợ đa ngôn ngữ
-import './AdminPaidRegistrationList.css'; // File CSS cho component này
+import { useLanguage } from '../LanguageContext';
+import './AdminPaidRegistrationList.css';
 
 const AdminPaidRegistrationList = () => {
     const { translate: t } = useLanguage();
-    const navigate = useNavigate();
     const [registrations, setRegistrations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // Predefined order for 'nganh' (sector)
+    const nganhOrder = [
+        "Ấu Nhi Dự Bị", "Ấu Nhi Cấp 1", "Ấu Nhi Cấp 2", "Ấu Nhi Cấp 3",
+        "Thiếu Nhi Cấp 1", "Thiếu Nhi Cấp 2", "Thiếu Nhi Cấp 3",
+        "Nghĩa Sĩ Cấp 1", "Nghĩa Sĩ Cấp 2", "Nghĩa Sĩ Cấp 3",
+        "Hiệp Sĩ Cấp 1", "Hiệp Sĩ Cấp 2", "Hiệp Sĩ Trưởng Thành",
+        "Huynh Trưởng", "Trợ Tá", "Huấn Luyện Viên"
+    ];
 
     useEffect(() => {
         const fetchPaidRegistrations = async () => {
@@ -18,9 +25,34 @@ const AdminPaidRegistrationList = () => {
             setError(null);
             try {
                 const allData = await getAllRegistrationsData();
-                // Lọc chỉ những đơn đăng ký đã trả tiền
                 const paidData = allData.filter(reg => reg.isPaid === true);
-                setRegistrations(paidData);
+
+                // Sort the paidData array
+                const sortedData = paidData.sort((a, b) => {
+                    const nganhA = a.registration.nganh;
+                    const nganhB = b.registration.nganh;
+                    const tenGoiA = a.registration.tenGoi.toLowerCase();
+                    const tenGoiB = b.registration.tenGoi.toLowerCase();
+
+                    // First, sort by 'nganh' using the predefined order
+                    const nganhIndexA = nganhOrder.indexOf(nganhA);
+                    const nganhIndexB = nganhOrder.indexOf(nganhB);
+
+                    if (nganhIndexA !== nganhIndexB) {
+                        return nganhIndexA - nganhIndexB;
+                    }
+
+                    // If 'nganh' is the same, sort alphabetically by 'tenGoi'
+                    if (tenGoiA < tenGoiB) {
+                        return -1;
+                    }
+                    if (tenGoiA > tenGoiB) {
+                        return 1;
+                    }
+                    return 0; // names are equal
+                });
+
+                setRegistrations(sortedData);
             } catch (err) {
                 console.error("Lỗi khi tải danh sách đăng ký đã trả tiền:", err);
                 setError(t('paidRegistrationsList.fetchError') + err.message);
@@ -30,7 +62,7 @@ const AdminPaidRegistrationList = () => {
         };
 
         fetchPaidRegistrations();
-    }, [t]); // Chạy lại khi ngôn ngữ thay đổi
+    });
 
     const handleGeneratePdfClick = (registrationId, nganh) => {
         const allowedNganh = ["Hiệp Sĩ Trưởng Thành", "Huynh Trưởng", "Trợ Tá", "Huấn Luyện Viên"];
@@ -40,13 +72,11 @@ const AdminPaidRegistrationList = () => {
     };
 
     const handleSendEmail = (reg) => {
-        // Lấy các thông tin cần thiết từ đối tượng `reg`
         const fullName = `${reg.registration.tenGoi} ${reg.registration.tenDem} ${reg.registration.ho}`;
         const tenThanh = reg.registration.tenThanh;
         const nganh = reg.registration.nganh;
         const email = reg.registration.email;
 
-        // Tạo nội dung email chi tiết và chuyên nghiệp
         const emailBody = `Chào ${tenThanh} ${fullName},
 
 Đoàn TNTT Mẹ Thiên Chúa xin chân thành cảm ơn bạn đã đăng ký ghi danh.
@@ -71,16 +101,11 @@ Trân trọng,
 Ban Điều Hành Đoàn Mẹ Thiên Chúa
 Giáo Xứ Đức Mẹ Hằng Cứu Giúp - Riverside`;
 
-        // Mã hóa nội dung để chèn vào URL
         const encodedBody = encodeURIComponent(emailBody);
         const subject = encodeURIComponent(`Giấy ghi danh TNTT của ${fullName}`);
 
-        // // Mở ứng dụng email mặc định của người dùng với nội dung chi tiết
-        // window.location.href = `mailto:${email}?subject=${subject}&body=${encodedBody}`;
-        // Tạo URL để mở trang soạn thảo email trên Gmail
         const gmailUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${email}&su=${subject}&body=${encodedBody}`;
 
-        // Mở URL này trong một tab mới
         window.open(gmailUrl, '_blank');
     };
 
@@ -114,7 +139,7 @@ Giáo Xứ Đức Mẹ Hằng Cứu Giúp - Riverside`;
                         <tbody>
                             {registrations.map((reg) => (
                                 <tr key={reg.id}>
-                                    <td>{[reg.registration.tenGoi, reg.registration.tenDem, reg.registration.ho].filter(Boolean).join(' ').trim()}</td>
+                                    <td>{[reg.registration.ho, reg.registration.tenDem, reg.registration.tenGoi].filter(Boolean).join(' ').trim()}</td>
                                     <td>{reg.registration.nganh}</td>
                                     <td>{reg.registration.ngaySinh}</td>
                                     <td>{reg.registration.email}</td>

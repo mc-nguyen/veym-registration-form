@@ -17,6 +17,8 @@ const RegistrationForm = () => {
             tenGoi: "",
             tenCha: "",
             tenMe: "",
+            phoneCha: "",
+            phoneMe: "",
             diaChi: "",
             phoneHome: "",
             phoneCell: "",
@@ -197,6 +199,8 @@ const RegistrationForm = () => {
                     </div>
                 </div>
 
+                <hr/>
+
                 <div className="form-row">
                     <div className="form-group">
                         <label htmlFor="fatherName">{t('registrationForm.fatherName')}</label>
@@ -210,6 +214,20 @@ const RegistrationForm = () => {
                         />
                     </div>
                     <div className="form-group">
+                        <label htmlFor="phoneCha">{t('registrationForm.phoneCha')}</label>
+                        <input
+                            type="tel"
+                            id="phoneCha"
+                            name="phoneCha"
+                            value={formData.phoneCha}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div className="form-row">
+                    <div className="form-group">
                         <label htmlFor="motherName">{t('registrationForm.motherName')}</label>
                         <input
                             type="text"
@@ -220,7 +238,20 @@ const RegistrationForm = () => {
                             required
                         />
                     </div>
+                    <div className="form-group">
+                        <label htmlFor="phoneMe">{t('registrationForm.phoneMe')}</label>
+                        <input
+                            type="tel"
+                            id="phoneMe"
+                            name="phoneMe"
+                            value={formData.phoneMe}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
                 </div>
+
+                <hr/>
 
                 <div className="form-group">
                     <label htmlFor="address">{t('registrationForm.address')}</label>
@@ -233,6 +264,8 @@ const RegistrationForm = () => {
                         required
                     />
                 </div>
+
+                <hr/>
 
                 <div className="form-row">
                     <div className="form-group">

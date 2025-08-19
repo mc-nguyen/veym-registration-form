@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getFromLocalStorage, saveToLocalStorage } from '../context/storageUtils';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { getDataById } from '../context/firebaseFuncs';
@@ -15,7 +14,7 @@ const GeneratePDF = () => {
       hasGenerated.current = true;
       generatePDF(id); // Truyền ID vào hàm tạo PDF
     }
-  }, [id]); // Chạy lại khi ID trong URL thay đổi
+  }); // Chạy lại khi ID trong URL thay đổi
 
   const generatePDF = async (registrationId) => {
     if (!registrationId) {
@@ -53,7 +52,7 @@ const GeneratePDF = () => {
         <p>Our Lady of Perpetual Help Church - Giáo Xứ Đức Mẹ Hằng Cứu Giúp</p>
         <p>Liên Đoàn Sinai | Đoàn Mẹ Thiên Chúa | Riverside, CA</p>
         <p>5250 Central Avenue, Riverside, CA 92504</p>
-        <p>Cha Tuyên Úy: (chưa biết) | Đoàn Trường: Tr. Quang Nguyễn (909) 543-5559</p>
+        <p>Cha Tuyên Úy: Johnny Trí Đặng | Đoàn Trường: Tr. Quang Nguyễn (909) 543-5559</p>
       </div>
     `;
 
@@ -72,7 +71,7 @@ const GeneratePDF = () => {
             </tr>
             <tr>
               <td>Con của ông và bà:</td>
-              <td><strong>${registrationData.tenCha} và ${registrationData.tenMe}</strong></td>
+              <td><strong>${registrationData.tenCha} (${registrationData.phoneCha}) và ${registrationData.tenMe} (${registrationData.phoneMe})</strong></td>
             </tr>
             <tr>
               <td>Địa chỉ nhà:</td>
@@ -163,7 +162,7 @@ const GeneratePDF = () => {
             </tr>
             <tr class="total-row">
               <td><strong>Tổng cộng:</strong></td>
-              <td><strong>$${(paymentData[1] ? paymentData[1] * 40 : 0) +
+              <td><strong>$${(paymentData[1] ? paymentData[1] * 50 : 0) +
       (paymentData[2] ? paymentData[2] * 25 : 0) +
       (paymentData[3] ? paymentData[3] * 25 : 0) +
       (paymentData[4] ? paymentData[4] * 10 : 0)
