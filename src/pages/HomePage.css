@@ -144,6 +144,67 @@
     transform: translateY(-2px);
 }
 
+.floating-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+/* Nút chính để mở/đóng menu */
+.floating-action-button {
+    background-color: #007bff; /* Màu xanh dương */
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 2em;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.floating-action-button:hover {
+    transform: scale(1.1);
+}
+
+/* Các nút tùy chọn */
+.floating-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.floating-option-button {
+    background-color: #f8f9fa; /* Màu nền xám nhạt */
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    white-space: nowrap; /* Ngăn chữ bị xuống dòng */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.floating-option-button:hover {
+    background-color: #e9ecef;
+    transform: translateX(-5px);
+}
+
+/* Biểu tượng '+' hoặc 'x' */
+.floating-icon {
+    line-height: 1; /* Căn giữa biểu tượng */
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .content-overlay {

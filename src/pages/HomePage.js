@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import { removeFromLocalStorage, saveToLocalStorage } from '../context/storageUtils';
@@ -17,6 +17,7 @@ const HomePage = () => {
 
     const navigate = useNavigate();
     const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
+    const [isFloatingMenuOpen, setIsFloatingMenuOpen] = useState(false);
 
     useEffect(() => {
         // Gọi hàm dọn dẹp dữ liệu cũ khi component HomePage được mount
@@ -38,6 +39,9 @@ const HomePage = () => {
         runCleanup(); // Kích hoạt dọn dẹp khi trang chủ tải
     }, []); // Chạy một lần khi component được mount
 
+    const toggleFloatingMenu = () => {
+        setIsFloatingMenuOpen(!isFloatingMenuOpen);
+    };
 
     return (
         <div>
@@ -101,6 +105,19 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            {/* Floating Action Button */}
+            <div className="floating-container">
+                {isFloatingMenuOpen && (
+                    <div className="floating-options">
+                        <button className="floating-option-button" onClick={() => window.location.href='https://veym.net/about/chapters/me-thien-chua-riverside'}>About Us</button>
+                        <button className="floating-option-button" onClick={() => navigate('/how-to-pay')}>How to Pay</button>
+                    </div>
+                )}
+                <button className="floating-action-button" onClick={toggleFloatingMenu}>
+                    <span className="floating-icon">{isFloatingMenuOpen ? '×' : '+'}</span>
+                </button>
             </div>
         </div>
     );

@@ -27,6 +27,7 @@ import AdminPaidRegistrationList from "./admin/AdminPaidRegistrationList";
 import SearchByEmail from "./components/SearchByEmail";
 import Complete from "./components/processing/Complete";
 import AdminUnpaidRegistrationList from "./admin/AdminUnpaidRegistrationList";
+import HowToPay from "./pages/HowToPay";
 
 function App() {
   const currentPathname = window.location.pathname;
@@ -45,6 +46,7 @@ function App() {
           <Route path="/processing" element={<ProcessingPage />} />
           <Route path="/search" element={<SearchByEmail />} />
           <Route path="/complete" element={<Complete />} />
+          <Route path="/how-to-pay" element={<HowToPay />} />
 
           {/* <Route path="/email-search" element={<EmailSearch />} /> */}
           <Route path="/registration" element={<RegistrationForm />} />

@@ -1,0 +1,218 @@
+/* Payment.css */
+.payment-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.payment-container h2 {
+    color: #2d8fdd;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.payment-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+.payment-section h3 {
+    color: #d32f2f;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.fee-list {
+    list-style: none;
+    padding: 0;
+}
+
+.fee-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.fee-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity-input {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.fee-amount {
+    font-weight: bold;
+}
+
+.total-amount {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 2px solid #ddd;
+}
+
+.qr-code-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.qr-code-placeholder {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    color: #666;
+}
+
+.zelle-email {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #2d8fdd;
+    margin: 15px 0;
+}
+
+.payment-note {
+    font-style: italic;
+    color: #666;
+}
+
+.confirmation-input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.confirmation-input label {
+    font-weight: bold;
+}
+
+.confirmation-input input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.instruction {
+    font-size: 0.8rem;
+    color: #666;
+    font-style: italic;
+}
+
+.navigation-buttons {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.submit-btn {
+    background-color: #2d8fdd;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #1a73c8;
+}
+
+.submit-btn.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .payment-container {
+        padding: 15px;
+    }
+
+    .fee-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .fee-amount {
+        align-self: flex-end;
+    }
+}
+
+/* Thêm vào Payment.css */
+.required-badge {
+  font-size: 0.8rem;
+  color: #d32f2f;
+  margin-left: 5px;
+}
+
+.quantity-input {
+  width: 60px;
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.quantity-input:disabled {
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.payment-method {
+    /* Đảm bảo payment-method là một block element (thường là mặc định) */
+    /* Nếu nó là flex hoặc grid container, cần cách khác */
+    text-align: center; /* Có thể dùng để căn giữa các inline-block con */
+}
+
+.payment-method img {
+    /* Đặt kích thước tối đa để hình ảnh không quá lớn */
+    max-width: 300px; /* Điều chỉnh kích thước này cho phù hợp */
+    height: auto; /* Giữ tỷ lệ khung hình */
+    display: block; /* Quan trọng: Biến hình ảnh thành block element */
+    margin-left: auto; /* Căn giữa */
+    margin-right: auto; /* Căn giữa */
+    margin-top: 20px; /* Thêm khoảng cách nếu cần */
+    margin-bottom: 20px; /* Thêm khoảng cách nếu cần */
+}
+
+/* Hoặc nếu bạn muốn đặt một class riêng cho hình ảnh Zelle để dễ quản lý */
+/* Trong Payment.js: <img src={zelle} alt="Zelle Logo" className="zelle-logo" /> */
+/* Trong Payment.css: */
+.zelle-logo {
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 20px auto; /* Viết tắt cho margin-top, margin-right, margin-bottom, margin-left */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .payment-method img, .zelle-logo {
+        max-width: 200px; /* Nhỏ hơn trên thiết bị di động */
+    }
+}

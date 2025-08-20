@@ -140,6 +140,20 @@
       "tnttScarf": "TNTT scarf"
     }
   },
+  "howToPay": {
+    "title": "CÁCH THỨC THANH TOÁN",
+    "zellePaymentTitle": "Thanh toán qua Zelle",
+    "zelleEmail": "hoặc",
+    "paymentNote1": "Sau khi thanh toán, xin vui lòng liên lạc Thư Ký hoặc Thủ Quỹ Đoàn qua số",
+    "cashPaymentTitle": "Thanh Toán qua Tiền Mặt",
+    "checkPaymentTitle": "Thanh Toán qua Check",
+    "paymentNoteA": "Xin gặp trực tiếp Ban Ghi Danh phía cuối nhà thờ để thanh toán.",
+    "paymentNoteB": "Ban Ghi Danh sẽ ngồi sau Thánh Lễ ngày Chúa Nhật 6:00 chiều.",
+    "paymentNoteC": "Xin đợi Ban Ghi Danh hoàn tất các thủ tục về hoàn tất đơn cũng ghi hóa đơn.",
+    "paymentNoteD": "Nếu thanh toán bằng check, quý vị vui lòng ghi tên người nhận là: ",
+    "paymentNoteE": "Xin lưu ý, nếu thanh toán qua check, quý vị vui lòng ghi rõ 4 số cuối ID của đơn ghi danh xác nhận của người ghi danh vào phần memo của check.",
+    "returnToHome": "Trở về Trang Chính"
+  },
   "registrationFormAdult": {
     "title": "ĐƠN GHI DANH NGƯỜI LỚN",
     "memberInfo": "THÔNG TIN CÁ NHÂN",

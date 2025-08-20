@@ -165,6 +165,22 @@
       "tnttScarf": "TNTT scarf"
     }
   },
+  "howToPay": {
+    "title": "PAYMENT METHODS",
+    "zellePaymentTitle": "Payment via Zelle",
+    "qrCodePlaceholder": "Zelle QR Code",
+    "scanToPay": "(Please scan the code to pay)",
+    "zelleEmail": "or",
+    "paymentNote1": "After payment, please contact the Đoàn's Secretary or Treasurer at",
+    "cashPaymentTitle": "Cash Payment",
+    "checkPaymentTitle": "Check Payment",
+    "paymentNoteA": "Please meet the Registration Committee at the back of the church to make your payment.",
+    "paymentNoteB": "The Registration Committee will be available after the 6:00 PM Sunday Mass.",
+    "paymentNoteC": "Please wait for the Registration Committee to complete the necessary procedures and issue a receipt.",
+    "paymentNoteD": "If paying by check, please make the check payable to: ",
+    "paymentNoteE": "Please note, if paying by check, please write the last 4 digits of the registration's confirmation ID in the memo section of the check.",
+    "returnToHome": "Return to Homepage"
+  },
   "waiverRelease": {
     "title": "WAIVER & RELEASE FORM",
     "releaseStatement": "This waiver and release of liability is made and entered into by and between the participant(s)/parent(s)/guardian(s) and Đoàn TNTT Mẹ Thiên Chúa.",
