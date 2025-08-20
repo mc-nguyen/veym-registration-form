@@ -50,7 +50,7 @@ const AdminUnpaidRegistrationList = () => {
             `Hệ thống của chúng tôi cho thấy đơn ghi danh với mã ID **${reg.id}** vẫn chưa được thanh toán.\n` +
             `Theo hướng dẫn, quý vị có 1 tuần để hoàn tất việc đóng tiền. Nếu quá thời hạn, đơn ghi danh sẽ bị xóa và quý vị sẽ phải làm lại từ đầu.\n\n` +
             `Cách thức Thanh Toán xin vui lòng tham khảo tại: https://mtc-riverside-database.web.app/how-to-pay \n\n` + 
-            `Để hoàn tất, xin vui lòng gửi tiền cho Ban Điều Hành. Sau khi thanh toán, quý vị vui lòng liên hệ với Ban Điều Hành để được xác nhận và nhận email thông báo chính thức.\n\n` +
+            `Sau khi thanh toán, quý vị vui lòng liên hệ với Ban Điều Hành để được xác nhận và nhận email thông báo chính thức.\n\n` +
             `Mọi thắc mắc, xin vui lòng liên hệ với Ban Điều Hành.\n\n` +
             `Xin chân thành cảm ơn.\n` +
             `Trân trọng,\n` +

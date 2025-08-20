@@ -138,7 +138,7 @@ const PDFPreview = () => {
                     <p><strong>Áo đồng phục có logo ($25/each)</strong></p>
                     <p><strong>Skort đồng phục ($25/each)</strong></p>
                     <p><strong>TNTT scarf ($10/each)</strong></p>
-                    <p>If pay by check, please pay to the order of: OLPH church</p>
+                    <p>If pay by check, please pay to the order of: <strong>VEYM - Me Thien Chua Chapter</strong></p>
 
                     <table className="pdf-table">
                         <tbody>

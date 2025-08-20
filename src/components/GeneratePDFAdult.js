@@ -143,7 +143,7 @@ const GeneratePDFAdult = () => {
       }</strong></td>
             </tr>
           </table>
-          <p class="payment-note">If pay by check, please pay to the order of: OLPH church</p>
+          <p class="payment-note">If pay by check, please pay to the order of: <strong>VEYM - Me Thien Chua Chapter</strong></p>
         </div>
       </div>`
 
