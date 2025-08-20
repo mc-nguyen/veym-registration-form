@@ -62,7 +62,7 @@ const AdminPaidRegistrationList = () => {
         };
 
         fetchPaidRegistrations();
-    });
+    }, [t]); 
 
     const handleGeneratePdfClick = (registrationId, nganh) => {
         const allowedNganh = ["Hiệp Sĩ Trưởng Thành", "Huynh Trưởng", "Trợ Tá", "Huấn Luyện Viên"];
