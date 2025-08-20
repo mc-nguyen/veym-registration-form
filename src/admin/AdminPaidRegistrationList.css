@@ -72,6 +72,27 @@
     font-weight: bold;
 }
 
+.btn-download-csv {
+    background-color: #007bff; /* Màu nền xanh dương */
+    color: white; /* Chữ trắng */
+    border: none;
+    padding: 12px 24px; /* Khoảng đệm bên trong nút */
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px; /* Bo tròn các góc */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu khi di chuột */
+    
+    /* Canh lề và định vị */
+    display: block; /* Chiếm toàn bộ chiều rộng của cha */
+    width: fit-content; /* Đảm bảo nút không quá rộng */
+    margin: 40px auto 20px auto; /* Canh giữa và tạo khoảng cách trên/dưới */
+}
+
+.btn-download-csv:hover {
+    background-color: #0056b3; /* Màu tối hơn khi di chuột qua */
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .paid-list-container {

@@ -62,7 +62,48 @@ const AdminPaidRegistrationList = () => {
         };
 
         fetchPaidRegistrations();
-    }, [t]); 
+    }, [t]);
+
+    const handleDownloadCSV = () => {
+        const header = [
+            "Tên Thánh", "Họ", "Tên Đệm", "Tên Gọi", "Ngày Sinh", "Ngành",
+            "Tên Cha", "Tên Mẹ", "SĐT Cha", "SĐT Mẹ", "Email"
+        ];
+
+        const csvRows = registrations.map(reg => {
+            const data = reg.registration || {};
+            return [
+                data.tenThanh || '',
+                data.ho || '',
+                data.tenDem || '',
+                data.tenGoi || '',
+                data.ngaySinh || '',
+                data.nganh || '',
+                data.tenCha || '',
+                data.tenMe || '',
+                data.phoneCha || '',
+                data.phoneMe || '',
+                data.email || ''
+            ].map(item => `"${item}"`).join(',');
+        });
+
+        // Thêm BOM vào đầu nội dung CSV
+        const csvContent = "\uFEFF" + [
+            header.join(','),
+            ...csvRows
+        ].join('\n');
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'danh_sach_ghi_danh.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     const handleGeneratePdfClick = (registrationId, nganh) => {
         const allowedNganh = ["Hiệp Sĩ Trưởng Thành", "Huynh Trưởng", "Trợ Tá", "Huấn Luyện Viên"];
@@ -164,6 +205,14 @@ Giáo Xứ Đức Mẹ Hằng Cứu Giúp - Riverside`;
                     </table>
                 </div>
             )}
+
+            <button
+                onClick={handleDownloadCSV}
+                className="btn-download-csv"
+                style={{ marginBottom: '20px' }}
+            >
+                Tải xuống CSV
+            </button>
         </div>
     );
 };
