@@ -39,7 +39,11 @@ export const saveRegistrationToFirebase = async (data) => {
 export const savePaymentToFirebase = async (id, data) => {
   try {
     const docRef = doc(db, 'registrations', id);
-    await updateDoc(docRef, { payment: data });
+    await updateDoc(docRef, { 
+      payment: data,
+      status: 'unpaid', // Cập nhật status
+      isPaid: false // Đảm bảo isPaid vẫn là false ở bước này
+    });
   } catch (error) {
     console.error("Error adding document: ", error);
     throw error;
@@ -70,9 +74,7 @@ export const saveTNTTRulesToFirebase = async (id, data) => {
   try {
     const docRef = doc(db, 'registrations', id);
     await updateDoc(docRef, {
-      tnttRules: data,
-      status: 'unpaid', // Cập nhật status
-      isPaid: false // Đảm bảo isPaid vẫn là false ở bước này
+      tnttRules: data
     });
   } catch (error) {
     console.error("Error adding document: ", error);
@@ -314,6 +316,22 @@ export const getRegistrationByEmail = async (email) => {
         
     } catch (error) {
         console.error("Lỗi khi tìm kiếm người dùng theo email:", error);
+        throw error;
+    }
+};
+
+export const getUnpaidRegistrations = async () => {
+    try {
+        const q = query(collection(db, 'registrations'), where('isPaid', '==', false));
+        const querySnapshot = await getDocs(q);
+
+        const unpaidRegistrations = [];
+        querySnapshot.forEach((doc) => {
+            unpaidRegistrations.push({ id: doc.id, ...doc.data() });
+        });
+        return unpaidRegistrations;
+    } catch (error) {
+        console.error("Error fetching unpaid registrations:", error);
         throw error;
     }
 };

@@ -26,6 +26,7 @@ import AdminRegistrationList from "./admin/AdminRegistrationList";
 import AdminPaidRegistrationList from "./admin/AdminPaidRegistrationList";
 import SearchByEmail from "./components/SearchByEmail";
 import Complete from "./components/processing/Complete";
+import AdminUnpaidRegistrationList from "./admin/AdminUnpaidRegistrationList";
 
 function App() {
   const currentPathname = window.location.pathname;
@@ -68,6 +69,7 @@ function App() {
           <Route path="/admin/parents" element={<ParentDataTable />} />
           <Route path="/admin/registrations" element={<AdminRegistrationList />} />
           <Route path="/admin/paid" element={<AdminPaidRegistrationList />} />
+          <Route path="/admin/unpaid" element={<AdminUnpaidRegistrationList />} />
         </Routes>
       </Router>
     </div>

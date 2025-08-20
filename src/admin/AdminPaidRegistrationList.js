@@ -127,7 +127,7 @@ Bạn đã đăng ký vào ngành: ${nganh}
 Đây là giấy ghi danh của bạn. Vui lòng tải xuống và lưu giữ để tham khảo.
 Xin bấm vào liên kết sau để xem chi tiết:
 
-${window.location.origin}/generate-pdf/${reg.id}
+https://mtc-riverside-database.web.app/generate-pdf/${reg.id}
 
 Nếu bạn cần hỗ trợ, vui lòng liên hệ với ban tổ chức qua:
 email - tnttmethienchuariverside@gmail.com
@@ -145,9 +145,7 @@ Giáo Xứ Đức Mẹ Hằng Cứu Giúp - Riverside`;
         const encodedBody = encodeURIComponent(emailBody);
         const subject = encodeURIComponent(`Giấy ghi danh TNTT của ${fullName}`);
 
-        const gmailUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${email}&su=${subject}&body=${encodedBody}`;
-
-        window.open(gmailUrl, '_blank');
+        window.location.href = `mailto:${email}?subject=${subject}&body=${encodedBody}`;
     };
 
     if (loading) {
