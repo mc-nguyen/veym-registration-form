@@ -1,18 +1,19 @@
 {
   "guidePage": {
-    "title": "REGISTRATION GUIDE",
-    "stepsTitle": "Registration Steps:",
-    "step1": "Click the \"START REGISTRATION\" button",
-    "step2": "Fill in all personal information",
-    "step3": "Pay activity fees",
-    "step4": "Fill in health information",
-    "step5": "Review and agree to terms and conditions",
-    "step6": "Complete registration",
-    "noteTitle": "Important Notes:",
-    "note1": "Prepare personal information and insurance details",
-    "note2": "The registration process takes about 10-15 minutes",
-    "note3": "Parental signature required if student is under 18 years old",
-    "backToHome": "BACK TO HOMEPAGE"
+    "title": "Registration Guidelines",
+    "sectionTitle1": "Steps for Applicants:",
+    "step1": "Scan the QR code or go directly to the link: ",
+    "step2": "Select your preferred language (English/Tiếng Việt).",
+    "step3": "Click on 'Start Registration' to register children between the ages of 6 and 18. For those over 18, please click on 'adult version'.",
+    "step4": "Fill in all required information. 'Home Phone' and 'Work Phone' fields are optional. The 'Next' button will not be active until all required fields are filled out.",
+    "step5": "Please sign the 'Student's Signature' field and other required signature fields. If these fields are not signed, the 'Next' button will not be active.",
+    "step6": "Continue filling in the rest of the information. If a field is not applicable, please write 'NA'.",
+    "step7": "The regular registration form requires parents' names, while the 'adult' version will automatically extract the name from the registration page.",
+    "step8": "If the information is pre-filled, please check the confirmation box and sign your name.",
+    "step9": "Parents (for the regular version only) are encouraged to provide their contact information and indicate which areas they can assist with.",
+    "step10": "Payments must be made to a leader or senior youth member in charge of registration. The amount must match the registration form.",
+    "step11": "After registration, parents will receive an ID number to confirm payment. Please save this ID. The form will be automatically deleted if payment is not received within 1 week.",
+    "backToHome": "Back To Home"
   },
   "homePage": {
     "welcomeTitle": "WELCOME TO<br/>VIETNAMESE EUCHARISTIC YOUTH MOVEMENT",

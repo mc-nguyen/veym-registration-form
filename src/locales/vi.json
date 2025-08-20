@@ -1,18 +1,19 @@
 {
   "guidePage": {
-    "title": "HƯỚNG DẪN ĐĂNG KÝ",
-    "stepsTitle": "Các bước đăng ký:",
-    "step1": "Nhấn nút \"BẮT ĐẦU ĐĂNG KÍ\"",
-    "step2": "Điền đầy đủ thông tin cá nhân",
-    "step3": "Thanh toán phí sinh hoạt",
-    "step4": "Điền thông tin sức khỏe",
-    "step5": "Xem và đồng ý với các điều khoản",
-    "step6": "Hoàn tất đăng ký",
-    "noteTitle": "Lưu ý quan trọng:",
-    "note1": "Chuẩn bị sẵn thông tin cá nhân và thông tin bảo hiểm",
-    "note2": "Quá trình đăng ký mất khoảng 10-15 phút",
-    "note3": "Cần có chữ ký của phụ huynh nếu học sinh dưới 18 tuổi",
-    "backToHome": "QUAY LẠI TRANG CHỦ"
+    "title": "Hướng Dẫn Ghi Danh",
+    "sectionTitle1": "Các Bước Cho Những Người Làm Đơn Ghi Danh:",
+    "step1": "Quét mã QR hoặc truy cập trực tiếp qua đường link: ",
+    "step2": "Chọn ngôn ngữ (English/Tiếng Việt). Hướng dẫn này là bản tiếng Việt, nhưng trang web chính sẽ có hướng dẫn bằng tiếng Anh.",
+    "step3": "Bấm 'Start Registration' để đăng ký cho con cái từ 6 đến 18 tuổi. Nếu trên 18 tuổi, vui lòng bấm vào 'adult version'.",
+    "step4": "Điền đầy đủ tất cả thông tin. Các trường 'Home Phone' và 'Work Phone' là không bắt buộc.",
+    "step5": "Vui lòng ký vào mục 'Student's Signature' và các chữ ký khác nếu có, nếu không nút 'Next' sẽ không hoạt động.",
+    "step6": "Tiếp tục điền đầy đủ các thông tin. Nếu không có thông tin, vui lòng ghi 'NA'.",
+    "step7": "Bản đăng ký thường phải ghi tên phụ huynh, còn bản 'adult' sẽ tự động trích tên từ trang đăng ký.",
+    "step8": "Nếu thông tin đã điền sẵn, vui lòng đánh dấu vào ô xác nhận (confirmation) và ký tên.",
+    "step9": "Nếu có thể giúp đỡ, phụ huynh (chỉ với bản thường) vui lòng điền thông tin và công việc có thể giúp đỡ.",
+    "step10": "Vui lòng gửi tiền cho Huynh Trưởng hoặc Hiệp Sĩ Trưởng Thành đang phụ trách ghi danh. Số tiền phải trùng khớp với form.",
+    "step11": "Sau khi đăng ký, phụ huynh sẽ nhận được một mã ID để xác nhận việc thanh toán. Vui lòng lưu lại mã này. Form sẽ tự động bị xóa nếu quá 1 tuần không đóng tiền.",
+    "backToHome": "Trở về Trang Chính"
   },
   "homePage": {
     "welcomeTitle": "CHÀO MỪNG ĐẾN VỚI<br/>ĐOÀN THIẾU NHI THÁNH THỂ",
