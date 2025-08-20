@@ -145,7 +145,7 @@ const GeneratePDF = () => {
           <h4>Thanh toán</h4>
           <table class="payment-table">
             <tr>
-              <td>Tiền niên liễm ($40 - student supplies/materials/fees/incentives)</td>
+              <td>Tiền niên liễm ($50 - student supplies/materials/fees/incentives)</td>
               <td>$${paymentData[1] ? paymentData[1] * 50 : 0}</td>
             </tr>
             <tr>
