@@ -113,6 +113,7 @@ const HomePage = () => {
                     <div className="floating-options">
                         <button className="floating-option-button" onClick={() => window.location.href='https://veym.net/about/chapters/me-thien-chua-riverside'}>About Us</button>
                         <button className="floating-option-button" onClick={() => navigate('/how-to-pay')}>How to Pay</button>
+                        <button className="floating-option-button" onClick={() => navigate('/contact-us')}>Contact Us</button>
                     </div>
                 )}
                 <button className="floating-action-button" onClick={toggleFloatingMenu}>

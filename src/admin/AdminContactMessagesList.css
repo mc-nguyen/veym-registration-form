@@ -1,0 +1,88 @@
+/* src/pages/AdminPage/AdminContactMessagesList.css */
+
+.admin-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+.loading-state, .error-state, .no-data {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.error-state {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.admin-table th,
+.admin-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.admin-table th {
+    background-color: #e2e2e2;
+    color: #333;
+    font-weight: bold;
+}
+
+.admin-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #e9e9e9;
+}
+
+/* Điều chỉnh độ rộng cột để nội dung không bị tràn */
+.admin-table th:nth-child(1),
+.admin-table td:nth-child(1) {
+    width: 120px;
+}
+
+.admin-table th:nth-child(2),
+.admin-table td:nth-child(2) {
+    width: 150px;
+}
+
+.admin-table th:nth-child(3),
+.admin-table td:nth-child(3) {
+    width: 200px;
+}
+
+.admin-table th:nth-child(4),
+.admin-table td:nth-child(4) {
+    width: 250px;
+}
+
+.admin-table th:nth-child(5),
+.admin-table td:nth-child(5) {
+    white-space: normal;
+}

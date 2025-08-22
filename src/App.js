@@ -19,7 +19,6 @@ import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import ParentSurveyForm from "./components/parent-survey-form/ParentSurveyForm";
-import ExportDataToExcel from "./components/excel/ExportDataToExcel";
 import ParentDataTable from "./components/parent-survey-form/ParentDataTable";
 import ProcessingPage from "./components/processing/ProcessingPage";
 import AdminRegistrationList from "./admin/AdminRegistrationList";
@@ -28,10 +27,13 @@ import SearchByEmail from "./components/SearchByEmail";
 import Complete from "./components/processing/Complete";
 import AdminUnpaidRegistrationList from "./admin/AdminUnpaidRegistrationList";
 import HowToPay from "./pages/HowToPay";
+import ProtectedRoute from "./admin/ProtectedRoute";
+import ContactUs from "./pages/ContactUs";
+import AdminContactMessagesList from "./admin/AdminContactMessagesList";
 
 function App() {
   const currentPathname = window.location.pathname;
-  const isAdminOrPreview = currentPathname.includes('/admin/') || currentPathname.includes('pdf');
+  const isAdminOrPreview = currentPathname.includes('/admin') || currentPathname.includes('pdf');
 
   return (
     <div>
@@ -47,6 +49,7 @@ function App() {
           <Route path="/search" element={<SearchByEmail />} />
           <Route path="/complete" element={<Complete />} />
           <Route path="/how-to-pay" element={<HowToPay />} />
+          <Route path="/contact-us" element={<ContactUs />} />
 
           {/* <Route path="/email-search" element={<EmailSearch />} /> */}
           <Route path="/registration" element={<RegistrationForm />} />
@@ -65,13 +68,37 @@ function App() {
           <Route path="/tntt-rules-adult" element={<TNTTRulesAdult />} />
           <Route path="/generate-pdf-adult/:id" element={<GeneratePDFAdult />} />
 
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/excel" element={<ExportDataToExcel />} />
-          <Route path="/admin/parents" element={<ParentDataTable />} />
-          <Route path="/admin/registrations" element={<AdminRegistrationList />} />
-          <Route path="/admin/paid" element={<AdminPaidRegistrationList />} />
-          <Route path="/admin/unpaid" element={<AdminUnpaidRegistrationList />} />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/parents" element={
+            <ProtectedRoute>
+              <ParentDataTable />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/registrations" element={
+            <ProtectedRoute>
+              <AdminRegistrationList />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/paid" element={
+            <ProtectedRoute>
+              <AdminPaidRegistrationList />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/unpaid" element={
+            <ProtectedRoute>
+              <AdminUnpaidRegistrationList />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/contact-messages" element={
+            <ProtectedRoute>
+              <AdminContactMessagesList />
+            </ProtectedRoute>
+          } />
         </Routes>
       </Router>
     </div>

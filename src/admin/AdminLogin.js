@@ -1,69 +1,91 @@
-// src/components/AdminLogin.js
-import React, { useState } from 'react';
+// src/pages/AdminPage/AdminLogin.js
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../context/firebaseFuncs'; // Đảm bảo đường dẫn đúng
-import { saveToLocalStorage } from '../context/storageUtils';
+import { loginAdmin, auth } from '../context/firebaseFuncs';
+import { isSessionValid } from '../context/storageUtils';
+import { onAuthStateChanged } from 'firebase/auth';
+import './AdminLogin.css';
 
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    // Thêm useEffect hook này để kiểm tra trạng thái đăng nhập
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user && isSessionValid()) {
+                // Nếu người dùng đã đăng nhập và phiên còn hợp lệ, chuyển hướng ngay lập tức
+                navigate('/admin/dashboard');
+            }
+        });
+
+        // Cleanup function để hủy đăng ký listener khi component unmount
+        return () => unsubscribe();
+    }, [navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError(''); // Reset lỗi
+        setLoading(true);
+        setError('');
         try {
-            // Đăng nhập bằng Firebase Authentication
-            await signInWithEmailAndPassword(auth, email, password);
-            saveToLocalStorage("error", "None");
-            // Nếu đăng nhập thành công, chuyển hướng đến trang Admin Dashboard
+            await loginAdmin(email, password);
             navigate('/admin/dashboard');
         } catch (err) {
-            // Xử lý lỗi đăng nhập
-            console.error("Lỗi đăng nhập:", err.code, err.message);
-            switch (err.code) {
-                case 'auth/user-not-found':
-                case 'auth/wrong-password':
-                    setError('Email hoặc mật khẩu không đúng.');
-                    break;
-                case 'auth/invalid-email':
-                    setError('Email không hợp lệ.');
-                    break;
-                default:
-                    setError('Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.');
-            }
+            setError('Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.');
+            console.error("Login error:", err);
+        } finally {
+            setLoading(false);
         }
     };
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
-        <div className="admin-login-container">
-            <h2>Đăng nhập Admin</h2>
-            <form onSubmit={handleLogin}>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Mật khẩu:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Đăng nhập</button>
-                {error && <p className="error-message">{error}</p>}
-            </form>
+        <div className="admin-login-page">
+            <div className="login-container">
+                <form onSubmit={handleLogin} className="login-form">
+                    <h2>Đăng Nhập Admin</h2>
+                    {error && <p className="error-message">{error}</p>}
+                    <div className="form-group">
+                        <label htmlFor="email">Email:</label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group password-container">
+                        <label htmlFor="password">Mật khẩu:</label>
+                        <div className="password-input-wrapper">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            <button
+                                type="button"
+                                className="toggle-password-btn"
+                                onClick={togglePasswordVisibility}
+                            >
+                                {showPassword ? '👁️' : '👁️‍🗨️'}
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Đang Đăng Nhập...' : 'Đăng Nhập'}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };

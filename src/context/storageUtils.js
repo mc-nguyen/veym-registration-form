@@ -23,25 +23,11 @@ export const removeFromLocalStorage = (key) => {
     localStorage.removeItem(key);
 };
 
-// Tương tự cho sessionStorage
-export const saveToSessionStorage = (key, data) => {
-    try {
-        sessionStorage.setItem(key, JSON.stringify(data));
-    } catch (error) {
-        console.error('Error saving to sessionStorage:', error);
+export const isSessionValid = () => {
+    const lastLoginTime = localStorage.getItem('lastLoginTime');
+    const threeMonthsInMs = 90 * 24 * 60 * 60 * 1000;
+    if (lastLoginTime && (Date.now() - lastLoginTime) < threeMonthsInMs) {
+        return true;
     }
-};
-
-export const getFromSessionStorage = (key) => {
-    try {
-        const data = sessionStorage.getItem(key);
-        return data ? JSON.parse(data) : null;
-    } catch (error) {
-        console.error('Error getting from sessionStorage:', error);
-        return null;
-    }
-};
-
-export const removeFromSessionStorage = (key) => {
-    sessionStorage.removeItem(key);
+    return false;
 };

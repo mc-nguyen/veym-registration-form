@@ -342,5 +342,21 @@
     "branch": "Ngành",
     "actions": "Hành Động",
     "generatePdfButton": "Tạo PDF"
+  },
+  "contactUs": {
+    "title": "Contact Us",
+    "intro": "Please fill out the form below if you have any questions.",
+    "contactInfoTitle": "Contact Information",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "formTitle": "Send Us a Message",
+    "formName": "Full Name",
+    "formEmail": "Your Email",
+    "formSubject": "Subject",
+    "formMessage": "Message",
+    "formButton": "Send Message",
+    "successMessage": "Your message has been sent successfully!",
+    "backButton": "Back to Home Page"
   }
 }

@@ -341,5 +341,21 @@
     "branch": "Ngành",
     "actions": "Hành Động",
     "generatePdfButton": "Tạo PDF"
-  }
+  },
+  "contactUs": {
+      "title": "Liên Hệ Với Chúng Tôi",
+      "intro": "Vui lòng điền vào mẫu dưới đây nếu bạn có bất kỳ câu hỏi nào.",
+      "contactInfoTitle": "Thông Tin Liên Hệ",
+      "email": "Email",
+      "phone": "Điện thoại",
+      "address": "Địa chỉ",
+      "formTitle": "Gửi Tin Nhắn",
+      "formName": "Họ và Tên",
+      "formEmail": "Email của bạn",
+      "formSubject": "Tiêu đề",
+      "formMessage": "Nội dung tin nhắn",
+      "formButton": "Gửi Tin Nhắn",
+      "successMessage": "Tin nhắn của bạn đã được gửi thành công!",
+      "backButton": "Quay lại Trang Chủ"
+    }
 }

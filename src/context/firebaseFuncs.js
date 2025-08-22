@@ -1,6 +1,6 @@
 // src/context/firebaseFuncs.js
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword  } from "firebase/auth";
 import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, query, where, getDocs, deleteDoc } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage"; // Import for storage operations
 
@@ -19,6 +19,36 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app); // Khởi tạo Auth
 const storage = getStorage(app); // Khởi tạo Storage
+
+export const getContactMessages = async () => {
+    try {
+        const querySnapshot = await getDocs(collection(db, "contactMessages"));
+        const messages = [];
+        querySnapshot.forEach((doc) => {
+            messages.push({ id: doc.id, ...doc.data() });
+        });
+        // Sắp xếp theo timestamp giảm dần (tin mới nhất lên đầu)
+        messages.sort((a, b) => b.timestamp - a.timestamp);
+        return messages;
+    } catch (e) {
+        console.error("Error fetching contact messages: ", e);
+        throw e;
+    }
+};
+
+export const saveContactMessageToFirebase = async (messageData) => {
+    try {
+        const docRef = await addDoc(collection(db, "contactMessages"), {
+            ...messageData,
+            timestamp: Date.now()
+        });
+        console.log("Contact message written with ID: ", docRef.id);
+        return docRef.id;
+    } catch (e) {
+        console.error("Error adding contact message: ", e);
+        throw e;
+    }
+};
 
 // Hàm lưu đăng ký mới vào Firebase
 export const saveRegistrationToFirebase = async (data) => {
@@ -332,6 +362,19 @@ export const getUnpaidRegistrations = async () => {
         return unpaidRegistrations;
     } catch (error) {
         console.error("Error fetching unpaid registrations:", error);
+        throw error;
+    }
+};
+
+export const loginAdmin = async (email, password) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        // Lưu thời gian đăng nhập vào localStorage
+        localStorage.setItem('lastLoginTime', Date.now());
+        return user;
+    } catch (error) {
+        console.error("Lỗi đăng nhập:", error);
         throw error;
     }
 };
