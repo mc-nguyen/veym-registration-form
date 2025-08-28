@@ -131,11 +131,6 @@ https://mtc-riverside-database.web.app/generate-pdf/${reg.id}
 
 Nếu bạn cần hỗ trợ, vui lòng liên hệ với ban tổ chức qua:
 email - tnttmethienchuariverside@gmail.com
-số điện thoại:
-        - Tr. Quang: 909-543-5559
-        - Tr. Vy: 714-873-3039
-        - HSTT Thanh: 951-396-9396
-        - HSTT Tina: 714-310-2250
 
 Xin Chúa chúc lành cho bạn và gia đình.
 Trân trọng,

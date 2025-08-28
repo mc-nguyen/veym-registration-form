@@ -30,6 +30,7 @@ import HowToPay from "./pages/HowToPay";
 import ProtectedRoute from "./admin/ProtectedRoute";
 import ContactUs from "./pages/ContactUs";
 import AdminContactMessagesList from "./admin/AdminContactMessagesList";
+import AdminNotificationsPage from "./admin/AdminNotificationsPage";
 
 function App() {
   const currentPathname = window.location.pathname;
@@ -97,6 +98,11 @@ function App() {
           <Route path="/admin/contact-messages" element={
             <ProtectedRoute>
               <AdminContactMessagesList />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/notifications" element={
+            <ProtectedRoute>
+              <AdminNotificationsPage />
             </ProtectedRoute>
           } />
         </Routes>

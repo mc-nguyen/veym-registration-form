@@ -1,7 +1,7 @@
 // src/context/firebaseFuncs.js
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword  } from "firebase/auth";
-import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, query, where, getDocs, deleteDoc, orderBy } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage"; // Import for storage operations
 
 // Your web app's Firebase configuration
@@ -21,33 +21,33 @@ const auth = getAuth(app); // Khởi tạo Auth
 const storage = getStorage(app); // Khởi tạo Storage
 
 export const getContactMessages = async () => {
-    try {
-        const querySnapshot = await getDocs(collection(db, "contactMessages"));
-        const messages = [];
-        querySnapshot.forEach((doc) => {
-            messages.push({ id: doc.id, ...doc.data() });
-        });
-        // Sắp xếp theo timestamp giảm dần (tin mới nhất lên đầu)
-        messages.sort((a, b) => b.timestamp - a.timestamp);
-        return messages;
-    } catch (e) {
-        console.error("Error fetching contact messages: ", e);
-        throw e;
-    }
+  try {
+    const querySnapshot = await getDocs(collection(db, "contactMessages"));
+    const messages = [];
+    querySnapshot.forEach((doc) => {
+      messages.push({ id: doc.id, ...doc.data() });
+    });
+    // Sắp xếp theo timestamp giảm dần (tin mới nhất lên đầu)
+    messages.sort((a, b) => b.timestamp - a.timestamp);
+    return messages;
+  } catch (e) {
+    console.error("Error fetching contact messages: ", e);
+    throw e;
+  }
 };
 
 export const saveContactMessageToFirebase = async (messageData) => {
-    try {
-        const docRef = await addDoc(collection(db, "contactMessages"), {
-            ...messageData,
-            timestamp: Date.now()
-        });
-        console.log("Contact message written with ID: ", docRef.id);
-        return docRef.id;
-    } catch (e) {
-        console.error("Error adding contact message: ", e);
-        throw e;
-    }
+  try {
+    const docRef = await addDoc(collection(db, "contactMessages"), {
+      ...messageData,
+      timestamp: Date.now()
+    });
+    console.log("Contact message written with ID: ", docRef.id);
+    return docRef.id;
+  } catch (e) {
+    console.error("Error adding contact message: ", e);
+    throw e;
+  }
 };
 
 // Hàm lưu đăng ký mới vào Firebase
@@ -59,6 +59,11 @@ export const saveRegistrationToFirebase = async (data) => {
       isPaid: false, // Thêm trường isPaid, mặc định là false
       timestamp: Date.now()
     });
+    await addDoc(collection(db, "notifications"), {
+      id: docRef.id,
+      timestamp: Date.now(),
+      content: "Registrations Data created or updated"
+    });
     return docRef.id;
   } catch (error) {
     console.error("Error adding document: ", error);
@@ -69,10 +74,15 @@ export const saveRegistrationToFirebase = async (data) => {
 export const savePaymentToFirebase = async (id, data) => {
   try {
     const docRef = doc(db, 'registrations', id);
-    await updateDoc(docRef, { 
+    await updateDoc(docRef, {
       payment: data,
       status: 'unpaid', // Cập nhật status
       isPaid: false // Đảm bảo isPaid vẫn là false ở bước này
+    });
+    await addDoc(collection(db, "notifications"), {
+      id: docRef.id,
+      timestamp: Date.now(),
+      content: "Payment Data created or updated"
     });
   } catch (error) {
     console.error("Error adding document: ", error);
@@ -84,6 +94,11 @@ export const saveHealthInfoToFirebase = async (id, data) => {
   try {
     const docRef = doc(db, 'registrations', id);
     await updateDoc(docRef, { healthInfo: data });
+    await addDoc(collection(db, "notifications"), {
+      id: docRef.id,
+      timestamp: Date.now(),
+      content: "Health Information Data created or updated"
+    });
   } catch (error) {
     console.error("Error adding document: ", error);
     throw error;
@@ -94,6 +109,11 @@ export const saveWaiverReleaseToFirebase = async (id, data) => {
   try {
     const docRef = doc(db, 'registrations', id);
     await updateDoc(docRef, { waiverRelease: data });
+    await addDoc(collection(db, "notifications"), {
+      id: docRef.id,
+      timestamp: Date.now(),
+      content: "Waiver Release Data created or updated"
+    });
   } catch (error) {
     console.error("Error adding document: ", error);
     throw error;
@@ -105,6 +125,11 @@ export const saveTNTTRulesToFirebase = async (id, data) => {
     const docRef = doc(db, 'registrations', id);
     await updateDoc(docRef, {
       tnttRules: data
+    });
+    await addDoc(collection(db, "notifications"), {
+      id: docRef.id,
+      timestamp: Date.now(),
+      content: "TNTT Rules Data created or updated"
     });
   } catch (error) {
     console.error("Error adding document: ", error);
@@ -142,6 +167,11 @@ export const saveParentSurvey = async (dataArray) => {
     });
 
     const docRef = await addDoc(collection(db, "parents"), registrationData);
+    await addDoc(collection(db, "notifications"), {
+      id: docRef.id,
+      timestamp: Date.now(),
+      content: "Parents Data created or updated"
+    });
     return docRef.id;
   } catch (error) {
     console.error("Error adding document: ", error);
@@ -157,6 +187,11 @@ export const markRegistrationAsPaid = async (registrationId) => {
       isPaid: true,
       status: 'paid', // Cập nhật status nếu bạn vẫn sử dụng
       paymentDate: new Date().toISOString() // Lưu thời gian thanh toán
+    });
+    await addDoc(collection(db, "notifications"), {
+      id: registrationId,
+      timestamp: Date.now(),
+      content: "Marked as paid"
     });
     console.log(`Registration ${registrationId} marked as paid.`);
   } catch (error) {
@@ -221,46 +256,39 @@ export const getAllRegistrationsData = async () => {
 };
 
 export const getAllRegistrations = async () => {
-    try {
-        const q = query(collection(db, 'registrations')); // Lấy tất cả tài liệu trong collection 'registrations'
-        const querySnapshot = await getDocs(q);
+  try {
+    const q = query(collection(db, 'registrations')); // Lấy tất cả tài liệu trong collection 'registrations'
+    const querySnapshot = await getDocs(q);
 
-        const allRegistrations = [];
-        querySnapshot.forEach((doc) => {
-            allRegistrations.push({ id: doc.id, ...doc.data() });
-        });
-        return allRegistrations;
-    } catch (error) {
-        console.error("Error fetching all registrations:", error);
-        throw error;
-    }
-};
-
-// Hàm để cập nhật dữ liệu của một đơn đăng ký (sử dụng cho các trường bất kỳ)
-export const updateRegistrationData = async (id, newData) => {
-    try {
-        const registrationRef = doc(db, 'registrations', id);
-        await updateDoc(registrationRef, newData);
-        console.log("Registration updated successfully for ID:", id);
-    } catch (error) {
-        console.error("Error updating registration data:", error);
-        throw error;
-    }
+    const allRegistrations = [];
+    querySnapshot.forEach((doc) => {
+      allRegistrations.push({ id: doc.id, ...doc.data() });
+    });
+    return allRegistrations;
+  } catch (error) {
+    console.error("Error fetching all registrations:", error);
+    throw error;
+  }
 };
 
 // Hàm mới: Cập nhật trạng thái thanh toán (Paid/Unpaid)
 export const updatePaymentStatus = async (id, isPaid) => {
-    try {
-        const registrationRef = doc(db, 'registrations', id);
-        await updateDoc(registrationRef, {
-            isPaid: isPaid,
-            status: isPaid ? 'paid' : 'unpaid' // Cập nhật cả trường status
-        });
-        console.log(`Registration ${id} payment status updated to ${isPaid ? 'Paid' : 'Unpaid'}.`);
-    } catch (error) {
-        console.error("Error updating payment status:", error);
-        throw error;
-    }
+  try {
+    const registrationRef = doc(db, 'registrations', id);
+    await updateDoc(registrationRef, {
+      isPaid: isPaid,
+      status: isPaid ? 'paid' : 'unpaid' // Cập nhật cả trường status
+    });
+    await addDoc(collection(db, "notifications"), {
+      id: id,
+      timestamp: Date.now(),
+      content: `Payment status updated to ${isPaid ? 'Paid' : 'Unpaid'}.`
+    });
+    console.log(`Registration ${id} payment status updated to ${isPaid ? 'Paid' : 'Unpaid'}.`);
+  } catch (error) {
+    console.error("Error updating payment status:", error);
+    throw error;
+  }
 };
 
 // Hàm mới: Xóa một đơn đăng ký
@@ -269,6 +297,11 @@ export const deleteRegistration = async (id, signatureUrl) => {
     // Xóa tài liệu Firestore
     await deleteDoc(doc(db, 'registrations', id));
     console.log("Registration document deleted successfully for ID:", id);
+    await addDoc(collection(db, "notifications"), {
+      id: id,
+      timestamp: Date.now(),
+      content: "Form is deleted!"
+    });
 
     // Nếu có URL chữ ký và chữ ký được lưu trong Firebase Storage, xóa nó
     if (signatureUrl && signatureUrl.startsWith('gs://')) { // Kiểm tra nếu là URL Storage
@@ -322,61 +355,83 @@ export const cleanOldUnpaidRegistrations = async () => {
 };
 
 export const getRegistrationByEmail = async (email) => {
-    try {
-        const registrationsRef = collection(db, 'registrations');
-        
-        // Tạo một query để tìm kiếm theo trường email nằm trong sub-field 'registration'
-        const q = query(registrationsRef, where('registration.email', '==', email));
-        
-        const querySnapshot = await getDocs(q);
+  try {
+    const registrationsRef = collection(db, 'registrations');
 
-        if (querySnapshot.empty) {
-            console.log("Không tìm thấy người dùng nào với email này.");
-            return null;
-        }
+    // Tạo một query để tìm kiếm theo trường email nằm trong sub-field 'registration'
+    const q = query(registrationsRef, where('registration.email', '==', email));
 
-        // Lấy dữ liệu của người dùng đầu tiên tìm thấy
-        const doc = querySnapshot.docs[0];
-        const data = doc.data(); // Lấy dữ liệu từ sub-field 'registration'
-        
-        return {
-            id: doc.id,
-            ...data
-        };
-        
-    } catch (error) {
-        console.error("Lỗi khi tìm kiếm người dùng theo email:", error);
-        throw error;
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("Không tìm thấy người dùng nào với email này.");
+      return null;
     }
+
+    // Lấy dữ liệu của người dùng đầu tiên tìm thấy
+    const doc = querySnapshot.docs[0];
+    const data = doc.data(); // Lấy dữ liệu từ sub-field 'registration'
+
+    return {
+      id: doc.id,
+      ...data
+    };
+
+  } catch (error) {
+    console.error("Lỗi khi tìm kiếm người dùng theo email:", error);
+    throw error;
+  }
 };
 
 export const getUnpaidRegistrations = async () => {
-    try {
-        const q = query(collection(db, 'registrations'), where('isPaid', '==', false));
-        const querySnapshot = await getDocs(q);
+  try {
+    const q = query(collection(db, 'registrations'), where('isPaid', '==', false));
+    const querySnapshot = await getDocs(q);
 
-        const unpaidRegistrations = [];
-        querySnapshot.forEach((doc) => {
-            unpaidRegistrations.push({ id: doc.id, ...doc.data() });
-        });
-        return unpaidRegistrations;
-    } catch (error) {
-        console.error("Error fetching unpaid registrations:", error);
-        throw error;
-    }
+    const unpaidRegistrations = [];
+    querySnapshot.forEach((doc) => {
+      unpaidRegistrations.push({ id: doc.id, ...doc.data() });
+    });
+    return unpaidRegistrations;
+  } catch (error) {
+    console.error("Error fetching unpaid registrations:", error);
+    throw error;
+  }
 };
 
 export const loginAdmin = async (email, password) => {
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        // Lưu thời gian đăng nhập vào localStorage
-        localStorage.setItem('lastLoginTime', Date.now());
-        return user;
-    } catch (error) {
-        console.error("Lỗi đăng nhập:", error);
-        throw error;
-    }
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    // Lưu thời gian đăng nhập vào localStorage
+    localStorage.setItem('lastLoginTime', Date.now());
+    return user;
+  } catch (error) {
+    console.error("Lỗi đăng nhập:", error);
+    throw error;
+  }
+};
+
+export const getNotifications = async () => {
+  try {
+    const notificationsRef = collection(db, "notifications");
+    
+    // Tạo truy vấn để lấy tất cả tài liệu và sắp xếp theo timestamp giảm dần
+    const q = query(notificationsRef, orderBy("timestamp", "desc"));
+
+    const querySnapshot = await getDocs(q);
+    const notifications = [];
+    
+    querySnapshot.forEach((doc) => {
+      // Đẩy dữ liệu của từng tài liệu vào mảng
+      notifications.push({ id: doc.id, ...doc.data() });
+    });
+
+    return notifications;
+  } catch (error) {
+    console.error("Lỗi khi lấy thông báo:", error);
+    throw error;
+  }
 };
 
 export { db, auth, storage }; // Export auth và storage
