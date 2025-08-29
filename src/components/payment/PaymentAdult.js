@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react';
 import './Payment.css';
 import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
 import { savePaymentToFirebase } from '../../context/firebaseFuncs';
+import useFirebaseSettings from '../../context/useFirebaseSettings';
 import { useLanguage } from '../../LanguageContext'; // Import useLanguage hook
 import zelle from '../../assets/zelle.png'; // Đường dẫn đến logo của bạn
 
 const Payment = () => {
   const { translate: t } = useLanguage(); // Lấy hàm translate từ hook
+  const settings = useFirebaseSettings();
+  const prices = settings.prices;
+  const committee = settings.committee;
+  const loading = settings.loading;
+  const error = settings.error;
 
   // Danh sách các khoản phí
-  const [feeItems] = useState([
+  const [feeItems, setFeeItems] = useState([
     {
       id: 1,
       name: t('paymentPage.feeItems.annualFee'), // Dịch tên khoản phí
@@ -41,6 +47,44 @@ const Payment = () => {
   });
 
   useEffect(() => {
+    if (prices.length > 0) {
+      // Lọc ra item khăn quàng cổ
+      const filteredPrices = prices.filter(p => p.name !== 'Khăn');
+
+      // Gán các giá trị từ prices vào feeItems
+      const items = filteredPrices.map(p => {
+        let nameKey = '';
+        let required = false;
+        if (p.name === 'Niên liễm') {
+          nameKey = 'annualFee';
+          required = true;
+        } else if (p.name === 'Đồng phục') {
+          nameKey = 'uniformShirt';
+        } else if (p.name === 'Váy') {
+          nameKey = 'uniformSkort';
+        }
+        return {
+          id: p.id,
+          name: t(`paymentPage.feeItems.${nameKey}`),
+          amount: p.amount,
+          required: required
+        };
+      });
+      setFeeItems(items);
+
+      // Thiết lập số lượng mặc định, đặc biệt cho mục bắt buộc
+      const savedData = getFromLocalStorage('paymentFormData') || {};
+      const initialQuantities = { ...savedData };
+      items.forEach(item => {
+        if (item.required && (initialQuantities[item.id] === undefined || initialQuantities[item.id] === 0)) {
+          initialQuantities[item.id] = 1;
+        }
+      });
+      setQuantities(initialQuantities);
+    }
+  }, [prices, t]);
+
+  useEffect(() => {
     saveToLocalStorage('paymentFormData', quantities);
     savePaymentToFirebase(getFromLocalStorage('id'), quantities);
   }, [quantities]);
@@ -68,6 +112,9 @@ const Payment = () => {
     if (getFromLocalStorage('complete')) window.location.href = '/complete';
     else window.location.href = '/processing';
   }
+
+  if (loading) return <div>Đang tải thông tin phí...</div>;
+  if (error) return <div>Có lỗi xảy ra: {error}</div>;
 
   return (
     <div className="payment-container">
@@ -114,9 +161,9 @@ const Payment = () => {
           <p className="payment-note">
             {t('paymentPage.paymentNote1')}
             <br /><strong>
-              714-873-3039 - Trưởng Quang Vy (Marvin Calvin) - Thư Ký/Secretary<br />
-              951-396-9396 - Trưởng Thanh Paula <br />
-              714-310-2250 - Trưởng Tina - Thủ Quỹ/Treasurer
+              {committee.map((member, index) => (
+                <div key={index}>{member.phone} - {member.name}</div>
+              ))}
             </strong><br />
           </p>
         </div>

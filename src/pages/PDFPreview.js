@@ -1,9 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import useFirebaseSettings from '../context/useFirebaseSettings'
 import './PDFPreview.css';
 
 const PDFPreview = () => {
     const navigate = useNavigate();
+    const settings = useFirebaseSettings();
 
     const handlePrint = () => {
         window.print();
@@ -21,10 +23,13 @@ const PDFPreview = () => {
                 <p>Our Lady of Perpetual Help Church - Giáo Xứ Đức Mẹ Hằng Cứu Giúp</p>
                 <p>Liên Đoàn Sinai | Đoàn Mẹ Thiên Chúa | Riverside, CA</p>
                 <p>5250 Central Avenue Riverside, CA 92504</p>
-                <p>Cha Tuyên Úy: Johnny Đặng | Đoàn Trưởng: Tr. Quang Nguyễn (909) 543-5559</p>
+                <p>Cha Tuyên Úy: {settings.spiritualDirectorName} | Đoàn Trưởng: {settings.leaderName} {settings.leaderPhone}</p>
             </div>
         </div>
     );
+
+    if (settings.loading) return <div>Đang tải thông tin phí...</div>;
+    if (settings.error) return <div>Có lỗi xảy ra: {settings.error}</div>;
 
     return (
         <div className="pdf-container">
@@ -134,10 +139,10 @@ const PDFPreview = () => {
                 </div>
 
                 <div className="payment-section">
-                    <p><strong>Tiền niên liễm ($50 - student supplies/materials/fees/incentives)</strong></p>
-                    <p><strong>Áo đồng phục có logo ($25/each)</strong></p>
-                    <p><strong>Skort đồng phục ($25/each)</strong></p>
-                    <p><strong>TNTT scarf ($10/each)</strong></p>
+                    <p><strong>Tiền niên liễm (${settings.prices[0].amount} - student supplies/materials/fees/incentives)</strong></p>
+                    <p><strong>Áo đồng phục có logo (${settings.prices[1].amount}/each)</strong></p>
+                    <p><strong>Skort đồng phục (${settings.prices[2].amount}/each)</strong></p>
+                    <p><strong>TNTT scarf (${settings.prices[3].amount}/each)</strong></p>
                     <p>If pay by check, please pay to the order of: <strong>VEYM - Me Thien Chua Chapter</strong></p>
 
                     <table className="pdf-table">

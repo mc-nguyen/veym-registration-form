@@ -31,6 +31,7 @@ import ProtectedRoute from "./admin/ProtectedRoute";
 import ContactUs from "./pages/ContactUs";
 import AdminContactMessagesList from "./admin/AdminContactMessagesList";
 import AdminNotificationsPage from "./admin/AdminNotificationsPage";
+import AdminSettings from "./admin/AdminSettings";
 
 function App() {
   const currentPathname = window.location.pathname;
@@ -103,6 +104,11 @@ function App() {
           <Route path="/admin/notifications" element={
             <ProtectedRoute>
               <AdminNotificationsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/settings" element={
+            <ProtectedRoute>
+              <AdminSettings />
             </ProtectedRoute>
           } />
         </Routes>

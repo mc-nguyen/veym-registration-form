@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import { getDataById } from '../context/firebaseFuncs';
+import { getDataById, getSettingsFromFirebase } from '../context/firebaseFuncs';
 
 const GeneratePDFAdult = () => {
   const navigate = useNavigate();
@@ -25,6 +25,8 @@ const GeneratePDFAdult = () => {
 
     // Lấy dữ liệu từ tất cả các form bằng ID
     const data = await getDataById(registrationId);
+    const settings = await getSettingsFromFirebase();
+
     if (!data) {
       console.error("Không tìm thấy dữ liệu đăng ký với ID này.");
       return;
@@ -52,7 +54,7 @@ const GeneratePDFAdult = () => {
         <p>Our Lady of Perpetual Help Church - Giáo Xứ Đức Mẹ Hằng Cứu Giúp</p>
         <p>Liên Đoàn Sinai | Đoàn Mẹ Thiên Chúa | Riverside, CA</p>
         <p>5250 Central Avenue, Riverside, CA 92504</p>
-        <p>Cha Tuyên Úy: Johnny Trí Đặng | Đoàn Trường: Tr. Quang Nguyễn (909) 543-5559</p>
+        <p>Cha Tuyên Úy: ${settings.spiritualDirectorName} | Đoàn Trường: ${settings.leaderName} ${settings.leaderPhone}</p>
       </div>
     `;
 
@@ -125,22 +127,22 @@ const GeneratePDFAdult = () => {
           <table class="payment-table">
             <tr>
               <td>Tiền niên liễm ($50 - student supplies/materials/fees/incentives)</td>
-              <td>$${paymentData[1] ? paymentData[1] * 50 : 0}</td>
+              <td>$${paymentData[1] ? paymentData[1] * settings.registrationFee : 0}</td>
             </tr>
             <tr>
               <td>Áo đồng phục có logo ($25/each)</td>
-              <td>$${paymentData[2] ? paymentData[2] * 25 : 0}</td>
+              <td>$${paymentData[2] ? paymentData[2] * settings.uniformCost : 0}</td>
             </tr>
             <tr>
               <td>Skort đồng phục ($25/each)</td>
-              <td>$${paymentData[3] ? paymentData[3] * 25 : 0}</td>
+              <td>$${paymentData[3] ? paymentData[3] * settings.skortCost : 0}</td>
             </tr>
             <tr class="total-row">
               <td><strong>Tổng cộng:</strong></td>
-              <td><strong>$${(paymentData[1] ? paymentData[1] * 50 : 0) +
-      (paymentData[2] ? paymentData[2] * 25 : 0) +
-      (paymentData[3] ? paymentData[3] * 25 : 0)
-      }</strong></td>
+              <td><strong>$${(paymentData[1] ? paymentData[1] * settings.registrationFee : 0) +
+              (paymentData[2] ? paymentData[2] * settings.uniformCost : 0) +
+              (paymentData[3] ? paymentData[3] * settings.skortCost : 0)
+              }</strong></td>
             </tr>
           </table>
           <p class="payment-note">If pay by check, please pay to the order of: <strong>VEYM - Me Thien Chua Chapter</strong></p>

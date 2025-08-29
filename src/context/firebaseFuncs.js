@@ -1,7 +1,7 @@
 // src/context/firebaseFuncs.js
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, query, where, getDocs, deleteDoc, orderBy } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDoc, doc, updateDoc, query, where, getDocs, deleteDoc, orderBy, setDoc } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage"; // Import for storage operations
 
 // Your web app's Firebase configuration
@@ -451,6 +451,40 @@ export const getNotifications = async () => {
     console.error("Lỗi khi lấy thông báo:", error);
     throw error;
   }
+};
+
+export const getSettingsFromFirebase = async () => {
+    try {
+        const docRef = doc(db, "settings", "generalSettings");
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return docSnap.data();
+        } else {
+            console.log("No settings document found. Returning default values.");
+            return {
+                registrationFee: 50,
+                uniformCost: 25,
+                skortCost: 25,
+                scarfCost: 10,
+                committee: []
+            };
+        }
+    } catch (e) {
+        console.error("Error getting settings:", e);
+        return null;
+    }
+};
+
+// Hàm lưu cài đặt vào Firestore
+export const saveSettingsToFirebase = async (settingsData) => {
+    try {
+        await setDoc(doc(db, "settings", "generalSettings"), settingsData);
+        console.log("Settings saved successfully!");
+        return true;
+    } catch (e) {
+        console.error("Error saving settings:", e);
+        throw e;
+    }
 };
 
 export { db, auth, storage }; // Export auth và storage
