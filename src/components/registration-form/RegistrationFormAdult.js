@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "./RegistrationForm.css"; // Dùng chung CSS với RegistrationForm
 import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
-import { saveRegistrationToFirebase } from "../../context/firebaseFuncs";
+import { saveRegistrationToFirebase, updateRegistrationInFirebase } from "../../context/firebaseFuncs";
 import { useLanguage } from '../../LanguageContext';
 import SignatureCanvas from '../signature/SignatureCanvas'; // Import SignatureCanvas component
 
@@ -83,7 +83,18 @@ const RegistrationFormAdult = () => {
         };
 
         saveToLocalStorage('registrationFormData', finalFormData);
-        saveToLocalStorage('id', await saveRegistrationToFirebase(finalFormData));
+
+        // Retrieve existing ID from local storage
+        const existingId = getFromLocalStorage('id');
+        if (existingId) {
+            // If an ID exists, update the existing document
+            await updateRegistrationInFirebase(existingId, finalFormData);
+        } else {
+            // If no ID exists, create a new document
+            const newId = await saveRegistrationToFirebase(finalFormData);
+            saveToLocalStorage('id', newId);
+        }
+
         saveToLocalStorage('currentPage', '/health-info-adult');
         saveToLocalStorage('nganh', formData.nganh);
         saveToLocalStorage('fullName', [formData.tenGoi, formData.tenDem, formData.ho].join(' ').trim())

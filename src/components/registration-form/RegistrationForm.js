@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "./RegistrationForm.css";
 import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
-import { saveRegistrationToFirebase } from "../../context/firebaseFuncs";
+import { saveRegistrationToFirebase, updateRegistrationInFirebase } from "../../context/firebaseFuncs";
 import { useLanguage } from '../../LanguageContext';
 import SignatureCanvas from '../signature/SignatureCanvas'; // Import the new component
 
@@ -121,6 +121,9 @@ const RegistrationForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Retrieve existing ID from local storage
+        const existingId = getFromLocalStorage('id');
+
         // Validate both signatures
         if (!hasParentDrawn) {
             alert(t('registrationForm.signatureRequestParent')); // You might want a specific message for parent
@@ -139,7 +142,16 @@ const RegistrationForm = () => {
             dateSigned: new Date().toLocaleDateString(),
             nganh: t(`registrationForm.branch.${nganhHienThiKey}`)
         };
-        saveToLocalStorage('id', await saveRegistrationToFirebase(finalFormData));
+
+        if (existingId) {
+            // If an ID exists, update the existing document
+            await updateRegistrationInFirebase(existingId, finalFormData);
+        } else {
+            // If no ID exists, create a new document
+            const newId = await saveRegistrationToFirebase(finalFormData);
+            saveToLocalStorage('id', newId);
+        }
+
         saveToLocalStorage('currentPage', '/health-info');
         saveToLocalStorage('nganh', t(`registrationForm.branch.${nganhHienThiKey}`).split(' ').slice(0, 2).join(' '));
         saveToLocalStorage('fullName', [formData.tenGoi, formData.tenDem, formData.ho].join(' ').trim())
@@ -199,7 +211,7 @@ const RegistrationForm = () => {
                     </div>
                 </div>
 
-                <hr/>
+                <hr />
 
                 <div className="form-row">
                     <div className="form-group">
@@ -251,7 +263,7 @@ const RegistrationForm = () => {
                     </div>
                 </div>
 
-                <hr/>
+                <hr />
 
                 <div className="form-group">
                     <label htmlFor="address">{t('registrationForm.address')}</label>
@@ -265,7 +277,7 @@ const RegistrationForm = () => {
                     />
                 </div>
 
-                <hr/>
+                <hr />
 
                 <div className="form-row">
                     <div className="form-group">

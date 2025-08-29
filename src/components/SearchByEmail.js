@@ -37,6 +37,7 @@ const SearchByEmail = () => {
 
     const handleEditClick = (id) => {
         // Điều hướng đến trang chỉnh sửa, truyền ID vào URL
+        saveToLocalStorage('id', id);
         saveToLocalStorage('registrationFormData', foundUser.registration);
         saveToLocalStorage('healthInfoFormData', foundUser.healthInfo);
         saveToLocalStorage('waiverFormData', foundUser.waiverRelease);

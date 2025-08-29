@@ -62,7 +62,7 @@ export const saveRegistrationToFirebase = async (data) => {
     await addDoc(collection(db, "notifications"), {
       id: docRef.id,
       timestamp: Date.now(),
-      content: "Registrations Data created or updated"
+      content: "Registrations Data created"
     });
     return docRef.id;
   } catch (error) {
@@ -70,6 +70,25 @@ export const saveRegistrationToFirebase = async (data) => {
     throw error;
   }
 }
+
+export const updateRegistrationInFirebase = async (id, data) => {
+  try {
+    const docRef = doc(db, "registrations", id);
+    await updateDoc(docRef, {
+      registration: data,
+      timestamp: Date.now() // Optional: update the timestamp
+    });
+    await addDoc(collection(db, "notifications"), {
+      id: id,
+      timestamp: Date.now(),
+      content: "Registrations Data updated"
+    });
+    console.log("Registration document updated with ID: ", id);
+  } catch (error) {
+    console.error("Error updating document: ", error);
+    throw error;
+  }
+};
 
 export const savePaymentToFirebase = async (id, data) => {
   try {
@@ -415,13 +434,13 @@ export const loginAdmin = async (email, password) => {
 export const getNotifications = async () => {
   try {
     const notificationsRef = collection(db, "notifications");
-    
+
     // Tạo truy vấn để lấy tất cả tài liệu và sắp xếp theo timestamp giảm dần
     const q = query(notificationsRef, orderBy("timestamp", "desc"));
 
     const querySnapshot = await getDocs(q);
     const notifications = [];
-    
+
     querySnapshot.forEach((doc) => {
       // Đẩy dữ liệu của từng tài liệu vào mảng
       notifications.push({ id: doc.id, ...doc.data() });
