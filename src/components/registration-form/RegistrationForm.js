@@ -80,13 +80,22 @@ const RegistrationForm = () => {
         setNganhHienThiKey(calculatedNganhKey);
         setFormData(prevData => ({ ...prevData, nganh: calculatedNganhKey }));
 
+        if (formData.studentSignature) {
+            setHasStudentDrawn(true);
+            setStudentSignatureData(formData.studentSignature);
+        }
+        if (formData.parentSignature) {
+            setHasParentDrawn(true);
+            setParentSignatureData(formData.parentSignature);
+        }
+
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [formData, t]);
+    }, [formData, t, formData.studentSignature, formData.parentSignature]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -377,6 +386,7 @@ const RegistrationForm = () => {
                     <SignatureCanvas
                         onSave={handleStudentSignatureSave}
                         onClear={handleStudentSignatureClear}
+                        dataImage={studentSignatureData}
                         width={isMobile ? 300 : 500}
                         height={150}
                     />
@@ -395,6 +405,7 @@ const RegistrationForm = () => {
                     <SignatureCanvas
                         onSave={handleParentSignatureSave}
                         onClear={handleParentSignatureClear}
+                        dataImage={parentSignatureData}
                         width={isMobile ? 300 : 500}
                         height={150}
                     />

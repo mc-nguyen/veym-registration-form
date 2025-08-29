@@ -33,10 +33,14 @@ const TNTTRules = () => {
         const checkMobile = () => {
             setIsMobile(window.innerWidth <= 768);
         };
+        if (formData.signature) {
+            setHasDrawn(true);
+            setSignatureData(formData.signature);
+        }
         checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
-    }, []);
+    }, [formData.signature]);
 
     // Callback khi chữ ký được lưu
     const handleSignatureSave = (dataUrl) => {
@@ -176,6 +180,7 @@ const TNTTRules = () => {
                     <SignatureCanvas
                         onSave={handleSignatureSave}
                         onClear={handleSignatureClear}
+                        dataImage={signatureData}
                         width={isMobile ? 300 : 400}
                         height={150}
                     />

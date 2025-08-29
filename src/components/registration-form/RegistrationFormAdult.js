@@ -36,13 +36,17 @@ const RegistrationFormAdult = () => {
         const checkMobile = () => {
             setIsMobile(window.innerWidth <= 768);
         };
+        if (formData.signature) {
+            setHasAdultSigned(true);
+            setAdultSignatureData(formData.signature);
+        }
         checkMobile();
         window.addEventListener('resize', checkMobile);
 
         return () => {
             window.removeEventListener('resize', checkMobile);
         };
-    }, []);
+    }, [formData.signature]);
 
     const handleAdultSignatureSave = (signatureData) => {
         setAdultSignatureData(signatureData);
@@ -72,6 +76,7 @@ const RegistrationFormAdult = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         if (!formData.tenThanh || !formData.ho || !formData.tenGoi || !formData.nganh || !hasAdultSigned || !formData.ngaySinh) { // Updated validation
             alert(t('errors.allFieldsRequired'));
             return;
@@ -79,7 +84,7 @@ const RegistrationFormAdult = () => {
 
         const finalFormData = {
             ...formData,
-            signature: adultSignatureData,
+            signature: formData.signature ? formData.signature : adultSignatureData,
         };
 
         saveToLocalStorage('registrationFormData', finalFormData);
@@ -294,6 +299,7 @@ const RegistrationFormAdult = () => {
                     <SignatureCanvas
                         onSave={handleAdultSignatureSave}
                         onClear={handleAdultSignatureClear}
+                        dataImage={adultSignatureData}
                         width={isMobile ? 300 : 500}
                         height={150}
                     />

@@ -38,6 +38,9 @@ const AdminDashboard = () => {
                 <Link to="/admin/contact-messages" className="dashboard-link">
                     Quản lý Tin Nhắn Liên Hệ
                 </Link>
+                <Link to="/admin/notifications" className="dashboard-link">
+                    Thông Báo Thay Đổi/Cập Nhật
+                </Link>
                 <Link to="/admin/settings" className="dashboard-link">
                     Cài Đặt
                 </Link>

@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from "react";
 import "./SignatureCanvas.css"; // You might want a separate CSS file for the canvas
 import { useLanguage } from "../../LanguageContext";
 
-const SignatureCanvas = ({ onSave, onClear, width = 500, height = 150 }) => {
+const SignatureCanvas = ({ onSave, onClear, dataImage, width = 500, height = 150 }) => {
     const { translate: t } = useLanguage();
 
     const canvasRef = useRef(null);
@@ -17,6 +17,27 @@ const SignatureCanvas = ({ onSave, onClear, width = 500, height = 150 }) => {
         ctx.lineCap = 'round';
         ctx.strokeStyle = '#000';
     }, []);
+
+    // Effect mới để tải chữ ký từ dataImage
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        
+        if (dataImage) {
+            // Xóa canvas trước khi vẽ chữ ký mới
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const img = new Image();
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                setHasDrawn(true);
+            };
+            img.src = dataImage;
+        } else {
+            // Nếu dataImage không tồn tại, xóa canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            setHasDrawn(false);
+        }
+    }, [dataImage]);
 
     const startDrawing = (e) => {
         e.preventDefault();
