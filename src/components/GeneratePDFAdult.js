@@ -273,7 +273,7 @@ const GeneratePDFAdult = () => {
         
         <div class="waiver-content">
           <p>
-            I, <strong>${waiverData.fullName1}</strong>, an adult [age of majority, per State (e.g., 18 years old in California)] and I
+            I, <strong>${waiverData.fullName}</strong>, an adult [age of majority, per State (e.g., 18 years old in California)] and I
             am the named participant, or I am the parent/guardian of the minor who will be participating in the
             above-mentioned event ("The Event") organized and/or sponsored by the Vietnamese Eucharistic Youth Movement
             in the U.S.A ("VEYM"). I am fully aware that my or my child's participation in The Event is totally voluntary.
@@ -300,7 +300,7 @@ const GeneratePDFAdult = () => {
           </p>
 
           <p>
-            I, <strong>${waiverData.fullName2}</strong>, hereby:
+            I, <strong>${waiverData.fullName}</strong>, hereby:
           </p>
 
           <ol class="waiver-list">
