@@ -1,3 +1,5 @@
+/* src/pages/AdminPage/AdminDashboard.css */
+
 .admin-dashboard-container {
     display: flex;
     flex-direction: column;
@@ -7,6 +9,7 @@
     background-color: #f0f2f5;
     min-height: 100vh;
     font-family: Arial, sans-serif;
+    text-align: center; /* Căn giữa nội dung trong container */
 }
 
 .admin-dashboard-container h1 {
@@ -24,9 +27,12 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 1.5rem;
+    max-width: 900px; /* Giới hạn chiều rộng để các nút không tràn */
 }
 
-.dashboard-link {
+.dashboard-link, .logout-button {
+    flex-basis: calc(33.333% - 1.5rem); /* Chia 3 nút trên một hàng trên màn hình lớn */
+    box-sizing: border-box;
     display: block;
     padding: 1.5rem 2rem;
     background-color: #fff;
@@ -41,23 +47,27 @@
 }
 
 .dashboard-link:hover {
-    background-color: #f8f9fa;
-    transform: translateY(-5px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    background-color: #f0f0f0;
+    transform: translateY(-5px); /* Hiệu ứng nâng nhẹ khi di chuột */
 }
 
+/* Kiểu riêng cho nút Đăng xuất */
 .logout-button {
-    margin-top: 3rem;
-    padding: 0.75rem 1.5rem;
-    background-color: #dc3545;
+    background-color: #dc3545; /* Màu đỏ */
     color: white;
     border: none;
-    border-radius: 5px;
+    margin-top: 2rem;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+    font-size: 1em;
 }
 
 .logout-button:hover {
     background-color: #c82333;
+}
+
+/* Responsive design cho các màn hình nhỏ hơn */
+@media (max-width: 768px) {
+    .dashboard-link, .logout-button {
+        flex-basis: 100%; /* Mỗi nút trên một hàng */
+    }
 }
