@@ -1,11 +1,9 @@
 // src/pages/AdminPage/AdminUnpaidRegistrationList.js
 import React, { useState, useEffect } from 'react';
 import { getUnpaidRegistrations, markRegistrationAsPaid } from '../context/firebaseFuncs';
-import { useLanguage } from '../LanguageContext';
 import './AdminPaidRegistrationList.css'; // Sử dụng lại CSS từ trang đã thanh toán
 
 const AdminUnpaidRegistrationList = () => {
-    const { translate: t } = useLanguage();
     const [registrations, setRegistrations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -38,6 +36,7 @@ const AdminUnpaidRegistrationList = () => {
             }
         };
         fetchUnpaidRegistrations();
+        // eslint-disable-next-line
     }, []);
 
     const handleSendEmail = (reg) => {

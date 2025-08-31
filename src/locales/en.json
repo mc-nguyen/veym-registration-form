@@ -1,4 +1,8 @@
 {
+  "editForm" : { 
+    "title": "Edit Form",
+    "noPaymentInfo": "No Payment Info was found!"
+   },
   "guidePage": {
     "title": "Registration Guidelines",
     "sectionTitle1": "Steps for Applicants:",
@@ -156,7 +160,9 @@
       "uniformShirt": "Uniform shirt with logo",
       "uniformSkort": "Uniform skort",
       "tnttScarf": "TNTT scarf"
-    }
+    },
+    "quantityHeader": "Quantity",
+    "amountHeader": "Amount"
   },
   "howToPay": {
     "title": "PAYMENT METHODS",

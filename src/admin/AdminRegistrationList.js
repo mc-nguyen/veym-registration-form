@@ -11,6 +11,7 @@ const AdminRegistrationList = () => {
 
     useEffect(() => {
         fetchRegistrations();
+        // eslint-disable-next-line
     }, [filterPaid]); // Fetch lại khi bộ lọc thay đổi
 
     const fetchRegistrations = async () => {

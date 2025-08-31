@@ -47,8 +47,8 @@ const SearchByEmail = () => {
 
         const allowedNganh = ["Hiệp Sĩ Trưởng Thành", "Huynh Trưởng", "Trợ Tá", "Huấn Luyện Viên"];
 
-        if (allowedNganh.includes(foundUser.registration.nganh)) navigate('/registration-adult');
-        else navigate('/registration');
+        if (allowedNganh.includes(foundUser.registration.nganh)) navigate(`/edit-adult/${id}`);
+        else navigate(`/edit/${id}`);
         
     };
 

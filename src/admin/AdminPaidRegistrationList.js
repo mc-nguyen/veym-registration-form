@@ -62,6 +62,7 @@ const AdminPaidRegistrationList = () => {
         };
 
         fetchPaidRegistrations();
+        // eslint-disable-next-line
     }, [t]);
 
     const handleDownloadCSV = () => {

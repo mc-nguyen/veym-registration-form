@@ -1,4 +1,8 @@
 {
+  "editForm" : { 
+    "title": "Chỉnh Sửa Form",
+    "noPaymentInfo": "Không tìm thấy thông tin các khoản phí!"
+   },
   "guidePage": {
     "title": "Hướng Dẫn Ghi Danh",
     "sectionTitle1": "Các Bước Cho Những Người Làm Đơn Ghi Danh:",
@@ -131,7 +135,9 @@
       "uniformShirt": "Áo đồng phục có logo",
       "uniformSkort": "Skort đồng phục",
       "tnttScarf": "TNTT scarf"
-    }
+    },
+    "quantityHeader": "Số Lượng",
+    "amountHeader": "Giá Thành"
   },
   "howToPay": {
     "title": "CÁCH THỨC THANH TOÁN",

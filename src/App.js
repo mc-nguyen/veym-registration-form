@@ -36,6 +36,8 @@ import AdminContactMessagesList from "./admin/AdminContactMessagesList";
 import AdminNotificationsPage from "./admin/AdminNotificationsPage";
 import AdminSettings from "./admin/AdminSettings";
 import MaintenancePage from "./pages/MaintenancePage";
+import EditForm from "./components/edit/EditForm";
+import EditFormAdult from "./components/edit/EditFormAdult";
 
 function App() {
   const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
@@ -77,8 +79,6 @@ function App() {
           <Route path="/guide" element={<ProtectedRoute><GuidePage /></ProtectedRoute>} />
           <Route path="/preview-pdf" element={<ProtectedRoute><PDFPreview /></ProtectedRoute>} />
           <Route path="/processing" element={<ProtectedRoute><ProcessingPage /></ProtectedRoute>} />
-          <Route path="/search" element={<ProtectedRoute><SearchByEmail /></ProtectedRoute>} />
-          <Route path="/complete" element={<ProtectedRoute><Complete /></ProtectedRoute>} />
           <Route path="/how-to-pay" element={<ProtectedRoute><HowToPay /></ProtectedRoute>} />
           <Route path="/contact-us" element={<ProtectedRoute><ContactUs /></ProtectedRoute>} />
 
@@ -88,14 +88,19 @@ function App() {
           <Route path="/waiver-release" element={<ProtectedRoute><WaiverRelease /></ProtectedRoute>} />
           <Route path="/tntt-rules" element={<ProtectedRoute><TNTTRules /></ProtectedRoute>} />
           <Route path="/parent-survey" element={<ProtectedRoute><ParentSurveyForm /></ProtectedRoute>} />
-          <Route path="/generate-pdf/:id" element={<GeneratePDF />} />
 
           <Route path="/registration-adult" element={<ProtectedRoute><RegistrationFormAdult /></ProtectedRoute>} />
           <Route path="/payment-adult" element={<ProtectedRoute><PaymentAdult /></ProtectedRoute>} />
           <Route path="/health-info-adult" element={<ProtectedRoute><HealthInfoFormAdult /></ProtectedRoute>} />
           <Route path="/waiver-release-adult" element={<ProtectedRoute><WaiverReleaseAdult /></ProtectedRoute>} />
           <Route path="/tntt-rules-adult" element={<ProtectedRoute><TNTTRulesAdult /></ProtectedRoute>} />
+
+          <Route path="/edit/:id" element={<EditForm />} />
+          <Route path="/edit-adult/:id" element={<EditFormAdult />} />
+          <Route path="/search" element={<SearchByEmail />} />
+          <Route path="/generate-pdf/:id" element={<GeneratePDF />} />
           <Route path="/generate-pdf-adult/:id" element={<GeneratePDFAdult />} />
+          <Route path="/complete" element={<Complete />} />
 
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
