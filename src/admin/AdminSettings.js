@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getSettingsFromFirebase, saveSettingsToFirebase } from '../context/firebaseFuncs';
+import { doc, onSnapshot } from 'firebase/firestore'; // Thêm onSnapshot
+import { getSettingsFromFirebase, saveSettingsToFirebase, db, updateSettings } from '../context/firebaseFuncs';
 import './AdminSettings.css';
 
 const AdminSettings = () => {
@@ -16,6 +17,30 @@ const AdminSettings = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [statusMessage, setStatusMessage] = useState('');
+
+    // State riêng cho chế độ bảo trì, được lắng nghe theo thời gian thực
+    const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
+    const [loadingMaintenance, setLoadingMaintenance] = useState(true);
+
+    useEffect(() => {
+        const settingsRef = doc(db, 'settings', 'app_settings');
+        const unsubscribe = onSnapshot(settingsRef, (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                setIsMaintenanceMode(data.isMaintenanceMode || false);
+                setLoadingMaintenance(false);
+            } else {
+                console.error("Không tìm thấy tài liệu cài đặt.");
+                setLoadingMaintenance(false);
+            }
+        }, (err) => {
+            console.error("Lỗi khi lắng nghe cài đặt:", err);
+            setLoadingMaintenance(false);
+        });
+
+        // Hủy lắng nghe khi component unmount
+        return () => unsubscribe();
+    }, []);
 
     useEffect(() => {
         const fetchSettings = async () => {
@@ -61,6 +86,16 @@ const AdminSettings = () => {
         setSettings(prev => ({ ...prev, committee: updatedCommittee }));
     };
 
+    const toggleMaintenanceMode = async () => {
+        const newMode = !isMaintenanceMode;
+        try {
+            // Chỉ cập nhật trạng thái bảo trì, không cần tải lại trang
+            await updateSettings({ isMaintenanceMode: newMode });
+        } catch (e) {
+            console.error("Lỗi khi cập nhật trạng thái bảo trì:", e);
+        }
+    };
+
     const handleSave = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -73,10 +108,13 @@ const AdminSettings = () => {
             setError("Lỗi khi lưu cài đặt. Vui lòng thử lại.");
         } finally {
             setLoading(false);
+            setTimeout(() => setStatusMessage(''), 3000);
         }
     };
 
-    if (loading) return <div className="loading-message">Đang tải cài đặt...</div>;
+    if (loadingMaintenance && loading) {
+        return <div className="loading-state">Đang tải cài đặt...</div>;
+    }
     if (error) return <div className="error-message">Đã xảy ra lỗi: {error}</div>;
 
     return (
@@ -118,7 +156,7 @@ const AdminSettings = () => {
                 </div>
 
                 {/* Các phần khác (Chi phí đăng ký, Ban ghi danh) */}
-                
+
                 <div className="section">
                     <h2>Chi phí đăng ký</h2>
                     <div className="form-group">
@@ -155,6 +193,24 @@ const AdminSettings = () => {
                         </div>
                     ))}
                     <button type="button" onClick={handleAddCommittee} className="add-button">Thêm Thành Viên</button>
+                </div>
+
+                {/* Phần dành riêng cho chế độ bảo trì, sử dụng state riêng */}
+                <div className="settings-section">
+                    <h3>Chế độ Bảo Trì</h3>
+                    <div className="maintenance-toggle-container">
+                        <button 
+                            type="button"
+                            onClick={toggleMaintenanceMode}
+                            disabled={loadingMaintenance}
+                            className={`maintenance-btn ${isMaintenanceMode ? 'maintenance-on' : 'maintenance-off'}`}
+                        >
+                            {isMaintenanceMode ? "Tắt Bảo Trì" : "Bật Bảo Trì"}
+                        </button>
+                        <span className="maintenance-status">
+                            Trạng thái: **{isMaintenanceMode ? 'ĐANG BẬT' : 'ĐANG TẮT'}**
+                        </span>
+                    </div>
                 </div>
 
                 <button type="submit" className="save-button" disabled={loading}>

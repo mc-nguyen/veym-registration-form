@@ -487,4 +487,13 @@ export const saveSettingsToFirebase = async (settingsData) => {
     }
 };
 
+export const updateSettings = async (newSettings) => {
+    try {
+        await setDoc(doc(db, 'settings', 'app_settings'), newSettings, { merge: true });
+        console.log("Cài đặt đã được cập nhật thành công.");
+    } catch (e) {
+        console.error("Lỗi khi cập nhật cài đặt:", e);
+    }
+};
+
 export { db, auth, storage }; // Export auth và storage
