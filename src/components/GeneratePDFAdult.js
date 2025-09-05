@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { getDataById, getSettingsFromFirebase } from '../context/firebaseFuncs';
+import tntt from "../assets/tntt.png";
+import logo from "../assets/favicon.png";
 
 const GeneratePDFAdult = () => {
   const navigate = useNavigate();
@@ -49,12 +51,16 @@ const GeneratePDFAdult = () => {
     // Thêm nội dung vào div theo thứ tự trong PDF gốc
     const header = `
       <div class="pdf-header">
-        <h1>PHONG TRÀO THIỂU NHI THÁNH THỂ VIỆT NAM TẠI HOA KỲ</h1>
-        <h2>The Vietnamese Eucharistic Youth Movement in the U.S.A</h2>
-        <p>Our Lady of Perpetual Help Church - Giáo Xứ Đức Mẹ Hằng Cứu Giúp</p>
-        <p>Liên Đoàn Sinai | Đoàn Mẹ Thiên Chúa | Riverside, CA</p>
-        <p>5250 Central Avenue, Riverside, CA 92504</p>
-        <p>Cha Tuyên Úy: ${settings.spiritualDirectorName} | Đoàn Trường: ${settings.leaderName} ${settings.leaderPhone}</p>
+        <img src=${tntt} alt="TNTT Icon" class="header-icon left-icon" />
+        <div class="header-content">
+          <h1>PHONG TRÀO THIỂU NHI THÁNH THỂ VIỆT NAM TẠI HOA KỲ</h1>
+          <h2>The Vietnamese Eucharistic Youth Movement in the U.S.A</h2>
+          <p>Our Lady of Perpetual Help Church - Giáo Xứ Đức Mẹ Hằng Cứu Giúp</p>
+          <p>Liên Đoàn Sinai | Đoàn Mẹ Thiên Chúa | Riverside, CA</p>
+          <p>5250 Central Avenue, Riverside, CA 92504</p>
+          <p>Cha Tuyên Úy: ${settings.spiritualDirectorName} | Đoàn Trưởng: ${settings.leaderName} ${settings.leaderPhone}</p>
+        </div>
+        <img src=${logo} alt="Giao Xu Icon" class="header-icon right-icon" />
       </div>
     `;
 
@@ -516,22 +522,46 @@ const GeneratePDFAdult = () => {
         page-break-after: always;
       }
       .pdf-header {
-        text-align: center;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #000;
-        padding-bottom: 5px;
+          /* Sử dụng Flexbox để căn chỉnh các mục trên cùng một hàng */
+          display: flex;
+          /* Đẩy các icon ra hai bên và nội dung vào giữa */
+          justify-content: space-between;
+          /* Căn giữa theo chiều dọc */
+          align-items: center;
+          text-align: center;
+          margin-bottom: 20px;
       }
+
+      .pdf-header .header-content {
+          /* Cho phép phần nội dung chiếm hết không gian còn lại */
+          flex-grow: 1;
+          /* Đảm bảo văn bản trong content được căn giữa */
+          text-align: center;
+      }
+
       .pdf-header h1 {
-        font-size: 12px;
-        margin: 0;
+          font-size: 16px;
+          margin: 0;
       }
+
       .pdf-header h2 {
-        font-size: 10px;
-        margin: 0;
+          font-size: 14px;
+          margin: 0;
       }
+
       .pdf-header p {
-        margin: 0;
-        font-size: 8px;
+          font-size: 12px;
+          margin: 2px 0;
+      }
+
+      .pdf-header .header-icon {
+          /* Điều chỉnh chiều cao của icon, chiều rộng sẽ tự động căn */
+          height: 80px; 
+          width: auto;
+          /* Đảm bảo hình ảnh không bị méo */
+          object-fit: contain;
+          /* Khoảng cách giữa icon và nội dung */
+          margin: 0 10px; 
       }
       .form-title {
         text-align: center;

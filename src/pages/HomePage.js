@@ -5,7 +5,10 @@ import { removeFromLocalStorage, saveToLocalStorage } from '../context/storageUt
 import { useLanguage } from '../LanguageContext'; // Import useLanguage hook
 // Import logo image
 import favicon from '../assets/favicon.png'; // Đường dẫn đến logo của bạn
-import { cleanOldUnpaidRegistrations } from '../context/firebaseFuncs'; 
+import { cleanOldUnpaidRegistrations } from '../context/firebaseFuncs';
+// Nhập trực tiếp các file PDF
+import formPdf from '../assets/form.pdf'; // Giả sử file nằm trong thư mục src/assets
+import formAdultPdf from '../assets/form-adult.pdf'; // Giả sử file nằm trong thư mục src/assets
 
 const HomePage = () => {
     // Xóa dữ liệu cũ khi vào trang chủ để đảm bảo form sạch
@@ -41,6 +44,11 @@ const HomePage = () => {
 
     const toggleFloatingMenu = () => {
         setIsFloatingMenuOpen(!isFloatingMenuOpen);
+    };
+
+    const handleViewPDF = (pdfData) => {
+        // Chuyển hướng đến trang xem PDF và truyền dữ liệu qua state
+        navigate('/preview-pdf', { state: { pdfData: pdfData } });
     };
 
     return (
@@ -98,9 +106,15 @@ const HomePage = () => {
 
                             <button
                                 className="preview-button"
-                                onClick={() => navigate('/preview-pdf')}
+                                onClick={() => handleViewPDF(formPdf)}
                             >
                                 {t('homePage.previewPdf')}
+                            </button>
+                            <button
+                                className="preview-button"
+                                onClick={() => handleViewPDF(formAdultPdf)}
+                            >
+                                {t('homePage.previewPdf')} (Adult)
                             </button>
                         </div>
                     </div>

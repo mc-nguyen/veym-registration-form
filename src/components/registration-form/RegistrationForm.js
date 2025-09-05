@@ -1,13 +1,15 @@
 // RegistrationForm.js
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./RegistrationForm.css";
 import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUtils';
-import { saveRegistrationToFirebase, updateRegistrationInFirebase } from "../../context/firebaseFuncs";
+import { saveRegistrationToFirebase, updateRegistrationInFirebase, getEmailBlacklist, getPhoneBlacklist } from "../../context/firebaseFuncs";
 import { useLanguage } from '../../LanguageContext';
 import SignatureCanvas from '../signature/SignatureCanvas'; // Import the new component
 
 const RegistrationForm = () => {
     const { translate: t } = useLanguage();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState(() => {
         const savedData = getFromLocalStorage('registrationFormData') || {
@@ -30,6 +32,20 @@ const RegistrationForm = () => {
         };
         return savedData;
     });
+
+    const [emailBlacklist, setEmailBlacklist] = useState([]);
+    const [phoneBlacklist, setPhoneBlacklist] = useState([]);
+
+    // Load blacklist khi component được mount
+    useEffect(() => {
+        const fetchBlacklists = async () => {
+            const emails = await getEmailBlacklist();
+            const phones = await getPhoneBlacklist();
+            setEmailBlacklist(emails);
+            setPhoneBlacklist(phones);
+        };
+        fetchBlacklists();
+    }, []);
 
     const [nganhHienThiKey, setNganhHienThiKey] = useState("");
     const [isMobile, setIsMobile] = useState(false);
@@ -129,6 +145,18 @@ const RegistrationForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Kiểm tra email và số điện thoại trong danh sách đen
+        if (emailBlacklist.includes(formData.email.toLowerCase())) {
+            alert(t('registrationForm.emailBlockedMessage'));
+            navigate('/');
+            return;
+        }
+        if (phoneBlacklist.includes(formData.phoneCha) || phoneBlacklist.includes(formData.phoneMe)) {
+            alert(t('registrationForm.phoneBlockedMessage'));
+            navigate('/');
+            return;
+        }
 
         // Retrieve existing ID from local storage
         const existingId = getFromLocalStorage('id');

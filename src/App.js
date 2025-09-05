@@ -38,6 +38,7 @@ import AdminSettings from "./admin/AdminSettings";
 import MaintenancePage from "./pages/MaintenancePage";
 import EditForm from "./components/edit/EditForm";
 import EditFormAdult from "./components/edit/EditFormAdult";
+import BlacklistManagement from "./admin/BlacklistManagement";
 
 function App() {
   const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
@@ -111,6 +112,7 @@ function App() {
           <Route path="/admin/contact-messages" element={<ProtectedRoute><AdminContactMessagesList /></ProtectedRoute>} />
           <Route path="/admin/notifications" element={<ProtectedRoute><AdminNotificationsPage /></ProtectedRoute>} />
           <Route path="/admin/settings" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
+          <Route path="/admin/blacklist" element={<ProtectedRoute><BlacklistManagement /></ProtectedRoute>} />
         </Routes>
       </Router>
     </div>

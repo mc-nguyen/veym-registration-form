@@ -1,8 +1,8 @@
 {
-  "editForm" : { 
+  "editForm": {
     "title": "Chỉnh Sửa Form",
     "noPaymentInfo": "Không tìm thấy thông tin các khoản phí!"
-   },
+  },
   "guidePage": {
     "title": "Hướng Dẫn Ghi Danh",
     "sectionTitle1": "Các Bước Cho Những Người Làm Đơn Ghi Danh:",
@@ -117,7 +117,9 @@
     "signatureRequestStudent": "Vui lòng ký tên đoàn sinh.",
     "studentSignatureTitle": "Chữ Ký Đoàn Sinh",
     "studentSignatureConsentText": "Em xin được ghi danh gia nhập phong trào TNTT tại Ðoàn TNTT Mẹ Thiên Chúa, Riverside. Em hứa sẽ vâng lời và theo sự hướng dẫn của cha Tuyên Úy Ðoàn, Đoàn Trưởng, các trợ tá, các phụ huynh cũng như các anh chị huynh trưởng có trách nhiệm trong đoàn và trong ngành mà em sinh hoạt hằng tuần. Em sẽ cố gắng sống 4 khẩu hiệu của Thiếu Nhi: Cầu Nguyện, Rước Lễ, Hy Sinh và Làm Việc Tông Ðồ cũng như thực hành các tôn chỉ của phong trào TNTT. Em sẽ chu toàn bổn phận của một đoàn sinh trong đoàn TNTT và thực thi đúng các nội quy của đoàn TNTT.",
-    "studentSignatureLabel": "Chữ ký của Đoàn sinh"
+    "studentSignatureLabel": "Chữ ký của Đoàn sinh",
+    "emailBlockedMessage": "Email này đã bị chặn bởi quyết định của Ban Chấp Hành Đoàn TNTT Mẹ Thiên Chúa.",
+    "phoneBlockedMessage": "Số điện thoại này đã bị chặn bởi quyết định của Ban Chấp Hành Đoàn TNTT Mẹ Thiên Chúa."
   },
   "paymentPage": {
     "title": "THANH TOÁN PHÍ SINH HOẠT",
@@ -342,19 +344,19 @@
     "generatePdfButton": "Tạo PDF"
   },
   "contactUs": {
-      "title": "Liên Hệ Với Chúng Tôi",
-      "intro": "Vui lòng điền vào mẫu dưới đây nếu bạn có bất kỳ câu hỏi nào.",
-      "contactInfoTitle": "Thông Tin Liên Hệ",
-      "email": "Email",
-      "phone": "Điện thoại",
-      "address": "Địa chỉ",
-      "formTitle": "Gửi Tin Nhắn",
-      "formName": "Họ và Tên",
-      "formEmail": "Email của bạn",
-      "formSubject": "Tiêu đề",
-      "formMessage": "Nội dung tin nhắn",
-      "formButton": "Gửi Tin Nhắn",
-      "successMessage": "Tin nhắn của bạn đã được gửi thành công!",
-      "backButton": "Quay lại Trang Chủ"
-    }
+    "title": "Liên Hệ Với Chúng Tôi",
+    "intro": "Vui lòng điền vào mẫu dưới đây nếu bạn có bất kỳ câu hỏi nào.",
+    "contactInfoTitle": "Thông Tin Liên Hệ",
+    "email": "Email",
+    "phone": "Điện thoại",
+    "address": "Địa chỉ",
+    "formTitle": "Gửi Tin Nhắn",
+    "formName": "Họ và Tên",
+    "formEmail": "Email của bạn",
+    "formSubject": "Tiêu đề",
+    "formMessage": "Nội dung tin nhắn",
+    "formButton": "Gửi Tin Nhắn",
+    "successMessage": "Tin nhắn của bạn đã được gửi thành công!",
+    "backButton": "Quay lại Trang Chủ"
+  }
 }

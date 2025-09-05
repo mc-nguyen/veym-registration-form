@@ -496,4 +496,82 @@ export const updateSettings = async (newSettings) => {
     }
 };
 
+// Hàm lấy danh sách email bị chặn
+export const getEmailBlacklist = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "emailBlacklist"));
+    const blacklist = [];
+    querySnapshot.forEach((doc) => {
+      blacklist.push(doc.data().email);
+    });
+    return blacklist;
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách email đen:", error);
+    return [];
+  }
+};
+
+// Hàm lấy danh sách số điện thoại bị chặn
+export const getPhoneBlacklist = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "phoneBlacklist"));
+    const blacklist = [];
+    querySnapshot.forEach((doc) => {
+      blacklist.push(doc.data().phone);
+    });
+    return blacklist;
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách số điện thoại đen:", error);
+    return [];
+  }
+};
+
+// Hàm thêm email vào danh sách đen
+export const addEmailToBlacklist = async (email) => {
+  try {
+    await addDoc(collection(db, "emailBlacklist"), { email: email });
+    console.log("Email added to blacklist successfully!");
+    return true;
+  } catch (e) {
+    console.error("Error adding email to blacklist:", e);
+    throw e;
+  }
+};
+
+// Hàm xóa email khỏi danh sách đen
+export const removeEmailFromBlacklist = async (docId) => {
+  try {
+    await deleteDoc(doc(db, "emailBlacklist", docId));
+    console.log("Email removed from blacklist successfully!");
+    return true;
+  } catch (e) {
+    console.error("Error removing email from blacklist:", e);
+    throw e;
+  }
+};
+
+// Hàm thêm số điện thoại vào danh sách đen
+export const addPhoneToBlacklist = async (phone) => {
+  try {
+    await addDoc(collection(db, "phoneBlacklist"), { phone: phone });
+    console.log("Phone number added to blacklist successfully!");
+    return true;
+  } catch (e) {
+    console.error("Error adding phone number to blacklist:", e);
+    throw e;
+  }
+};
+
+// Hàm xóa số điện thoại khỏi danh sách đen
+export const removePhoneFromBlacklist = async (docId) => {
+  try {
+    await deleteDoc(doc(db, "phoneBlacklist", docId));
+    console.log("Phone number removed from blacklist successfully!");
+    return true;
+  } catch (e) {
+    console.error("Error removing phone number from blacklist:", e);
+    throw e;
+  }
+};
+
 export { db, auth, storage }; // Export auth và storage

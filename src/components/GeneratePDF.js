@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
-import { getDataById, getSettingsFromFirebase } from '../context/firebaseFuncs';
+import React, { useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
+import { getDataById, getSettingsFromFirebase } from "../context/firebaseFuncs";
+import tntt from "../assets/tntt.png";
+import logo from "../assets/favicon.png";
 
 const GeneratePDF = () => {
   const navigate = useNavigate();
@@ -10,7 +12,8 @@ const GeneratePDF = () => {
   const hasGenerated = useRef(false); // Thêm biến ref để kiểm tra
 
   useEffect(() => {
-    if (!hasGenerated.current && id) { // Chỉ chạy nếu chưa tạo PDF và có ID
+    if (!hasGenerated.current && id) {
+      // Chỉ chạy nếu chưa tạo PDF và có ID
       hasGenerated.current = true;
       generatePDF(id); // Truyền ID vào hàm tạo PDF
     }
@@ -19,7 +22,7 @@ const GeneratePDF = () => {
   const generatePDF = async (registrationId) => {
     if (!registrationId) {
       console.error("Lỗi: Không tìm thấy ID đăng ký.");
-      navigate('/'); // Chuyển về trang chủ nếu không có ID
+      navigate("/"); // Chuyển về trang chủ nếu không có ID
       return;
     }
 
@@ -39,22 +42,26 @@ const GeneratePDF = () => {
     const paymentData = data.payment || {};
 
     // Tạo một div ẩn để chứa nội dung PDF
-    const pdfContent = document.createElement('div');
-    pdfContent.style.position = 'absolute';
-    pdfContent.style.left = '-9999px';
-    pdfContent.style.width = '210mm';
-    pdfContent.style.fontFamily = 'Arial, sans-serif';
+    const pdfContent = document.createElement("div");
+    pdfContent.style.position = "absolute";
+    pdfContent.style.left = "-9999px";
+    pdfContent.style.width = "210mm";
+    pdfContent.style.fontFamily = "Arial, sans-serif";
     document.body.appendChild(pdfContent);
 
     // Thêm nội dung vào div theo thứ tự trong PDF gốc
     const header = `
       <div class="pdf-header">
-        <h1>PHONG TRÀO THIỂU NHI THÁNH THỂ VIỆT NAM TẠI HOA KỲ</h1>
-        <h2>The Vietnamese Eucharistic Youth Movement in the U.S.A</h2>
-        <p>Our Lady of Perpetual Help Church - Giáo Xứ Đức Mẹ Hằng Cứu Giúp</p>
-        <p>Liên Đoàn Sinai | Đoàn Mẹ Thiên Chúa | Riverside, CA</p>
-        <p>5250 Central Avenue, Riverside, CA 92504</p>
-        <p>Cha Tuyên Úy: ${settings.spiritualDirectorName} | Đoàn Trường: ${settings.leaderName} ${settings.leaderPhone}</p>
+        <img src=${tntt} alt="TNTT Icon" class="header-icon left-icon" />
+        <div class="header-content">
+          <h1>PHONG TRÀO THIỂU NHI THÁNH THỂ VIỆT NAM TẠI HOA KỲ</h1>
+          <h2>The Vietnamese Eucharistic Youth Movement in the U.S.A</h2>
+          <p>Our Lady of Perpetual Help Church - Giáo Xứ Đức Mẹ Hằng Cứu Giúp</p>
+          <p>Liên Đoàn Sinai | Đoàn Mẹ Thiên Chúa | Riverside, CA</p>
+          <p>5250 Central Avenue, Riverside, CA 92504</p>
+          <p>Cha Tuyên Úy: ${settings.spiritualDirectorName} | Đoàn Trưởng: ${settings.leaderName} ${settings.leaderPhone}</p>
+        </div>
+        <img src=${logo} alt="Giao Xu Icon" class="header-icon right-icon" />
       </div>
     `;
 
@@ -69,11 +76,15 @@ const GeneratePDF = () => {
           <table class="info-table">
             <tr>
               <td width="150">Em tên là:</td>
-              <td><strong>${registrationData.tenThanh} ${registrationData.ho} ${registrationData.tenDem} ${registrationData.tenGoi}</strong></td>
+              <td><strong>${registrationData.tenThanh} ${registrationData.ho} ${
+      registrationData.tenDem
+    } ${registrationData.tenGoi}</strong></td>
             </tr>
             <tr>
               <td>Con của ông và bà:</td>
-              <td><strong>${registrationData.tenCha} (${registrationData.phoneCha}) và ${registrationData.tenMe} (${registrationData.phoneMe})</strong></td>
+              <td><strong>${registrationData.tenCha} (${
+      registrationData.phoneCha
+    }) và ${registrationData.tenMe} (${registrationData.phoneMe})</strong></td>
             </tr>
             <tr>
               <td>Địa chỉ nhà:</td>
@@ -82,9 +93,9 @@ const GeneratePDF = () => {
             <tr>
               <td>Điện thoại liên lạc:</td>
               <td>
-                Nhà: <strong>${registrationData.phoneHome || 'N/A'}</strong> | 
+                Nhà: <strong>${registrationData.phoneHome || "N/A"}</strong> | 
                 Di động: <strong>${registrationData.phoneCell}</strong> | 
-                Cơ quan: <strong>${registrationData.phoneWork || 'N/A'}</strong>
+                Cơ quan: <strong>${registrationData.phoneWork || "N/A"}</strong>
               </td>
             </tr>
             <tr>
@@ -115,7 +126,9 @@ const GeneratePDF = () => {
           </p>
           
           <div class="signature-box">
-            <p>Đoàn Sinh Ký Tên: <img src="${tnttRulesData.signature}" style="width: 150px; height: 50px;"/></p>
+            <p>Đoàn Sinh Ký Tên: <img src="${
+              tnttRulesData.signature
+            }" style="width: 150px; height: 50px;"/></p>
             <p>Ngày: ${tnttRulesData.date}</p>
           </div>
         </div>
@@ -124,21 +137,23 @@ const GeneratePDF = () => {
         <div class="section parent-section">
           <h4>XÁC NHẬN CỦA PHỤ HUYNH</h4>
           <p>
-            Phụ Huynh tên là: <strong>${registrationData.parentSignature.name || 'N/A'}</strong>
+            Phụ Huynh tên là: <strong>${
+              registrationData.parentSignature.name || "N/A"
+            }</strong>
           </p>
           <p>
             Tôi cho phép con tôi sinh hoạt Đoàn TNTT-Mẹ Thiên Chúa, Riverside. Tôi sẽ hoàn toàn chịu trách nhiệm nếu có những trường hợp không may xảy ra với con tôi trong các giờ sinh hoạt của đoàn.
           </p>
           
           <div class="signature-box">
-            <p>Phụ Huynh Ký Tên: Signature: <img src="${registrationData.parentSignature}" style="width: 150px; height: 50px;"/></p>
+            <p>Phụ Huynh Ký Tên: Signature: <img src="${
+              registrationData.parentSignature
+            }" style="width: 150px; height: 50px;"/></p>
             <p>Ngày: ${registrationData.dateSigned}</p>
           </div>
           <p class="note">(Parent's signature needed if member is under 18 years old)</p>
         </div>
-      </div>`
-
-
+      </div>`;
 
     const page2 = `
       <div class="pdf-page">
@@ -148,33 +163,43 @@ const GeneratePDF = () => {
           <table class="payment-table">
             <tr>
               <td>Tiền niên liễm ($50 - student supplies/materials/fees/incentives)</td>
-              <td>$${paymentData[1] ? paymentData[1] * settings.registrationFee : 0}</td>
+              <td>$${
+                paymentData[1] ? paymentData[1] * settings.registrationFee : 0
+              }</td>
             </tr>
             <tr>
               <td>Áo đồng phục có logo ($25/each)</td>
-              <td>$${paymentData[2] ? paymentData[2] * settings.uniformCost : 0}</td>
+              <td>$${
+                paymentData[2] ? paymentData[2] * settings.uniformCost : 0
+              }</td>
             </tr>
             <tr>
               <td>Skort đồng phục ($25/each)</td>
-              <td>$${paymentData[3] ? paymentData[3] * settings.skortCost : 0}</td>
+              <td>$${
+                paymentData[3] ? paymentData[3] * settings.skortCost : 0
+              }</td>
             </tr>
             <tr>
               <td>TNTT scarf ($10/each)</td>
-              <td>$${paymentData[4] ? paymentData[4] * settings.scarfCost : 0}</td>
+              <td>$${
+                paymentData[4] ? paymentData[4] * settings.scarfCost : 0
+              }</td>
             </tr>
             <tr class="total-row">
               <td><strong>Tổng cộng:</strong></td>
-              <td><strong>$${(paymentData[1] ? paymentData[1] * settings.registrationFee : 0) +
-              (paymentData[2] ? paymentData[2] * settings.uniformCost : 0) +
-              (paymentData[3] ? paymentData[3] * settings.skortCost : 0) +
-              (paymentData[4] ? paymentData[4] * settings.scarfCost : 0)
+              <td><strong>$${
+                (paymentData[1]
+                  ? paymentData[1] * settings.registrationFee
+                  : 0) +
+                (paymentData[2] ? paymentData[2] * settings.uniformCost : 0) +
+                (paymentData[3] ? paymentData[3] * settings.skortCost : 0) +
+                (paymentData[4] ? paymentData[4] * settings.scarfCost : 0)
               }</strong></td>
             </tr>
           </table>
           <p class="payment-note">If pay by check, please pay to the order of: <strong>VEYM - Me Thien Chua Chapter</strong></p>
         </div>
-      </div>`
-
+      </div>`;
 
     const page3 = `
       <div class="pdf-page">
@@ -217,7 +242,9 @@ const GeneratePDF = () => {
           </tr>
           <tr>
             <td>BIRTH DATE:</td>
-            <td><strong>${healthInfoData.birthDate}</strong> ${healthInfoData.isMinor ? '(MINOR)' : ''}</td>
+            <td><strong>${healthInfoData.birthDate}</strong> ${
+      healthInfoData.isMinor ? "(MINOR)" : ""
+    }</td>
           </tr>
           <tr>
             <td>GENDER:</td>
@@ -237,39 +264,45 @@ const GeneratePDF = () => {
         <table class="info-table">
           <tr>
             <td width="150">DOCTOR:</td>
-            <td><strong>${healthInfoData.doctor || 'N/A'}</strong></td>
+            <td><strong>${healthInfoData.doctor || "N/A"}</strong></td>
           </tr>
           <tr>
             <td>DOCTOR PHONE #:</td>
-            <td><strong>${healthInfoData.doctorPhone || 'N/A'}</strong></td>
+            <td><strong>${healthInfoData.doctorPhone || "N/A"}</strong></td>
           </tr>
           <tr>
             <td>INSURANCE CO.:</td>
-            <td><strong>${healthInfoData.insuranceCompany || 'N/A'}</strong></td>
+            <td><strong>${
+              healthInfoData.insuranceCompany || "N/A"
+            }</strong></td>
           </tr>
           <tr>
             <td>INSURANCE ID #:</td>
-            <td><strong>${healthInfoData.insuranceId || 'N/A'}</strong></td>
+            <td><strong>${healthInfoData.insuranceId || "N/A"}</strong></td>
           </tr>
           <tr>
             <td>INSURANCE GROUP #:</td>
-            <td><strong>${healthInfoData.insuranceGroup || 'N/A'}</strong></td>
+            <td><strong>${healthInfoData.insuranceGroup || "N/A"}</strong></td>
           </tr>
           <tr>
             <td>CARDHOLDER'S NAME:</td>
-            <td><strong>${healthInfoData.cardholderName || 'N/A'}</strong></td>
+            <td><strong>${healthInfoData.cardholderName || "N/A"}</strong></td>
           </tr>
           <tr>
             <td>ALLERGIES:</td>
-            <td><strong>${healthInfoData.allergies || 'None'}</strong></td>
+            <td><strong>${healthInfoData.allergies || "None"}</strong></td>
           </tr>
           <tr>
             <td>MEDICAL CONCERNS:</td>
-            <td><strong>${healthInfoData.medicalConcerns || 'None'}</strong></td>
+            <td><strong>${
+              healthInfoData.medicalConcerns || "None"
+            }</strong></td>
           </tr>
           <tr>
             <td>PHYSICAL RESTRICTIONS:</td>
-            <td><strong>${healthInfoData.physicalRestrictions || 'None'}</strong></td>
+            <td><strong>${
+              healthInfoData.physicalRestrictions || "None"
+            }</strong></td>
           </tr>
         </table>
 
@@ -288,9 +321,7 @@ const GeneratePDF = () => {
             <td><strong>${healthInfoData.emergencyRelationship}</strong></td>
           </tr>
         </table>
-      </div>`
-
-
+      </div>`;
 
     const page4 = `
       <div class="pdf-page">
@@ -299,7 +330,9 @@ const GeneratePDF = () => {
         
         <div class="waiver-content">
           <p>
-            I, <strong>${waiverData.fullName1}</strong>, an adult [age of majority, per State (e.g., 18 years old in California)] and I
+            I, <strong>${
+              waiverData.fullName1
+            }</strong>, an adult [age of majority, per State (e.g., 18 years old in California)] and I
             am the named participant, or I am the parent/guardian of the minor who will be participating in the
             above-mentioned event ("The Event") organized and/or sponsored by the Vietnamese Eucharistic Youth Movement
             in the U.S.A ("VEYM"). I am fully aware that my or my child's participation in The Event is totally voluntary.
@@ -339,7 +372,9 @@ const GeneratePDF = () => {
               my child or any person in connection with any activities of The Event, including, but not limited to, those related
               activities directly or indirectly leading up to and stemming from The Event, even those activities which arise out of
               my travel to and from The Event;
-              <span class="initial-box">${waiverData.initial1 || '___'}</span> (initial)
+              <span class="initial-box">${
+                waiverData.initial1 || "___"
+              }</span> (initial)
             </li>
             <li>
               Agree to indemnify (compensate for harm or loss), defend and hold harmless VEYM and their employees,
@@ -350,7 +385,9 @@ const GeneratePDF = () => {
               of any claims, demands, actions, causes of action, judgments, costs or expenses they incur, including
               attorney’s fees, which result from or arise out of my or my child’s participation in The Event, including but not
               limited to, my travel to and from The Event. 
-              <span class="initial-box">${waiverData.initial2 || '___'}</span> (initial)
+              <span class="initial-box">${
+                waiverData.initial2 || "___"
+              }</span> (initial)
             </li>
             <li>
               There are certain inherent dangers and foreseeable and unforeseeable risks of harm to myself, my child and
@@ -361,7 +398,9 @@ const GeneratePDF = () => {
               and voluntarily decided to assume the risks of these inherent dangers in consideration of the permission, by
               the youth leaders and/or executive committee of the local chapter, to allow me or my child to participate in
               The Event; 
-              <span class="initial-box">${waiverData.initial3 || '___'}</span> (initial)
+              <span class="initial-box">${
+                waiverData.initial3 || "___"
+              }</span> (initial)
             </li>
             <li>
               Whether or not there is an endemic, epidemic, or pandemic, communicable diseases (such as, for examples,
@@ -371,7 +410,9 @@ const GeneratePDF = () => {
               governmental and local health agencies, there is an inherent risk that my child’s or my participation may put
               me at risk of exposure, and I assume all foreseeable and unforeseeable risks of harm I or my child may be
               exposed to therefrom; 
-              <span class="initial-box">${waiverData.initial4 || '___'}</span> (initial)
+              <span class="initial-box">${
+                waiverData.initial4 || "___"
+              }</span> (initial)
             </li>
             <li>
               Weather conditions, including Acts of God, or natural causes (which humans do not intervene to cause), may
@@ -379,11 +420,15 @@ const GeneratePDF = () => {
               inherent dangers and risks of harm to myself, my child and others as a result of such natural causes may
               vary, and I assume all foreseeable and unforeseeable risks of harm I or my child may be exposed to
               therefrom; 
-              <span class="initial-box">${waiverData.initial5 || '___'}</span> (initial)
+              <span class="initial-box">${
+                waiverData.initial5 || "___"
+              }</span> (initial)
             </li>
             <li>
               My or my child’s personal property may be at my risk of theft, damage, or loss entirely; 
-              <span class="initial-box">${waiverData.initial6 || '___'}</span> (initial)
+              <span class="initial-box">${
+                waiverData.initial6 || "___"
+              }</span> (initial)
             </li>
             <li>
               VEYM reserves the right to decline, to accept, or retain me or my child in The Event at any time should my
@@ -393,13 +438,17 @@ const GeneratePDF = () => {
               to me or my child for any unused portion of The Event, and the local chapter will not reimburse me for any
               alleged direct or indirect costs or expenses I or my child incurred as a result of my or my child’s participation
               in The Event. 
-              <span class="initial-box">${waiverData.initial7 || '___'}</span> (initial)
+              <span class="initial-box">${
+                waiverData.initial7 || "___"
+              }</span> (initial)
             </li>
             <li>
               I understand that VEYM, in its sole discretion, reserves the right to cancel The Event or any aspect thereof
               prior to commencement. In the event of cancellation of The Event in whole or in part, I accept that I or my
               child may not be reimbursed or refunded for any unused portion of The Event. 
-              <span class="initial-box">${waiverData.initial8 || '___'}</span> (initial)
+              <span class="initial-box">${
+                waiverData.initial8 || "___"
+              }</span> (initial)
             </li>
           </ol>
           <ul>
@@ -414,7 +463,9 @@ const GeneratePDF = () => {
               child, consent to any necessary examination, treatment, or care under the supervision and/or advice of any
               properly licensed medical professional, and I explicitly authorize VEYM to release medical information about
               me or my child to any person or entity to whom VEYM refers me for medical treatment. 
-              <span class="initial-box">${waiverData.initial9 || '___'}</span> (initial)
+              <span class="initial-box">${
+                waiverData.initial9 || "___"
+              }</span> (initial)
             </li>
             <li>
               I agree that this agreement is to be construed pursuant to the laws of the State of <strong>California</strong> and is
@@ -449,7 +500,9 @@ const GeneratePDF = () => {
 
             <div class="signature-fields">
               <div class="signature-field">
-                <p>Signature of Participant or Guardian: Signature: <img src="${waiverData.signature}" style="width: 150px; height: 50px;"/></p>
+                <p>Signature of Participant or Guardian: Signature: <img src="${
+                  waiverData.signature
+                }" style="width: 150px; height: 50px;"/></p>
               </div>
 
               <div class="signature-field">
@@ -457,13 +510,14 @@ const GeneratePDF = () => {
               </div>
 
               <div class="signature-field">
-                <p>Dated: <strong>${waiverData.date || new Date().toLocaleDateString()}</strong></p>
+                <p>Dated: <strong>${
+                  waiverData.date || new Date().toLocaleDateString()
+                }</strong></p>
               </div>
             </div>
           </div>
         </div>
-      </div>`
-
+      </div>`;
 
     const page5 = `
       <div class="pdf-page">
@@ -529,7 +583,7 @@ const GeneratePDF = () => {
     pdfContent.innerHTML = page1 + page2 + page3 + page4 + page5;
 
     // Thêm CSS cho PDF
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = `
       .pdf-page {
         width: 210mm;
@@ -542,22 +596,46 @@ const GeneratePDF = () => {
         page-break-after: always;
       }
       .pdf-header {
-        text-align: center;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #000;
-        padding-bottom: 5px;
+          /* Sử dụng Flexbox để căn chỉnh các mục trên cùng một hàng */
+          display: flex;
+          /* Đẩy các icon ra hai bên và nội dung vào giữa */
+          justify-content: space-between;
+          /* Căn giữa theo chiều dọc */
+          align-items: center;
+          text-align: center;
+          margin-bottom: 20px;
       }
+
+      .pdf-header .header-content {
+          /* Cho phép phần nội dung chiếm hết không gian còn lại */
+          flex-grow: 1;
+          /* Đảm bảo văn bản trong content được căn giữa */
+          text-align: center;
+      }
+
       .pdf-header h1 {
-        font-size: 12px;
-        margin: 0;
+          font-size: 16px;
+          margin: 0;
       }
+
       .pdf-header h2 {
-        font-size: 10px;
-        margin: 0;
+          font-size: 14px;
+          margin: 0;
       }
+
       .pdf-header p {
-        margin: 0;
-        font-size: 8px;
+          font-size: 12px;
+          margin: 2px 0;
+      }
+
+      .pdf-header .header-icon {
+          /* Điều chỉnh chiều cao của icon, chiều rộng sẽ tự động căn */
+          height: 80px; 
+          width: auto;
+          /* Đảm bảo hình ảnh không bị méo */
+          object-fit: contain;
+          /* Khoảng cách giữa icon và nội dung */
+          margin: 0 10px; 
       }
       .form-title {
         text-align: center;
@@ -633,27 +711,29 @@ const GeneratePDF = () => {
       scrollX: 0,
       scrollY: 0,
       windowWidth: 794, // 210mm in pixels at 96dpi
-      windowHeight: 1123 // 297mm in pixels at 96dpi
+      windowHeight: 1123, // 297mm in pixels at 96dpi
     };
 
     // Render từng trang riêng biệt
-    const pages = pdfContent.querySelectorAll('.pdf-page');
-    const pdf = new jsPDF('p', 'mm', 'letter');
+    const pages = pdfContent.querySelectorAll(".pdf-page");
+    const pdf = new jsPDF("p", "mm", "letter");
 
     const renderPages = async (index) => {
       if (index >= pages.length) {
         if (!hasGenerated.current) return; // Thêm kiểm tra phòng trường hợp
-        pdf.save(`TNTT_Registration_${registrationData.ho}_${registrationData.tenGoi}.pdf`);
+        pdf.save(
+          `TNTT_Registration_${registrationData.ho}_${registrationData.tenGoi}.pdf`
+        );
         document.body.removeChild(pdfContent);
-        navigate('/');
+        navigate("/");
         return;
       }
 
       const canvas = await html2canvas(pages[index], options);
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL("image/png");
 
       if (index > 0) pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
+      pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
 
       // Render trang tiếp theo
       renderPages(index + 1);

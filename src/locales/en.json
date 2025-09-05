@@ -1,8 +1,8 @@
 {
-  "editForm" : { 
+  "editForm": {
     "title": "Edit Form",
     "noPaymentInfo": "No Payment Info was found!"
-   },
+  },
   "guidePage": {
     "title": "Registration Guidelines",
     "sectionTitle1": "Steps for Applicants:",
@@ -115,7 +115,9 @@
     "signatureRequestStudent": "Please provide student's signature.",
     "studentSignatureTitle": "Student's Signature",
     "studentSignatureConsentText": "I would like to register to join the Vietnamese Eucharistic Youth Movement (VEYM) at Mẹ Thiên Chúa Chapter, Riverside. I promise to obey and follow the guidance of the Chapter Chaplain, Chapter President, assistants, parents, as well as the responsible leaders in the chapter and in the branch where I participate in weekly activities. I will strive to live by the four slogans of the Youth: Prayer, Holy Communion, Sacrifice, and Apostolic Works, as well as practice the tenets of the VEYM. I will fulfill my duties as a member of the VEYM chapter and duly observe the regulations of the VEYM chapter.",
-    "studentSignatureLabel": "Student's Signature"
+    "studentSignatureLabel": "Student's Signature",
+    "emailBlockedMessage": "This email was blocked by the Executive Committee of Đoàn TNTT Mẹ Thiên Chúa.",
+    "phoneBlockedMessage": "This phone number was blocked by the Executive Committee of Đoàn TNTT Mẹ Thiên Chúa."
   },
   "registrationFormAdult": {
     "title": "ADULT REGISTRATION FORM",
