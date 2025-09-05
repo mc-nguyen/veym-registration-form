@@ -6,6 +6,7 @@ import { saveToLocalStorage, getFromLocalStorage } from '../../context/storageUt
 import { saveRegistrationToFirebase, updateRegistrationInFirebase, getEmailBlacklist, getPhoneBlacklist } from "../../context/firebaseFuncs";
 import { useLanguage } from '../../LanguageContext';
 import SignatureCanvas from '../signature/SignatureCanvas'; // Import the new component
+import { extractDigits, formatPhoneNumber } from "../../context/utilFuncs";
 
 const RegistrationForm = () => {
     const { translate: t } = useLanguage();
@@ -152,7 +153,7 @@ const RegistrationForm = () => {
             navigate('/');
             return;
         }
-        if (phoneBlacklist.includes(formData.phoneCha) || phoneBlacklist.includes(formData.phoneMe)) {
+        if (phoneBlacklist.includes(extractDigits(formData.phoneCha)) || phoneBlacklist.includes(extractDigits(formData.phoneMe))) {
             alert(t('registrationForm.phoneBlockedMessage'));
             navigate('/');
             return;
@@ -177,7 +178,13 @@ const RegistrationForm = () => {
             parentSignature: parentSignatureData,
             studentSignature: studentSignatureData, // Include student signature (NEW)
             dateSigned: new Date().toLocaleDateString(),
-            nganh: t(`registrationForm.branch.${nganhHienThiKey}`)
+            nganh: t(`registrationForm.branch.${nganhHienThiKey}`),
+            phoneHome: formatPhoneNumber(formData.phoneHome),
+            phoneCell: formatPhoneNumber(formData.phoneCell),
+            phoneWork: formatPhoneNumber(formData.phoneWork),
+            phoneCha: formatPhoneNumber(formData.phoneCha),
+            phoneMe: formatPhoneNumber(formData.phoneMe),
+            phoneEmergency: formatPhoneNumber(formData.phoneEmergency)
         };
 
         if (existingId) {

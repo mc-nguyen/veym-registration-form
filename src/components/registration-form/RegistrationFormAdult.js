@@ -14,6 +14,7 @@ import {
 } from "../../context/firebaseFuncs";
 import { useLanguage } from "../../LanguageContext";
 import SignatureCanvas from "../signature/SignatureCanvas"; // Import SignatureCanvas component
+import { extractDigits, formatPhoneNumber } from "../../context/utilFuncs";
 
 const RegistrationFormAdult = () => {
   const { translate: t } = useLanguage();
@@ -107,10 +108,7 @@ const RegistrationFormAdult = () => {
       navigate("/");
       return;
     }
-    if (
-      phoneBlacklist.includes(formData.phoneCha) ||
-      phoneBlacklist.includes(formData.phoneMe)
-    ) {
+    if (phoneBlacklist.includes(extractDigits(formData.phoneCell))) {
       alert(t("registrationForm.phoneBlockedMessage"));
       navigate("/");
       return;
@@ -132,6 +130,10 @@ const RegistrationFormAdult = () => {
     const finalFormData = {
       ...formData,
       signature: formData.signature ? formData.signature : adultSignatureData,
+      phoneHome: formatPhoneNumber(formData.phoneHome),
+      phoneCell: formatPhoneNumber(formData.phoneCell),
+      phoneWork: formatPhoneNumber(formData.phoneWork),
+      phoneEmergency: formatPhoneNumber(formData.phoneEmergency)
     };
 
     saveToLocalStorage("registrationFormData", finalFormData);

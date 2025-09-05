@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getEmailBlacklist, getPhoneBlacklist, addEmailToBlacklist, removeEmailFromBlacklist, addPhoneToBlacklist, removePhoneFromBlacklist } from '../context/firebaseFuncs';
 import './BlacklistManagement.css';
+import { extractDigits, formatPhoneNumber } from '../context/utilFuncs';
 
 const BlacklistManagement = () => {
     const [emails, setEmails] = useState([]);
@@ -60,7 +61,7 @@ const BlacklistManagement = () => {
         if (!newPhone) return;
         setLoading(true);
         try {
-            await addPhoneToBlacklist(newPhone);
+            await addPhoneToBlacklist(extractDigits(newPhone));
             setNewPhone('');
             fetchBlacklists();
         } catch (error) {
@@ -123,7 +124,7 @@ const BlacklistManagement = () => {
                 <ul>
                     {phones.map((item, index) => (
                         <li key={item.id}>
-                            {item.phone}
+                            {formatPhoneNumber(item.phone)}
                             <button onClick={() => handleRemovePhone(item.id)} disabled={loading}>Xóa</button>
                         </li>
                     ))}
