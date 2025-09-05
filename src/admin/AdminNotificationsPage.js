@@ -4,6 +4,7 @@ import { getNotifications } from '../context/firebaseFuncs';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import './AdminNotificationsPage.css';
+import ReturnToDashboardButton from './ReturnToDashboardButton';
 
 function AdminNotificationsPage() {
   const [notifications, setNotifications] = useState([]);
@@ -78,6 +79,8 @@ function AdminNotificationsPage() {
           </table>
         </div>
       )}
+
+      <ReturnToDashboardButton/>
     </div>
   );
 }

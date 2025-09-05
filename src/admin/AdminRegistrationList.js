@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { getAllRegistrationsData, updatePaymentStatus, deleteRegistration } from '../context/firebaseFuncs';
 import './AdminRegistrationList.css'; // Tạo file CSS riêng cho component này
+import ReturnToDashboardButton from './ReturnToDashboardButton';
 
 const AdminRegistrationList = () => {
     const [registrations, setRegistrations] = useState([]);
@@ -145,6 +146,8 @@ const AdminRegistrationList = () => {
                     </table>
                 </div>
             )}
+
+            <ReturnToDashboardButton/>
         </div>
     );
 };

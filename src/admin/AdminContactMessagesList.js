@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { getContactMessages } from '../context/firebaseFuncs';
 import './AdminContactMessagesList.css';
+import ReturnToDashboardButton from './ReturnToDashboardButton';
 
 const AdminContactMessagesList = () => {
     const [messages, setMessages] = useState([]);
@@ -70,6 +71,8 @@ const AdminContactMessagesList = () => {
                     </table>
                 </div>
             )}
+
+            <ReturnToDashboardButton/>
         </div>
     );
 };

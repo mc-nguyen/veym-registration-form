@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore'; // Thêm onSnapshot
 import { getSettingsFromFirebase, saveSettingsToFirebase, db, updateSettings } from '../context/firebaseFuncs';
 import './AdminSettings.css';
+import ReturnToDashboardButton from './ReturnToDashboardButton';
 
 const AdminSettings = () => {
     const [settings, setSettings] = useState({
@@ -218,6 +219,8 @@ const AdminSettings = () => {
                 </button>
                 {statusMessage && <p className="status-message">{statusMessage}</p>}
             </form>
+
+            <ReturnToDashboardButton /> {/* Thêm component nút ở đây */}
         </div>
     );
 };

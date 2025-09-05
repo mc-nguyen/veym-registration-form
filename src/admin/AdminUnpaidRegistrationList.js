@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { getUnpaidRegistrations, markRegistrationAsPaid } from '../context/firebaseFuncs';
 import './AdminPaidRegistrationList.css'; // Sử dụng lại CSS từ trang đã thanh toán
+import ReturnToDashboardButton from './ReturnToDashboardButton';
 
 const AdminUnpaidRegistrationList = () => {
     const [registrations, setRegistrations] = useState([]);
@@ -122,6 +123,8 @@ const AdminUnpaidRegistrationList = () => {
                     </table>
                 </div>
             )}
+
+            <ReturnToDashboardButton/>
         </div>
     );
 };

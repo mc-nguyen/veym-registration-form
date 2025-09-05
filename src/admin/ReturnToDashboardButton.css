@@ -1,0 +1,32 @@
+/* src/components/common/ReturnToDashboardButton.css */
+
+.return-dashboard-btn {
+    /* Đặt vị trí cố định trên màn hình, không thay đổi khi cuộn */
+    position: fixed;
+    /* Đặt ở góc dưới cùng bên phải */
+    bottom: 20px;
+    right: 20px;
+    /* Đảm bảo nút hiển thị trên các nội dung khác */
+    z-index: 1000;
+    /* Tạo hiệu ứng nổi và hình dạng tròn/vuông mềm mại */
+    padding: 15px 25px;
+    border: none;
+    border-radius: 50px;
+    background-color: rgb(255, 251, 0);
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.return-dashboard-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.return-dashboard-btn:active {
+    transform: translateY(0);
+}

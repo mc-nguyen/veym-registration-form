@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { getAllRegistrationsData } from '../context/firebaseFuncs';
 import { useLanguage } from '../LanguageContext';
 import './AdminPaidRegistrationList.css';
+import ReturnToDashboardButton from './ReturnToDashboardButton';
 
 const AdminPaidRegistrationList = () => {
     const { translate: t } = useLanguage();
@@ -207,6 +208,8 @@ Giáo Xứ Đức Mẹ Hằng Cứu Giúp - Riverside`;
             >
                 Tải xuống CSV
             </button>
+
+            <ReturnToDashboardButton/>
         </div>
     );
 };

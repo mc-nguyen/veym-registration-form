@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getEmailBlacklist, getPhoneBlacklist, addEmailToBlacklist, removeEmailFromBlacklist, addPhoneToBlacklist, removePhoneFromBlacklist } from '../context/firebaseFuncs';
 import './BlacklistManagement.css';
 import { extractDigits, formatPhoneNumber } from '../context/utilFuncs';
+import ReturnToDashboardButton from './ReturnToDashboardButton';
 
 const BlacklistManagement = () => {
     const [emails, setEmails] = useState([]);
@@ -130,6 +131,8 @@ const BlacklistManagement = () => {
                     ))}
                 </ul>
             </div>
+
+            <ReturnToDashboardButton/>
         </div>
     );
 };
