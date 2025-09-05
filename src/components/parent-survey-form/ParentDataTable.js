@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 // Đảm bảo đường dẫn này đúng với file firebaseFuncs.js của bạn
 import { db } from '../../context/firebaseFuncs'; 
+import ReturnToDashboardButton from '../../admin/ReturnToDashboardButton';
 
 const ParentDataTable = () => {
   const [parentDocuments, setParentDocuments] = useState([]); // Đổi tên để rõ ràng hơn: đây là các document từ collection "parents"
@@ -111,6 +112,8 @@ const ParentDataTable = () => {
           </div>
         );
       })}
+
+      <ReturnToDashboardButton/>
     </div>
   );
 };
